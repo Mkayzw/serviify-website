@@ -27,7 +27,7 @@ function App() {
     <div className={"container min-vh-100 d-flex align-items-center justify-content-center"}>
         <div className={"row justify-content-center align-items-center "}>
           <div className={"col-sm text-center text-md-start"}>
-              <img src={"./src/assets/logo.png"} className={"img-fluid mb-2"} width={"70"}/>
+              <img src={"https://ngratesc.sirv.com/i-claim/serviify/logo.png"} className={"img-fluid mb-2"} width={"70"}/>
               <h1 className={"p_txt fw-bold"}>SERVIIFY</h1>
 
             <h5>Services At Your Fingertips</h5>
