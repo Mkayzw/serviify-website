@@ -212,6 +212,76 @@ const Hero: React.FC<HeroProps> = ({ setShowSignup }) => {
         </div>
       </div>
       
+      {/* Tech Platform Showcase */}
+      <div className="tech-showcase-container">
+        <div className="container">
+          <div className="row">
+            <div className="col-12 text-center mb-5">
+              <h2 className="tech-showcase-title">All your services in one app</h2>
+            </div>
+          </div>
+          
+          <div className="row justify-content-center g-4">
+            <div className="col-6 col-md-4 col-lg-3 text-center">
+              <div className="platform-item">
+                <div className="platform-image-container">
+                  <div className="platform-image service-platform-electrician"></div>
+                  <div className="platform-overlay">
+                    <div className="platform-label">Professional Electricians</div>
+                  </div>
+                </div>
+                <h3>Electrical Services</h3>
+              </div>
+            </div>
+            
+            <div className="col-6 col-md-4 col-lg-3 text-center">
+              <div className="platform-item">
+                <div className="platform-image-container">
+                  <div className="platform-image service-platform-handyman"></div>
+                  <div className="platform-overlay">
+                    <div className="platform-label">Expert Handymen</div>
+                  </div>
+                </div>
+                <h3>Home Repairs</h3>
+              </div>
+            </div>
+            
+            <div className="col-6 col-md-4 col-lg-3 text-center">
+              <div className="platform-item">
+                <div className="platform-image-container">
+                  <div className="platform-image service-platform-photography"></div>
+                  <div className="platform-overlay">
+                    <div className="platform-label">Skilled Photographers</div>
+                  </div>
+                </div>
+                <h3>Photography</h3>
+              </div>
+            </div>
+            
+            <div className="col-6 col-md-4 col-lg-3 text-center">
+              <div className="platform-item">
+                <div className="platform-image-container">
+                  <div className="platform-image service-platform-hairdressing"></div>
+                  <div className="platform-overlay">
+                    <div className="platform-label">Professional Stylists</div>
+                  </div>
+                </div>
+                <h3>Hairdressing</h3>
+              </div>
+            </div>
+          </div>
+          
+          <div className="row mt-4 mb-3">
+            <div className="col-12 text-center">
+              <a href="/services" className="view-all-link mt-4 d-inline-block">
+                Explore all service options
+                <i className="bi bi-arrow-right ms-2"></i>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+      
       {/* Wave shape at the bottom */}
       <div className="wave-shape"></div>
     </div>
