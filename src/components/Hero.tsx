@@ -11,146 +11,96 @@ const Hero: React.FC<HeroProps> = ({ setShowSignup }) => {
         <div className="hero-content">
           <div className="hero-text">
             <h1 className="hero-heading">
-              All your services <span className="highlight">in one app.</span>
+              All your services <span className="highlight">in one platform.</span>
             </h1>
             <h2 className="hero-subheading">
               Convenient, reliable, <span className="underline">and affordable!</span>
             </h2>
+            <div className="pointing-arrow"></div>
             
             <div className="hero-cta">
               <button className="start-now-btn" onClick={() => setShowSignup(true)}>Start now - It's free</button>
               <div className="advisor-dropdown">
                 <button className="meet-advisor-btn">Contact Us ▾</button>
+                <div className="pointing-arrow"></div>
               </div>
             </div>
             
             <div className="pricing-note">
               <div className="price-tag">
                 <span className="free-label">Completely <span className="emphasis">FREE!</span></span>
-                <span className="price-detail">for all services</span>
-                <div className="pointing-arrow"></div>
+                <span className="price-detail">for services</span>
               </div>
             </div>
           </div>
         </div>
         
-        <div className="services-grid-container">
-          <div className="row services-grid">
-            <a href="/services/cleaning" className="service-item col-4 col-sm-3 col-lg-2 text-center mb-4">
-              <figure>
-                <div className="img-thumbnail service-icon-wrapper mb-3">
-                  <i className="bi bi-house-door"></i>
-                </div>
-                <figcaption className="text-truncate small">Cleaning</figcaption>
-              </figure>
-            </a>
+      
+        <div className="tech-showcase-container">
+          <div className="container">
+            <div className="row">
+              <div className="col-12 text-center mb-5">
+                <h2 className="tech-showcase-title">Ta-da! All your services in one fantastic app</h2>
+              </div>
+            </div>
             
-            <a href="/services/repair" className="service-item col-4 col-sm-3 col-lg-2 text-center mb-4">
-              <figure>
-                <div className="img-thumbnail service-icon-wrapper mb-3">
-                  <i className="bi bi-tools"></i>
+            <div className="row justify-content-center g-4">
+              <div className="col-6 col-md-4 col-lg-3 text-center">
+                <div className="platform-item">
+                  <div className="platform-image-container">
+                    <div className="platform-image service-platform-electrician"></div>
+                    <div className="platform-overlay">
+                      <div className="platform-label">Professional Electricians</div>
+                    </div>
+                  </div>
+                  <h3>Electrifying Services!</h3>
                 </div>
-                <figcaption className="text-truncate small">Repair</figcaption>
-              </figure>
-            </a>
+              </div>
+              
+              <div className="col-6 col-md-4 col-lg-3 text-center">
+                <div className="platform-item">
+                  <div className="platform-image-container">
+                    <div className="platform-image service-platform-handyman"></div>
+                    <div className="platform-overlay">
+                      <div className="platform-label">Expert Handymen</div>
+                    </div>
+                  </div>
+                  <h3>Fix-it-up Magic</h3>
+                </div>
+              </div>
+              
+              <div className="col-6 col-md-4 col-lg-3 text-center">
+                <div className="platform-item">
+                  <div className="platform-image-container">
+                    <div className="platform-image service-platform-photography"></div>
+                    <div className="platform-overlay">
+                      <div className="platform-label">Skilled Photographers</div>
+                    </div>
+                  </div>
+                  <h3>Snap-tastic Memories</h3>
+                </div>
+              </div>
+              
+              <div className="col-6 col-md-4 col-lg-3 text-center">
+                <div className="platform-item">
+                  <div className="platform-image-container">
+                    <div className="platform-image service-platform-hairdressing"></div>
+                    <div className="platform-overlay">
+                      <div className="platform-label">Professional Stylists</div>
+                    </div>
+                  </div>
+                  <h3>Hair-raising Transformations</h3>
+                </div>
+              </div>
+            </div>
             
-            <a href="/services/painting" className="service-item col-4 col-sm-3 col-lg-2 text-center mb-4">
-              <figure>
-                <div className="img-thumbnail service-icon-wrapper mb-3">
-                  <i className="bi bi-brush"></i>
-                </div>
-                <figcaption className="text-truncate small">Painting</figcaption>
-              </figure>
-            </a>
-            
-            <a href="/services/gardening" className="service-item col-4 col-sm-3 col-lg-2 text-center mb-4">
-              <figure>
-                <div className="img-thumbnail service-icon-wrapper mb-3">
-                  <i className="bi bi-tree"></i>
-                </div>
-                <figcaption className="text-truncate small">Gardening</figcaption>
-              </figure>
-            </a>
-            
-            <a href="/services/electrical" className="service-item col-4 col-sm-3 col-lg-2 text-center mb-4">
-              <figure>
-                <div className="img-thumbnail service-icon-wrapper mb-3">
-                  <i className="bi bi-lightning"></i>
-                </div>
-                <figcaption className="text-truncate small">Electrical</figcaption>
-              </figure>
-            </a>
-            
-            <a href="/services/plumbing" className="service-item col-4 col-sm-3 col-lg-2 text-center mb-4">
-              <figure>
-                <div className="img-thumbnail service-icon-wrapper mb-3">
-                  <i className="bi bi-droplet"></i>
-                </div>
-                <figcaption className="text-truncate small">Plumbing</figcaption>
-              </figure>
-            </a>
-            
-            <a href="/services/hairdressing" className="service-item col-4 col-sm-3 col-lg-2 text-center mb-4">
-              <figure>
-                <div className="img-thumbnail service-icon-wrapper mb-3">
-                  <i className="bi bi-scissors"></i>
-                </div>
-                <figcaption className="text-truncate small">Hairdressing</figcaption>
-              </figure>
-            </a>
-            
-            <a href="/services/it-support" className="service-item col-4 col-sm-3 col-lg-2 text-center mb-4">
-              <figure>
-                <div className="img-thumbnail service-icon-wrapper mb-3">
-                  <i className="bi bi-laptop"></i>
-                </div>
-                <figcaption className="text-truncate small">IT Support</figcaption>
-              </figure>
-            </a>
-            
-            <a href="/services/childcare" className="service-item col-4 col-sm-3 col-lg-2 text-center mb-4">
-              <figure>
-                <div className="img-thumbnail service-icon-wrapper mb-3">
-                  <i className="bi bi-person-plus"></i>
-                </div>
-                <figcaption className="text-truncate small">Childcare</figcaption>
-              </figure>
-            </a>
-            
-            <a href="/services/security" className="service-item col-4 col-sm-3 col-lg-2 text-center mb-4">
-              <figure>
-                <div className="img-thumbnail service-icon-wrapper mb-3">
-                  <i className="bi bi-shield-check"></i>
-                </div>
-                <figcaption className="text-truncate small">Security</figcaption>
-              </figure>
-            </a>
-            
-            <a href="/services/photography" className="service-item col-4 col-sm-3 col-lg-2 text-center mb-4">
-              <figure>
-                <div className="img-thumbnail service-icon-wrapper mb-3">
-                  <i className="bi bi-camera"></i>
-                </div>
-                <figcaption className="text-truncate small">Photography</figcaption>
-              </figure>
-            </a>
-            
-            <a href="/services/web-design" className="service-item col-4 col-sm-3 col-lg-2 text-center mb-4">
-              <figure>
-                <div className="img-thumbnail service-icon-wrapper mb-3">
-                  <i className="bi bi-code-slash"></i>
-                </div>
-                <figcaption className="text-truncate small">WebDesign</figcaption>
-              </figure>
-            </a>
-          </div>
-          
-          <div className="row mt-4">
-            <div className="col-12 text-center text-md-end">
-              <a href="/services" className="view-all-link">
-                View all Services
-                <i className="bi bi-arrow-right ms-2"></i>
-              </a>
+            <div className="row mt-4 mb-3">
+              <div className="col-12 text-center">
+                <a href="/services" className="view-all-link mt-4 d-inline-block">
+                  Explore all service options
+                  <i className="bi bi-arrow-right ms-2"></i>
+                </a>
+              </div>
             </div>
           </div>
         </div>
@@ -207,76 +157,6 @@ const Hero: React.FC<HeroProps> = ({ setShowSignup }) => {
               <button className="start-exploring-btn" onClick={() => setShowSignup(true)}>
                 Start Exploring
               </button>
-            </div>
-          </div>
-        </div>
-      </div>
-      
-      {/* Tech Platform Showcase */}
-      <div className="tech-showcase-container">
-        <div className="container">
-          <div className="row">
-            <div className="col-12 text-center mb-5">
-              <h2 className="tech-showcase-title">All your services in one app</h2>
-            </div>
-          </div>
-          
-          <div className="row justify-content-center g-4">
-            <div className="col-6 col-md-4 col-lg-3 text-center">
-              <div className="platform-item">
-                <div className="platform-image-container">
-                  <div className="platform-image service-platform-electrician"></div>
-                  <div className="platform-overlay">
-                    <div className="platform-label">Professional Electricians</div>
-                  </div>
-                </div>
-                <h3>Electrical Services</h3>
-              </div>
-            </div>
-            
-            <div className="col-6 col-md-4 col-lg-3 text-center">
-              <div className="platform-item">
-                <div className="platform-image-container">
-                  <div className="platform-image service-platform-handyman"></div>
-                  <div className="platform-overlay">
-                    <div className="platform-label">Expert Handymen</div>
-                  </div>
-                </div>
-                <h3>Home Repairs</h3>
-              </div>
-            </div>
-            
-            <div className="col-6 col-md-4 col-lg-3 text-center">
-              <div className="platform-item">
-                <div className="platform-image-container">
-                  <div className="platform-image service-platform-photography"></div>
-                  <div className="platform-overlay">
-                    <div className="platform-label">Skilled Photographers</div>
-                  </div>
-                </div>
-                <h3>Photography</h3>
-              </div>
-            </div>
-            
-            <div className="col-6 col-md-4 col-lg-3 text-center">
-              <div className="platform-item">
-                <div className="platform-image-container">
-                  <div className="platform-image service-platform-hairdressing"></div>
-                  <div className="platform-overlay">
-                    <div className="platform-label">Professional Stylists</div>
-                  </div>
-                </div>
-                <h3>Hairdressing</h3>
-              </div>
-            </div>
-          </div>
-          
-          <div className="row mt-4 mb-3">
-            <div className="col-12 text-center">
-              <a href="/services" className="view-all-link mt-4 d-inline-block">
-                Explore all service options
-                <i className="bi bi-arrow-right ms-2"></i>
-              </a>
             </div>
           </div>
         </div>

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import '../styles/Navbar.css';
 
 interface NavbarProps {
@@ -7,9 +7,27 @@ interface NavbarProps {
 
 const Navbar: React.FC<NavbarProps> = ({ setShowSignup }) => {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [visible, setVisible] = useState(true);
+  const [prevScrollPos, setPrevScrollPos] = useState(0);
+  
+  useEffect(() => {
+    const handleScroll = () => {
+      // Current scroll position
+      const currentScrollPos = window.scrollY;
+      
+      // Set navbar visible if scrolling up, hide when scrolling down
+      const visible = prevScrollPos > currentScrollPos || currentScrollPos < 70;
+      
+      setPrevScrollPos(currentScrollPos);
+      setVisible(visible);
+    };
+    
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [prevScrollPos]);
   
   return (
-    <nav className="navbar">
+    <nav className={`navbar ${visible ? '' : 'navbar-hidden'}`}>
       <div className="navbar-container">
         <div className="navbar-logo">
           <img src="https://ngratesc.sirv.com/i-claim/serviify/logo.png" alt="Serviify Logo" />
