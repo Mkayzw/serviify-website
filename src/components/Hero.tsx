@@ -4,6 +4,14 @@ interface HeroProps {
   setShowSignup: (show: boolean) => void;
 }
 
+const TechShowcaseCurve = () => (
+  <div className="custom-shape-divider-top-tech-showcase">
+    <svg data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none">
+      <path d="M600,112.77C268.63,112.77,0,65.52,0,7.23V120H1200V7.23C1200,65.52,931.37,112.77,600,112.77Z" className="shape-fill"></path>
+    </svg>
+  </div>
+);
+
 const Hero: React.FC<HeroProps> = ({ setShowSignup }) => {
   return (
     <div className="hero-section">
@@ -34,10 +42,10 @@ const Hero: React.FC<HeroProps> = ({ setShowSignup }) => {
             </div>
           </div>
         </div>
-        
-      
-        <div className="tech-showcase-container">
-          <div className="container">
+
+        <div className="tech-showcase-container position-relative">
+        <TechShowcaseCurve />
+        <div className="container">
             <div className="row">
               <div className="col-12 text-center mb-5">
                 <h2 className="tech-showcase-title">Ta-da! All your services in one fantastic app</h2>
@@ -104,7 +112,7 @@ const Hero: React.FC<HeroProps> = ({ setShowSignup }) => {
             </div>
           </div>
         </div>
-      </div>
+        </div>
       
       {/* Serviify Core Function Highlights */}
       <div className="core-function-container">
