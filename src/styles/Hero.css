@@ -8,7 +8,7 @@
 
 .hero-section {
   padding: 120px 0 80px;
-  background-color: #f8f9fa;
+  background-color: #ffffff;
   position: relative;
   overflow: hidden;
 }
@@ -16,7 +16,19 @@
 .hero-container {
   max-width: 1600px;
   margin: 0 auto;
-  padding: 0 3%;
+  padding: 0 0%;
+}
+
+.tech-showcase-container {
+  position: relative;
+  width: 100vw;
+  left: 50%;
+  right: 50%;
+  margin-left: -50vw;
+  margin-right: -50vw;
+  padding: 80px 0 40px;
+  background-color: #e0e0e0;
+  overflow: hidden;
 }
 
 .custom-shape-divider-top-tech-showcase {
@@ -34,11 +46,33 @@
   position: relative;
   display: block;
   width: calc(100% + 1.3px);
-  height: 181px;
+  height: 191px;
 }
 
 .custom-shape-divider-top-tech-showcase .shape-fill {
-  fill: #f4f4f4; /* Adjust color to match your design */
+  fill: #ffffff; /* White background above the arch */
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .tech-showcase-container {
+    padding: 40px 0 20px;
+  }
+
+  .custom-shape-divider-top-tech-showcase svg {
+    height: 100px; /* Reduce height for mobile */
+  }
+}
+
+@media (max-width: 480px) {
+  .custom-shape-divider-top-tech-showcase {
+    display: none; /* Remove curved arch on very small screens */
+  }
+
+  .tech-showcase-container {
+    background-color: #e0e0e0;
+    padding: 20px 0;
+  }
 }
 
 .hero-content {
@@ -59,7 +93,7 @@
   font-weight: 800;
   line-height: 1.2;
   margin-bottom: 20px;
-  color: #0F172B;
+  color: #000000;
   font-family: 'Caveat', 'Brush Script MT', cursive;
   letter-spacing: 0px;
   text-shadow: none;
@@ -70,7 +104,7 @@
 .hero-subheading {
   font-size: 3.8rem;
   font-weight: 500;
-  color: #333;
+  color: #000000;
   margin-bottom: 40px;
   font-family: 'Caveat', 'Brush Script MT', cursive;
   letter-spacing: 0px;
@@ -81,17 +115,16 @@
 .highlight {
   position: relative;
   display: inline-block;
-  padding: 0 10px;
+  padding: 0;
   z-index: 1;
   font-weight: 800;
-  color: #fff;
-  background-color: #8B4513;
-  border-radius: 4px;
-  transform: rotate(-1deg);
+  color: #000000;
+  background-color: transparent;
+  transform: none;
 }
 
 .highlight::before {
-  display: none;
+  content: none;
 }
 
 .underline {
@@ -108,6 +141,20 @@
   height: 3px;
   background-color: #3498DB;
   border-radius: 3px;
+}
+
+/* Curved arrow styling */
+.curved-arrow-container {
+  position: relative;
+  width: 100px;
+  height: 80px;
+  margin: 5px auto 15px;
+  /* No rotation needed as the arrow naturally points down */
+}
+
+.curved-arrow-container svg {
+  width: 100%;
+  height: 100%;
 }
 
 .hero-cta {
@@ -141,7 +188,7 @@
   border: 1px solid #ccc;
   font-size: 14px;
   font-weight: 500;
-  color: #444;
+  color:  #0F172B;
   border-radius: 5px;
   cursor: pointer;
   transition: all 0.3s ease;
@@ -150,30 +197,6 @@
 
 .meet-advisor-btn:hover {
   background-color: #f0f0f0;
-}
-
-.pointing-arrow {
-  position: absolute;
-  top: 160px;
-  right: 50%;
-  width: 100px;
-  height: 100px;
-  background-image: url("https://odoocdn.com/openerp_website/static/src/img/graphics/arrow_doodle_1.svg");
-  background-size: contain;
-  background-repeat: no-repeat;
-  transform: rotate(45deg);
-  filter: var(--arrow-orange);
-  animation: pointBounce 2.5s infinite ease-in-out;
-  z-index: 2;
-}
-
-@keyframes pointBounce {
-  0%, 100% {
-    transform: rotate(45deg) translateY(0);
-  }
-  50% {
-    transform: rotate(45deg) translateY(8px) translateX(-2px);
-  }
 }
 
 .price-tag {
@@ -210,9 +233,12 @@
   color: #6A4876;
 }
 
-/* Remove pricing-note now that we've moved the price-tag */
+/* Display the pricing note that contains the price tag */
 .pricing-note {
-  display: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 5px;
 }
 
 .free-label {
@@ -262,57 +288,6 @@
   transform: translateY(-5px);
 }
 
-.icon-wrapper {
-  width: 80px;
-  height: 80px;
-  border-radius: 15px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-  position: relative;
-  overflow: hidden;
-  background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
-}
-
-.icon-wrapper::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(135deg, rgba(15, 23, 43, 0.08) 0%, rgba(15, 23, 43, 0.02) 100%);
-  opacity: 0;
-  transition: opacity 0.3s ease;
-}
-
-.icon-wrapper:hover {
-  transform: translateY(-10px);
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
-}
-
-.icon-wrapper:hover::before {
-  opacity: 1;
-}
-
-/* Colorful icons - First row */
-.service-row:first-child .service-card:nth-child(1) .icon-wrapper i { color: #FF6B6B; }
-.service-row:first-child .service-card:nth-child(2) .icon-wrapper i { color: #4ECDC4; }
-.service-row:first-child .service-card:nth-child(3) .icon-wrapper i { color: #F9A826; }
-.service-row:first-child .service-card:nth-child(4) .icon-wrapper i { color: #44BD32; }
-.service-row:first-child .service-card:nth-child(5) .icon-wrapper i { color: #3498DB; }
-.service-row:first-child .service-card:nth-child(6) .icon-wrapper i { color: #9B59B6; }
-
-/* Colorful icons - Second row */
-.service-row:last-child .service-card:nth-child(1) .icon-wrapper i { color: #E84393; }
-.service-row:last-child .service-card:nth-child(2) .icon-wrapper i { color: #00A8FF; }
-.service-row:last-child .service-card:nth-child(3) .icon-wrapper i { color: #FFC312; }
-.service-row:last-child .service-card:nth-child(4) .icon-wrapper i { color: #C23616; }
-.service-row:last-child .service-card:nth-child(5) .icon-wrapper i { color: #1B1464; }
-.service-row:last-child .service-card:nth-child(6) .icon-wrapper i { color: #006266; }
-
 .icon-wrapper i {
   font-size: 32px;
   z-index: 2;
@@ -357,6 +332,13 @@
     font-size: 1.8rem;
   }
   
+  .highlight::before {
+    bottom: -1px;
+    left: -8px;
+    right: -8px;
+    border-radius: 6px;
+  }
+  
   .service-row {
     gap: 20px;
   }
@@ -379,6 +361,24 @@
   
   .hero-subheading {
     font-size: 1.5rem;
+  }
+  
+  .highlight {
+    padding: 0 8px;
+  }
+  
+  .highlight::before {
+    left: -6px;
+    right: -6px;
+    top: -3px;
+    bottom: -1px;
+    border-radius: 5px;
+  }
+  
+  .curved-arrow-container {
+    width: 80px;
+    height: 60px;
+    margin: 5px auto 10px;
   }
   
   .hero-cta {
@@ -417,6 +417,25 @@
 }
 
 @media (max-width: 480px) {
+  .highlight {
+    padding: 0 6px;
+  }
+  
+  .highlight::before {
+    left: -5px;
+    right: -5px;
+    top: -2px;
+    bottom: -1px;
+    border-radius: 4px;
+    box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2);
+  }
+  
+  .curved-arrow-container {
+    width: 60px;
+    height: 40px;
+    margin: 5px auto 10px;
+  }
+  
   .hero-cta {
     flex-direction: column;
     align-items: center;
@@ -437,7 +456,7 @@
 .core-function-title {
   font-size: 3.2rem;
   font-weight: 700;
-  color: #0F172B;
+  color: #000000;
   margin-bottom: 15px;
   font-family: 'Caveat', 'Brush Script MT', cursive;
   letter-spacing: 0px;
@@ -498,21 +517,14 @@
   font-size: 2.2rem;
   font-weight: 600;
   margin: 15px 0 10px;
-  color: #0F172B;
+  color: #000000;
   font-family: 'Caveat', 'Brush Script MT', cursive;
   position: relative;
   display: inline-block;
 }
 
 .core-feature-card h3::after {
-  content: '';
-  position: absolute;
-  bottom: -3px;
-  left: 0;
-  width: 100%;
-  height: 3px;
-  background: linear-gradient(90deg, #FFC107, transparent);
-  border-radius: 3px;
+  content: none;
 }
 
 .core-feature-card p {
@@ -578,26 +590,6 @@
   }
 }
 
-/* Tech Platform Showcase */
-.tech-showcase-container {
-  margin-top: 60px;
-  padding: 80px 0 40px;
-  position: relative;
-  background-color: #e0e0e0;
-  border-radius: 0 0 15px 15px;
-  overflow: hidden;
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
-}
-
-.tech-showcase-container {
-  position: relative;
-  width: 100vw;
-  height: 100vh;
-  margin: 0;
-  padding: 0;
-  overflow: hidden;
-}
-
 .tech-showcase-container::before {   
   content: '';   
   position: absolute;   
@@ -620,7 +612,7 @@
 .tech-showcase-title {
   font-size: 3.2rem;
   font-weight: 700;
-  color: #0F172B;
+  color: #000000;
   margin-bottom: 40px;
   position: relative;
   display: inline-block;
@@ -647,14 +639,14 @@
   justify-content: center;
   margin-bottom: 15px;
   box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
   overflow: hidden;
   position: relative;
+  transition: none;
 }
 
 .platform-image-container:hover {
-  transform: translateY(-10px);
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+  transform: none;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
 }
 
 .platform-image {
@@ -663,28 +655,39 @@
   background-position: center;
   background-size: cover;
   background-repeat: no-repeat;
-  transition: transform 0.3s ease;
+  transition: none;
 }
 
 .platform-image-container:hover .platform-image {
-  transform: scale(1.1);
+  transform: none;
 }
 
-/* Platform images using available assets */
 .service-platform-electrician {
-  background-image: url('../assets/Electrician.jpg');
+  background-image: url('../assets/electrician.webp');
 }
 
-.service-platform-handyman {
-  background-image: url('../assets/handy.jpeg');
+.service-platform-mechanic {
+  background-image: url('../assets/auto-mech.webp');
 }
 
-.service-platform-photography {
-  background-image: url('../assets/photo.jpeg');
+.service-platform-carpentry {
+  background-image: url('../assets/carpentry.webp');
 }
 
-.service-platform-hairdressing {
-  background-image: url('../assets/hairdress.jpeg');
+.service-platform-agriculture {
+  background-image: url('../assets/agriculture.webp');
+}
+
+.service-platform-cleaning {
+  background-image: url('../assets/cleaning.webp');
+}
+
+.service-platform-realestate {
+  background-image: url('../assets/real estate.webp');
+}
+
+.service-platform-eventplanner {
+  background-image: url('../assets/eventplanner.webp');
 }
 
 .service-platform-web {
@@ -704,11 +707,11 @@
   align-items: center;
   justify-content: center;
   opacity: 0;
-  transition: opacity 0.3s ease;
+  transition: none;
 }
 
 .platform-image-container:hover .platform-overlay {
-  opacity: 1;
+  opacity: 0;
 }
 
 .platform-label {
@@ -718,17 +721,18 @@
   font-size: 1.1rem;
   text-shadow: 1px 1px 3px rgba(0,0,0,0.5);
   padding: 0 10px;
+  font-family: 'Roboto', 'Arial', sans-serif;
 }
 
 .platform-item h3 {
-  font-size: 1.8rem;
+  font-size: 1.2rem;
   font-weight: 600;
   margin-top: 15px;
-  color: #0F172B;
-  font-family: 'Caveat', 'Brush Script MT', cursive;
+  color: #000000;
+  font-family: 'Roboto', 'Arial', sans-serif;
 }
 
-/* Responsive adjustments for tech showcase */
+
 @media (max-width: 992px) {
   .platform-image-container {
     width: 150px;
@@ -780,48 +784,6 @@
   }
 }
 
-/* Responsive adjustments for the arrow */
-@media (max-width: 1200px) {
-  .pointing-arrow {
-    top: 150px;
-    right: 50%;
-    width: 90px;
-    height: 90px;
-  }
-}
-
-@media (max-width: 992px) {
-  .pointing-arrow {
-    top: 140px;
-    right: 50%;
-    width: 80px;
-    height: 80px;
-  }
-}
-
-@media (max-width: 768px) {
-  .pointing-arrow {
-    top: 130px;
-    right: 50%;
-    width: 70px;
-    height: 70px;
-  }
-  
-  .price-tag {
-    margin-left: 0;
-    margin-top: 15px;
-    text-align: center;
-  }
-}
-
-@media (max-width: 576px) {
-  .pointing-arrow {
-    top: 120px;
-    right: 50%;
-    width: 60px;
-    height: 60px;
-  }
-}
 
 .view-all-link {
   color: #0F172B;
@@ -845,4 +807,52 @@
 
 .view-all-link:hover i {
   transform: translateX(5px);
-} 
+}
+
+.app-benefits-heading {
+  font-size: 2.4rem;
+  font-weight: 700;
+  color: #000000;
+  margin-bottom: 20px;
+  font-family: 'Roboto', 'Arial', sans-serif;
+}
+
+.app-benefits-text {
+  font-size: 1.3rem;
+  color: #444;
+  margin-bottom: 10px;
+  font-family: 'Roboto', 'Arial', sans-serif;
+  line-height: 1.5;
+  max-width: 800px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Responsive adjustments for app benefits */
+@media (max-width: 768px) {
+  .app-benefits-heading {
+    font-size: 1.8rem;
+  }
+  
+  .app-benefits-text {
+    font-size: 1.1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .app-benefits-heading {
+    font-size: 1.5rem;
+  }
+  
+  .app-benefits-text {
+    font-size: 1rem;
+  }
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  scroll-behavior: smooth;
+}

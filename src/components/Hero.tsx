@@ -24,13 +24,22 @@ const Hero: React.FC<HeroProps> = ({ setShowSignup }) => {
             <h2 className="hero-subheading">
               Convenient, reliable, <span className="underline">and affordable!</span>
             </h2>
-            <div className="pointing-arrow"></div>
+            
+            <div className="curved-arrow-container">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+                <path d="M10 80 Q50 40, 90 80" fill="none" stroke="#0F172B" stroke-width="4" marker-end="url(#arrowhead)"/>
+                <defs>
+                  <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="0" refY="3.5" orient="auto">
+                    <polygon points="0 0, 10 3.5, 0 7" fill="#0F172A"/>
+                  </marker>
+                </defs>
+              </svg>
+            </div>
             
             <div className="hero-cta">
               <button className="start-now-btn" onClick={() => setShowSignup(true)}>Start now - It's free</button>
               <div className="advisor-dropdown">
                 <button className="meet-advisor-btn">Contact Us ▾</button>
-                <div className="pointing-arrow"></div>
               </div>
             </div>
             
@@ -61,43 +70,79 @@ const Hero: React.FC<HeroProps> = ({ setShowSignup }) => {
                       <div className="platform-label">Professional Electricians</div>
                     </div>
                   </div>
-                  <h3>Electrifying Services!</h3>
+                  <h3>Electrical Services</h3>
                 </div>
               </div>
               
               <div className="col-6 col-md-4 col-lg-3 text-center">
                 <div className="platform-item">
                   <div className="platform-image-container">
-                    <div className="platform-image service-platform-handyman"></div>
+                    <div className="platform-image service-platform-mechanic"></div>
                     <div className="platform-overlay">
-                      <div className="platform-label">Expert Handymen</div>
+                      <div className="platform-label">Automotive Specialists</div>
                     </div>
                   </div>
-                  <h3>Fix-it-up Magic</h3>
+                  <h3>Auto Mechanics</h3>
                 </div>
               </div>
               
               <div className="col-6 col-md-4 col-lg-3 text-center">
                 <div className="platform-item">
                   <div className="platform-image-container">
-                    <div className="platform-image service-platform-photography"></div>
+                    <div className="platform-image service-platform-carpentry"></div>
                     <div className="platform-overlay">
-                      <div className="platform-label">Skilled Photographers</div>
+                      <div className="platform-label">Expert Carpenters</div>
                     </div>
                   </div>
-                  <h3>Snap-tastic Memories</h3>
+                  <h3>Carpentry Services</h3>
                 </div>
               </div>
               
               <div className="col-6 col-md-4 col-lg-3 text-center">
                 <div className="platform-item">
                   <div className="platform-image-container">
-                    <div className="platform-image service-platform-hairdressing"></div>
+                    <div className="platform-image service-platform-agriculture"></div>
                     <div className="platform-overlay">
-                      <div className="platform-label">Professional Stylists</div>
+                      <div className="platform-label">Agricultural Experts</div>
                     </div>
                   </div>
-                  <h3>Hair-raising Transformations</h3>
+                  <h3>Agricultural Services</h3>
+                </div>
+              </div>
+
+              <div className="col-6 col-md-4 col-lg-3 text-center">
+                <div className="platform-item">
+                  <div className="platform-image-container">
+                    <div className="platform-image service-platform-cleaning"></div>
+                    <div className="platform-overlay">
+                      <div className="platform-label">Professional Cleaners</div>
+                    </div>
+                  </div>
+                  <h3>Cleaning Services</h3>
+                </div>
+              </div>
+
+              <div className="col-6 col-md-4 col-lg-3 text-center">
+                <div className="platform-item">
+                  <div className="platform-image-container">
+                    <div className="platform-image service-platform-realestate"></div>
+                    <div className="platform-overlay">
+                      <div className="platform-label">Real Estate Professionals</div>
+                    </div>
+                  </div>
+                  <h3>Real Estate Services</h3>
+                </div>
+              </div>
+
+              <div className="col-6 col-md-4 col-lg-3 text-center">
+                <div className="platform-item">
+                  <div className="platform-image-container">
+                    <div className="platform-image service-platform-eventplanner"></div>
+                    <div className="platform-overlay">
+                      <div className="platform-label">Event Planning Specialists</div>
+                    </div>
+                  </div>
+                  <h3>Event Planning</h3>
                 </div>
               </div>
             </div>
@@ -108,6 +153,19 @@ const Hero: React.FC<HeroProps> = ({ setShowSignup }) => {
                   Explore all service options
                   <i className="bi bi-arrow-right ms-2"></i>
                 </a>
+              </div>
+            </div>
+
+            {/* App Benefits Text - integrated within tech showcase */}
+            <div className="row mt-5">
+              <div className="col-12 text-center">
+                <h2 className="app-benefits-heading">Imagine a vast collection of service providers at your fingertips.</h2>
+                <p className="app-benefits-text">Need a service completed? There's a professional for that on Serviify.</p>
+                <p className="app-benefits-text">No complexity, no cost, just a one-click connection.</p>
+                <p className="app-benefits-text mt-4">
+                  Each service simplifies a process and empowers more people.<br />
+                  Imagine the impact when everyone gets the right service provider for the job, with perfect integration.
+                </p>
               </div>
             </div>
           </div>

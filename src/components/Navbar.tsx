@@ -25,6 +25,14 @@ const Navbar: React.FC<NavbarProps> = ({ setShowSignup }) => {
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, [prevScrollPos]);
+
+  const handleMenuToggle = () => {
+    setMenuOpen(!menuOpen);
+  };
+  
+  const handleNavLinkClick = () => {
+    setMenuOpen(false);
+  };
   
   return (
     <nav className={`navbar ${visible ? '' : 'navbar-hidden'}`}>
@@ -35,19 +43,25 @@ const Navbar: React.FC<NavbarProps> = ({ setShowSignup }) => {
         </div>
         
         <div className={`navbar-links ${menuOpen ? 'active' : ''}`}>
-          <a href="#services">Services</a>
-          <a href="#Providers">Providers</a>
-          <a href="#About us">About us</a>
-          <a href="#support">Support</a>
-          <a href="#Help">Help</a>
+          <a href="#services" onClick={handleNavLinkClick}>Services</a>
+          <a href="#Providers" onClick={handleNavLinkClick}>Providers</a>
+          <a href="#About us" onClick={handleNavLinkClick}>About us</a>
+          <a href="#support" onClick={handleNavLinkClick}>Support</a>
+          <a href="#Help" onClick={handleNavLinkClick}>Help</a>
         </div>
         
         <div className="navbar-buttons">
-          <button className="sign-in-btn" onClick={() => setShowSignup(true)}>Sign in</button>
-          <button className="try-free-btn" onClick={() => setShowSignup(true)}>Find a provider</button>
+          <button className="sign-in-btn" onClick={() => {
+            setShowSignup(true);
+            setMenuOpen(false);
+          }}>Sign in</button>
+          <button className="try-free-btn" onClick={() => {
+            setShowSignup(true);
+            setMenuOpen(false);
+          }}>Find a provider</button>
         </div>
         
-        <div className="mobile-menu-btn" onClick={() => setMenuOpen(!menuOpen)}>
+        <div className="mobile-menu-btn" onClick={handleMenuToggle}>
           <div className={`bar ${menuOpen ? 'change' : ''}`}></div>
           <div className={`bar ${menuOpen ? 'change' : ''}`}></div>
           <div className={`bar ${menuOpen ? 'change' : ''}`}></div>
