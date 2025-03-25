@@ -29,6 +29,10 @@
   padding: 80px 0 40px;
   background-color: #e0e0e0;
   overflow: hidden;
+  will-change: transform;
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  perspective: 1000px;
 }
 
 .custom-shape-divider-top-tech-showcase {
@@ -40,6 +44,8 @@
   line-height: 0;
   transform: rotate(180deg);
   z-index: 1;
+  will-change: transform;
+  transform: translateZ(0) rotate(180deg);
 }
 
 .custom-shape-divider-top-tech-showcase svg {
@@ -219,7 +225,7 @@
 .monthly-price {
   position: relative;
   display: inline-block;
-  color: #6A4876;
+  color: #0F172B;
   text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.1);
   transform: rotate(-2deg);
   z-index: 1;
@@ -231,10 +237,9 @@
   font-size: 1.4rem;
   font-weight: 500;
   font-family: 'Caveat', 'Brush Script MT', cursive;
-  color: #6A4876;
+  color: #0F172B;
 }
 
-/* Display the pricing note that contains the price tag */
 .pricing-note {
   display: flex;
   flex-direction: column;
@@ -261,54 +266,7 @@
   color: #FF6B6B;
 }
 
-/* Service Icons section */
-.service-icons {
-  margin-top: 80px;
-  display: flex;
-  flex-direction: column;
-  gap: 40px;
-}
 
-.service-row {
-  display: flex;
-  justify-content: center;
-  gap: 30px;
-  flex-wrap: wrap;
-}
-
-.service-card {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 10px;
-  width: 150px;
-  transition: transform 0.3s ease;
-}
-
-.service-card:hover {
-  transform: translateY(-5px);
-}
-
-.icon-wrapper i {
-  font-size: 32px;
-  z-index: 2;
-  transition: transform 0.3s ease, color 0.3s ease;
-}
-
-.icon-wrapper:hover i {
-  transform: scale(1.1);
-}
-
-.service-card span {
-  font-size: 16px;
-  font-weight: 500;
-  color: #444;
-  transition: color 0.3s ease;
-}
-
-.service-card:hover span {
-  color: #0F172B;
-}
 
 /* Wave shape */
 .wave-shape {
@@ -602,12 +560,16 @@
   border-radius: 50% / 100%;   
   transform: translateX(0);   
   z-index: 1;   
-  box-shadow: 0 -5px 15px rgba(0, 0, 0, 0.05); 
+  box-shadow: 0 -5px 15px rgba(0, 0, 0, 0.05);
+  will-change: transform;
+  transform: translateZ(0) translateX(0); 
 }
 
 .tech-showcase-container .container {
   position: relative;
   z-index: 2;
+  will-change: transform;
+  transform: translateZ(0);
 }
 
 .tech-showcase-title {
@@ -643,6 +605,8 @@
   overflow: hidden;
   position: relative;
   transition: none;
+  will-change: transform;
+  transform: translateZ(0);
 }
 
 .platform-image-container:hover {
@@ -856,4 +820,133 @@ html {
 
 body {
   scroll-behavior: smooth;
+}
+
+
+.x_wd_doodle {
+  display: block;
+  color: #0F172B;
+  font-family: "Caveat";
+  font-size: calc(1.325rem + 0.9vw);
+  font-style: normal;
+  font-weight: 700;
+  line-height: 1.1;
+  text-align: center;
+}
+
+.rotate-350 {
+  rotate: 350deg;
+}
+
+.me-n10 {
+  margin-right: -12rem !important;
+}
+
+.mt-n3 {
+  margin-top: -1rem !important;
+}
+
+.end-0 {
+  right: 0 !important;
+}
+
+.top-100 {
+  top: 100% !important;
+}
+
+.position-absolute {
+  position: absolute !important;
+}
+
+.d-none {
+  display: none !important;
+}
+
+.d-block {
+  display: block;
+}
+
+.mb-3 {
+  margin-bottom: 1rem !important;
+}
+
+.x_wd_blue_highlight_01 {
+  background-position: center bottom;
+  background-repeat: no-repeat;
+  background-size: contain;
+  white-space: nowrap;
+  position: relative;
+}
+
+@media (min-width: 992px) {
+  .d-lg-inline {
+    display: inline !important;
+  }
+}
+
+/* Price text styling */
+.price-currency {
+  font-weight: bold;
+  color: #0F172B;
+}
+
+.price-value {
+  font-weight: bold;
+  color: #0F172B;
+}
+
+.price-period {
+  display: block;
+  color: #0F172B;
+}
+
+.arrow-doodle-container {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  margin-top: -1rem;
+  margin-right: -12rem;
+  rotate: 350deg;
+  display: none;
+}
+
+@media (min-width: 992px) {
+  .arrow-doodle-container {
+    display: inline;
+  }
+}
+
+.arrow-doodle-img {
+  display: block;
+  margin-bottom: 1rem;
+}
+
+.x_wd_yellow_highlight_bold_05 {
+  position: relative;
+  display: inline-block;
+  padding: 0 5px;
+  background-position: center 60%;
+  background-repeat: no-repeat;
+  background-size: contain;
+  white-space: nowrap;
+  z-index: 1;
+}
+
+.x_wd_yellow_highlight_bold_05::before {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 60%;
+  background-color: #8B4513; 
+  opacity: 0.3;
+  z-index: -1;
+  transform: rotate(-1deg) scale(1.05);
+  border-radius: 4px;
+}
+
+
+*, *::before, *::after {
+  box-sizing: border-box;
 }
