@@ -92,6 +92,8 @@
 .hero-text {
   max-width: 1200px;
   width: 100%;
+  position: relative;
+  text-align: center;
 }
 
 .hero-heading {
@@ -111,11 +113,12 @@
   font-size: 3.8rem;
   font-weight: 500;
   color: #000000;
-  margin-bottom: 40px;
+  margin-bottom: 30px;
   font-family: 'Caveat', 'Brush Script MT', cursive;
   letter-spacing: 0px;
   text-shadow: none;
   transform: none;
+  position: relative;
 }
 
 .highlight {
@@ -151,16 +154,43 @@
 
 /* Curved arrow styling */
 .curved-arrow-container {
-  position: relative;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  top: 100%;
   width: 100px;
   height: 80px;
-  margin: 5px auto 15px;
-  /* No rotation needed as the arrow naturally points down */
+  margin: 0;
+  z-index: 10;
+}
+
+/* New pricing arrow style */
+.curved-arrow-container.pricing-arrow {
+  position: relative;
+  top: -5px; /* Pull up slightly for better connection */
+  left: auto;
+  transform: scaleY(-1) scaleX(-1); /* Flip both vertically and horizontally */
+  width: 120px;
+  height: 100px;
+  margin: 0 0 0 auto;
+  filter: drop-shadow(1px 1px 1px rgba(0,0,0,0.1));
 }
 
 .curved-arrow-container svg {
   width: 100%;
   height: 100%;
+  max-width: 100%;
+  height: auto;
+}
+
+.pricing-note {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 0;
+  margin-bottom: -15px; /* Increased overlap with the arrow */
+  margin-right: 10%; /* Space from the edge */
+  order: -1; /* Keep pricing note above the arrow */
 }
 
 .hero-cta {
@@ -168,6 +198,7 @@
   justify-content: center;
   align-items: center;
   gap: 15px;
+  margin-top: 0;
   margin-bottom: 30px;
 }
 
@@ -207,7 +238,7 @@
 }
 
 .price-tag {
-  font-size: 1.6rem;
+  font-size: 1.8rem;
   font-weight: 700;
   color: #0F172B;
   position: relative;
@@ -218,8 +249,8 @@
   background-color: transparent;
   box-shadow: none;
   border: none;
-  margin-left: 5px;
-  text-align: left;
+  margin-left: 0;
+  text-align: center;
 }
 
 .monthly-price {
@@ -240,13 +271,6 @@
   color: #0F172B;
 }
 
-.pricing-note {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin-top: 5px;
-}
-
 .free-label {
   position: relative;
   display: inline-block;
@@ -265,8 +289,6 @@
   padding: 0 5px;
   color: #FF6B6B;
 }
-
-
 
 /* Wave shape */
 .wave-shape {
@@ -320,6 +342,7 @@
   
   .hero-subheading {
     font-size: 1.5rem;
+    margin-bottom: 25px;
   }
   
   .highlight {
@@ -340,6 +363,16 @@
     margin: 5px auto 10px;
   }
   
+  .curved-arrow-container.pricing-arrow {
+    position: relative;
+    top: -5px;
+    left: auto;
+    transform: scaleY(-1) scaleX(-1);
+    width: 100px;
+    height: 80px;
+    margin: 0 0 0 auto;
+  }
+  
   .hero-cta {
     flex-wrap: wrap;
     justify-content: center;
@@ -353,8 +386,7 @@
   }
   
   .price-tag {
-    margin-top: 10px;
-    font-size: 1.4rem;
+    font-size: 1.6rem;
   }
   
   .service-card {
@@ -372,6 +404,18 @@
   
   .service-row {
     justify-content: space-around;
+  }
+  
+  .pricing-container {
+    margin-bottom: 30px;
+    margin-top: 15px;
+    padding-top: 5px;
+    padding-right: 5%;
+  }
+  
+  .pricing-note {
+    margin-right: 20px;
+    margin-bottom: -10px; /* Adjusted for medium screens */
   }
 }
 
@@ -395,14 +439,42 @@
     margin: 5px auto 10px;
   }
   
+  .curved-arrow-container.pricing-arrow {
+    position: relative;
+    top: -3px;
+    left: auto;
+    transform: scaleY(-1) scaleX(-1);
+    width: 80px;
+    height: 60px;
+    margin: 0 auto;
+  }
+  
   .hero-cta {
     flex-direction: column;
     align-items: center;
   }
   
   .price-tag {
-    margin-left: 0;
-    text-align: center;
+    font-size: 1.4rem;
+    padding: 5px;
+  }
+  
+  .hero-subheading {
+    margin-bottom: 20px;
+  }
+  
+  .pricing-container {
+    margin-bottom: 25px;
+    margin-top: 10px;
+    padding-top: 0;
+    padding-right: 2%;
+    align-items: center; /* Center on mobile for better layout */
+  }
+  
+  .pricing-note {
+    margin-top: 0;
+    margin-right: 0;
+    margin-bottom: -5px; /* Smaller overlap for mobile */
   }
 }
 
@@ -697,7 +769,6 @@
   font-family: 'Roboto', 'Arial', sans-serif;
 }
 
-
 @media (max-width: 992px) {
   .platform-image-container {
     width: 150px;
@@ -748,7 +819,6 @@
     padding: 50px 0 20px;
   }
 }
-
 
 .view-all-link {
   color: #0F172B;
@@ -819,9 +889,9 @@ html {
 }
 
 body {
+  padding-top: 70px; /* Adjust based on your navbar height */
   scroll-behavior: smooth;
 }
-
 
 .x_wd_doodle {
   display: block;
@@ -946,7 +1016,47 @@ body {
   border-radius: 4px;
 }
 
-
 *, *::before, *::after {
   box-sizing: border-box;
+}
+
+/* Navigation bar styles with scroll behavior */
+.navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  background-color: #ffffff;
+  z-index: 1000;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease;
+  will-change: transform;
+  transform: translateZ(0);
+}
+
+.navbar.hidden {
+  transform: translateY(-100%);
+}
+
+/* Add padding to body to account for fixed navbar */
+body {
+  padding-top: 70px; /* Adjust based on your navbar height */
+  scroll-behavior: smooth;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+/* Pricing container - groups arrow and pricing note */
+.pricing-container {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  width: 100%;
+  margin-bottom: 40px;
+  margin-top: 20px;
+  padding-top: 10px;
+  padding-right: 15%;
 }

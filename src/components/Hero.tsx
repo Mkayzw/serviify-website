@@ -25,28 +25,30 @@ const Hero: React.FC<HeroProps> = ({ setShowSignup }) => {
               Convenient, reliable, <span className="underline">and affordable!</span>
             </h2>
             
-            <div className="curved-arrow-container">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
-                <path d="M10 80 Q50 40, 90 80" fill="none" stroke="#0F172B" stroke-width="4" marker-end="url(#arrowhead)"/>
-                <defs>
-                  <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="0" refY="3.5" orient="auto">
-                    <polygon points="0 0, 10 3.5, 0 7" fill="#0F172A"/>
-                  </marker>
-                </defs>
-              </svg>
+            <div className="pricing-container">
+              <div className="pricing-note">
+                <div className="price-tag">
+                  <span className="free-label">Completely <span className="emphasis">FREE!</span></span>
+                  <span className="price-detail">for services</span>
+                </div>
+              </div>
+              
+              <div className="curved-arrow-container pricing-arrow">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+                  <path d="M10 20 Q50 60, 90 20" fill="none" stroke="#0F172B" stroke-width="4" marker-end="url(#arrowhead)"/>
+                  <defs>
+                    <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="0" refY="3.5" orient="auto">
+                      <polygon points="0 0, 10 3.5, 0 7" fill="#0F172A"/>
+                    </marker>
+                  </defs>
+                </svg>
+              </div>
             </div>
             
             <div className="hero-cta">
               <button className="start-now-btn" onClick={() => setShowSignup(true)}>Start now - It's free</button>
               <div className="advisor-dropdown">
                 <button className="meet-advisor-btn">Contact Us ▾</button>
-              </div>
-            </div>
-            
-            <div className="pricing-note">
-              <div className="price-tag">
-                <span className="free-label">Completely <span className="emphasis">FREE!</span></span>
-                <span className="price-detail">for services</span>
               </div>
             </div>
           </div>

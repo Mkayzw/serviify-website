@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import '../styles/Navbar.css';
 
 interface NavbarProps {
@@ -8,30 +8,48 @@ interface NavbarProps {
 const Navbar: React.FC<NavbarProps> = ({ setShowSignup }) => {
   const [menuOpen, setMenuOpen] = useState(false);
   const [visible, setVisible] = useState(true);
-  const [prevScrollPos, setPrevScrollPos] = useState(0);
+  const lastScrollY = useRef(0);
+  const ticking = useRef(false);
   
   useEffect(() => {
     const handleScroll = () => {
-      // Current scroll position
-      const currentScrollPos = window.scrollY;
-      
-      // Set navbar visible if scrolling up, hide when scrolling down
-      const visible = prevScrollPos > currentScrollPos || currentScrollPos < 70;
-      
-      setPrevScrollPos(currentScrollPos);
-      setVisible(visible);
+      if (!ticking.current) {
+        window.requestAnimationFrame(() => {
+          const currentScrollY = window.scrollY;
+          
+          // Show navbar when at the top
+          if (currentScrollY < 50) {
+            setVisible(true);
+          } 
+          // Hide when scrolling down, show when scrolling up
+          else {
+            if (currentScrollY > lastScrollY.current) {
+              setVisible(false); // Scrolling DOWN
+            } else {
+              setVisible(true);  // Scrolling UP
+            }
+          }
+          
+          lastScrollY.current = currentScrollY;
+          ticking.current = false;
+        });
+        
+        ticking.current = true;
+      }
     };
     
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
-  }, [prevScrollPos]);
+  }, []);
 
   const handleMenuToggle = () => {
     setMenuOpen(!menuOpen);
+    setVisible(true);
   };
   
   const handleNavLinkClick = () => {
     setMenuOpen(false);
+    setVisible(true);
   };
   
   return (

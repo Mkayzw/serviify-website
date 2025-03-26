@@ -5,7 +5,7 @@ import {ToastContainer, toast} from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 import './App.css';
 import Navbar from './components/Navbar';
-import Hero from './components/Hero';
+import UnderConstruction from './components/UnderConstruction';
 
 function App() {
   const [email,set_email] = useState("")
@@ -31,7 +31,7 @@ function App() {
   return (
     <div className="app">
       <Navbar setShowSignup={setShowSignup} />
-      <Hero setShowSignup={setShowSignup} />
+      <UnderConstruction setShowSignup={setShowSignup} />
       
       {/* Signup Modal */}
       {showSignup && (
