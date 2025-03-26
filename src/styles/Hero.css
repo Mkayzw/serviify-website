@@ -109,6 +109,72 @@
   white-space: nowrap;
 }
 
+.highlighted-text {
+  position: relative;
+  display: inline-block;
+  padding: 0 10px; /* Add some padding to give space around the text */
+}
+
+.highlighted-text::before {
+  content: '';
+  position: absolute;
+  top: 60%; /* Adjust to lower the highlight */
+  left: -5%;
+  right: -5%;
+  height: 40%; /* Adjust height of highlight */
+  background-color: #fac000;
+  transform: rotate(-2deg); /* Slight rotation for more dynamic look */
+  z-index: -1;
+  border-radius: 10px; /* Softer border radius */
+  opacity: 0.7; /* Optional: make it slightly transparent */
+}
+
+/* .hero-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  margin-bottom: 80px;
+}
+
+.hero-text {
+  display: flex;
+  flex-direction: column;
+  max-width: 1200px;
+  width: 100%;
+}
+
+.hero-heading {
+  font-size: 5.5rem;
+  font-weight: 800;
+  line-height: 1.2;
+  margin-bottom: 20px;
+  color: #000000;
+  font-family: 'Caveat', 'Brush Script MT', cursive;
+  letter-spacing: 0px;
+  text-shadow: none;
+  transform: none;
+  white-space: nowrap;
+}
+
+.highlighted-text {
+  position: relative;
+  display: inline-block;
+  }
+
+.highlighted-text::before {
+  content: '';
+  position: absolute;
+  top: 45%;
+  left: 0%;
+  right: 0%;
+  height: 60%;
+  background-color: #fac000;
+  transform: rotate(-1.5deg);
+  z-index: -1;
+  border-radius: 100px;
+} */
+
 .hero-subheading {
   font-size: 3.8rem;
   font-weight: 500;
@@ -320,18 +386,6 @@
     font-size: 1.5rem;
   }
   
-  .highlight {
-    padding: 0 8px;
-  }
-  
-  .highlight::before {
-    left: -6px;
-    right: -6px;
-    top: -3px;
-    bottom: -1px;
-    border-radius: 5px;
-  }
-  
   .curved-arrow-container {
     width: 80px;
     height: 60px;
@@ -376,18 +430,7 @@
 }
 
 @media (max-width: 480px) {
-  .highlight {
-    padding: 0 6px;
-  }
   
-  .highlight::before {
-    left: -5px;
-    right: -5px;
-    top: -2px;
-    bottom: -1px;
-    border-radius: 4px;
-    box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2);
-  }
   
   .curved-arrow-container {
     width: 60px;

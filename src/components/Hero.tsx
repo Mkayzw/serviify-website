@@ -1,6 +1,4 @@
 import '../styles/Hero.css';
-import { useEffect, useState } from 'react';
-import TextWithHighlight from './TextWithHighlight';
 
 interface HeroProps {
   setShowSignup: (show: boolean) => void;
@@ -15,45 +13,17 @@ const TechShowcaseCurve = () => (
 );
 
 const Hero: React.FC<HeroProps> = ({ setShowSignup }) => {
-  const [mounted, setMounted] = useState(false);
-
-  // Set mounted state to true after component mounts
-  useEffect(() => {
-    setMounted(true);
-  }, []);
 
   return (
     <div className="hero-section">
       <div className="hero-container">
         <div className="hero-content">
           <div className="hero-text">
-            <h1 className="hero-heading">
-              All your services {mounted ? (
-                <span style={{ position: 'relative', display: 'inline' }}>
-                  <TextWithHighlight 
-                    text="in one platform." 
-                    type="highlight"
-                    fontSize={64}
-                    fontWeight={800}
-                  />
-                </span>
-              ) : (
-                <span className="highlight">in one platform.</span>
-              )}
-            </h1>
+          <h1 className="hero-heading">
+            All your services <span className="highlighted-text">in one platform.</span> 
+          </h1>
             <h2 className="hero-subheading">
-              Convenient, reliable, {mounted ? (
-                <span style={{ position: 'relative', display: 'inline-block', marginLeft: '10px' }}>
-                  <TextWithHighlight 
-                    text="and affordable!" 
-                    type="underline"
-                    fontSize={48}
-                    fontWeight={700}
-                  />
-                </span>
-              ) : (
-                <span className="underline">and affordable!</span>
-              )}
+              Convenient, reliable, yet affordable!
             </h2>
             
             <div className="hero-cta">
