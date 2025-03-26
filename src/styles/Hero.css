@@ -90,6 +90,8 @@
 }
 
 .hero-text {
+  display: flex;
+  flex-direction: column;
   max-width: 1200px;
   width: 100%;
 }
@@ -152,10 +154,11 @@
 /* Curved arrow styling */
 .curved-arrow-container {
   position: relative;
-  width: 100px;
+  width: 120px;
   height: 80px;
-  margin: 5px auto 15px;
-  /* No rotation needed as the arrow naturally points down */
+  margin: 20px auto 30px;
+  display: block;
+  z-index: 1;
 }
 
 .curved-arrow-container svg {
@@ -168,7 +171,10 @@
   justify-content: center;
   align-items: center;
   gap: 15px;
-  margin-bottom: 30px;
+  margin: 0 auto 30px;
+  width: auto;
+  position: relative;
+  z-index: 2;
 }
 
 .start-now-btn {
@@ -206,20 +212,21 @@
   background-color: #f0f0f0;
 }
 
-.price-tag {
-  font-size: 1.6rem;
-  font-weight: 700;
-  color: #0F172B;
+.pricing-note {
+  margin-top: 20px;
   position: relative;
-  display: flex;
+  z-index: 2;
+  display: block;
+  width: 100%;
+  text-align: center;
+}
+
+.price-tag {
+  display: inline-flex;
   flex-direction: column;
-  padding: 10px;
-  font-family: 'Caveat', 'Brush Script MT', cursive;
-  background-color: transparent;
-  box-shadow: none;
-  border: none;
-  margin-left: 5px;
-  text-align: left;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto;
 }
 
 .monthly-price {
@@ -240,13 +247,6 @@
   color: #0F172B;
 }
 
-.pricing-note {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin-top: 5px;
-}
-
 .free-label {
   position: relative;
   display: inline-block;
@@ -265,8 +265,6 @@
   padding: 0 5px;
   color: #FF6B6B;
 }
-
-
 
 /* Wave shape */
 .wave-shape {
@@ -337,14 +335,16 @@
   .curved-arrow-container {
     width: 80px;
     height: 60px;
-    margin: 5px auto 10px;
+    margin: 15px auto 20px;
   }
   
   .hero-cta {
     flex-wrap: wrap;
-    justify-content: center;
-    width: 100%;
-    gap: 10px;
+    margin-bottom: 20px;
+  }
+  
+  .pricing-note {
+    margin-top: 15px;
   }
   
   .start-now-btn, .meet-advisor-btn {
@@ -392,12 +392,12 @@
   .curved-arrow-container {
     width: 60px;
     height: 40px;
-    margin: 5px auto 10px;
+    margin: 10px auto 15px;
   }
   
   .hero-cta {
     flex-direction: column;
-    align-items: center;
+    margin-bottom: 15px;
   }
   
   .price-tag {
@@ -697,7 +697,6 @@
   font-family: 'Roboto', 'Arial', sans-serif;
 }
 
-
 @media (max-width: 992px) {
   .platform-image-container {
     width: 150px;
@@ -748,7 +747,6 @@
     padding: 50px 0 20px;
   }
 }
-
 
 .view-all-link {
   color: #0F172B;
@@ -821,7 +819,6 @@ html {
 body {
   scroll-behavior: smooth;
 }
-
 
 .x_wd_doodle {
   display: block;
@@ -945,7 +942,6 @@ body {
   transform: rotate(-1deg) scale(1.05);
   border-radius: 4px;
 }
-
 
 *, *::before, *::after {
   box-sizing: border-box;

@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import '../styles/Navbar.css';
 
 interface NavbarProps {
@@ -8,23 +8,41 @@ interface NavbarProps {
 const Navbar: React.FC<NavbarProps> = ({ setShowSignup }) => {
   const [menuOpen, setMenuOpen] = useState(false);
   const [visible, setVisible] = useState(true);
-  const [prevScrollPos, setPrevScrollPos] = useState(0);
+  const prevScrollPosRef = useRef(0);
   
   useEffect(() => {
+    prevScrollPosRef.current = window.scrollY;
+    
     const handleScroll = () => {
-      // Current scroll position
       const currentScrollPos = window.scrollY;
+      const isVisible = prevScrollPosRef.current > currentScrollPos || currentScrollPos < 70;
       
-      // Set navbar visible if scrolling up, hide when scrolling down
-      const visible = prevScrollPos > currentScrollPos || currentScrollPos < 70;
+      // Only update state if visibility changed to avoid unnecessary renders
+      if (visible !== isVisible && !menuOpen) {
+        setVisible(isVisible);
+      }
       
-      setPrevScrollPos(currentScrollPos);
-      setVisible(visible);
+      prevScrollPosRef.current = currentScrollPos;
     };
     
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, [prevScrollPos]);
+    // Set a small timeout to avoid scroll calculations during the actual scroll event
+    const throttledScroll = () => {
+      let timeout: number | undefined;
+      return () => {
+        if (timeout) {
+          window.cancelAnimationFrame(timeout);
+        }
+        timeout = window.requestAnimationFrame(() => {
+          handleScroll();
+        });
+      };
+    };
+    
+    const optimizedScroll = throttledScroll();
+    window.addEventListener('scroll', optimizedScroll);
+    
+    return () => window.removeEventListener('scroll', optimizedScroll);
+  }, [menuOpen]); // Add menuOpen to dependency array to rerun effect when menu state changes
 
   const handleMenuToggle = () => {
     setMenuOpen(!menuOpen);
@@ -35,7 +53,7 @@ const Navbar: React.FC<NavbarProps> = ({ setShowSignup }) => {
   };
   
   return (
-    <nav className={`navbar ${visible ? '' : 'navbar-hidden'}`}>
+    <nav className={`navbar ${visible ? 'navbar-visible' : 'navbar-hidden'} ${menuOpen ? 'menu-open' : ''}`}>
       <div className="navbar-container">
         <div className="navbar-logo">
           <img src="https://ngratesc.sirv.com/i-claim/serviify/logo.png" alt="Serviify Logo" />

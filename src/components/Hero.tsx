@@ -1,4 +1,6 @@
 import '../styles/Hero.css';
+import { useEffect, useState } from 'react';
+import TextWithHighlight from './TextWithHighlight';
 
 interface HeroProps {
   setShowSignup: (show: boolean) => void;
@@ -13,40 +15,60 @@ const TechShowcaseCurve = () => (
 );
 
 const Hero: React.FC<HeroProps> = ({ setShowSignup }) => {
+  const [mounted, setMounted] = useState(false);
+
+  // Set mounted state to true after component mounts
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
   return (
     <div className="hero-section">
       <div className="hero-container">
         <div className="hero-content">
           <div className="hero-text">
             <h1 className="hero-heading">
-              All your services <span className="highlight">in one platform.</span>
+              All your services {mounted ? (
+                <span style={{ position: 'relative', display: 'inline' }}>
+                  <TextWithHighlight 
+                    text="in one platform." 
+                    type="highlight"
+                    fontSize={64}
+                    fontWeight={800}
+                  />
+                </span>
+              ) : (
+                <span className="highlight">in one platform.</span>
+              )}
             </h1>
             <h2 className="hero-subheading">
-              Convenient, reliable, <span className="underline">and affordable!</span>
+              Convenient, reliable, {mounted ? (
+                <span style={{ position: 'relative', display: 'inline-block', marginLeft: '10px' }}>
+                  <TextWithHighlight 
+                    text="and affordable!" 
+                    type="underline"
+                    fontSize={48}
+                    fontWeight={700}
+                  />
+                </span>
+              ) : (
+                <span className="underline">and affordable!</span>
+              )}
             </h2>
             
-            <div className="curved-arrow-container">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
-                <path d="M10 80 Q50 40, 90 80" fill="none" stroke="#0F172B" stroke-width="4" marker-end="url(#arrowhead)"/>
-                <defs>
-                  <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="0" refY="3.5" orient="auto">
-                    <polygon points="0 0, 10 3.5, 0 7" fill="#0F172A"/>
-                  </marker>
-                </defs>
-              </svg>
-            </div>
-            
             <div className="hero-cta">
-              <button className="start-now-btn" onClick={() => setShowSignup(true)}>Start now - It's free</button>
+              <button 
+                className="start-now-btn" 
+                onClick={() => setShowSignup(true)}
+                style={{
+                  transition: 'all 0.3s ease',
+                  boxShadow: '0 4px 6px rgba(15, 23, 43, 0.2)'
+                }}
+              >
+                Start now - It's free
+              </button>
               <div className="advisor-dropdown">
                 <button className="meet-advisor-btn">Contact Us ▾</button>
-              </div>
-            </div>
-            
-            <div className="pricing-note">
-              <div className="price-tag">
-                <span className="free-label">Completely <span className="emphasis">FREE!</span></span>
-                <span className="price-detail">for services</span>
               </div>
             </div>
           </div>
