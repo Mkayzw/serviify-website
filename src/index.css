@@ -1,23 +1,43 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
 
-body{
-    font-family: 'Poppins', sans-serif !Important;
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
-.p_btn{
-    background-color: #0F172B;
-    color:white;
+html, body {
+  width: 100%;
+  height: 100%;
+  overflow-x: hidden;
 }
 
-.p_txt{
-    color: #0F172B !important;
+body {
+  font-family: 'Poppins', sans-serif !important;
+  color: #333;
+  line-height: 1.6;
 }
 
+#root {
+  height: 100%;
+  width: 100%;
+}
+
+/* Primary colors and styles */
+.p_btn {
+  background-color: #0F172B;
+  color: white;
+}
+
+.p_txt {
+  color: #0F172B !important;
+}
+
+/* Toast styling */
 .Toastify__toast {
-  font-family: 'Poppins', sans-serif !Important;
-
+  font-family: 'Poppins', sans-serif !important;
 }
 
 .Toastify__progress-bar-theme--light {
-    background: #0F172B!important;
+  background: #0F172B !important;
 }
