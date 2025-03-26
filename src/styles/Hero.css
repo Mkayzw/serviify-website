@@ -7,7 +7,7 @@
 }
 
 .hero-section {
-  padding: 120px 0 80px;
+  padding: 120px 0 20px;
   background-color: #ffffff;
   position: relative;
   overflow: hidden;
@@ -17,46 +17,6 @@
   max-width: 1600px;
   margin: 0 auto;
   padding: 0 0%;
-}
-
-.tech-showcase-container {
-  position: relative;
-  width: 100vw;
-  left: 50%;
-  right: 50%;
-  margin-left: -50vw;
-  margin-right: -50vw;
-  padding: 80px 0 40px;
-  background-color: #e0e0e0;
-  overflow: hidden;
-  will-change: transform;
-  transform: translateZ(0);
-  backface-visibility: hidden;
-  perspective: 1000px;
-}
-
-.custom-shape-divider-top-tech-showcase {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  overflow: hidden;
-  line-height: 0;
-  transform: rotate(180deg);
-  z-index: 1;
-  will-change: transform;
-  transform: translateZ(0) rotate(180deg);
-}
-
-.custom-shape-divider-top-tech-showcase svg {
-  position: relative;
-  display: block;
-  width: calc(100% + 1.3px);
-  height: 191px;
-}
-
-.custom-shape-divider-top-tech-showcase .shape-fill {
-  fill: #ffffff; /* White background above the arch */
 }
 
 /* Responsive adjustments */
@@ -97,9 +57,9 @@
 }
 
 .hero-heading {
-  font-size: 5.5rem;
+  font-size: 6.5rem;
   font-weight: 800;
-  line-height: 1.2;
+  line-height: 0.8;
   margin-bottom: 20px;
   color: #000000;
   font-family: 'Caveat', 'Brush Script MT', cursive;
@@ -109,82 +69,29 @@
   white-space: nowrap;
 }
 
-.highlighted-text {
-  position: relative;
-  display: inline-block;
-  padding: 0 10px; /* Add some padding to give space around the text */
-  z-index: 1; /* Ensure the text is above the highlight */
-}
-
-.highlighted-text::before {
-  content: '';
-  position: absolute;
-  top: 60%; /* Adjust to lower the highlight */
-  left: -5%;
-  right: -5%;
-  height: 40%; /* Adjust height of highlight */
-  background-color: #fac000;
-  transform: rotate(-2deg); /* Slight rotation for more dynamic look */
-  z-index: -1; /* Ensures the highlight is below the text */
-  border-radius: 10px; /* Softer border radius */
-  opacity: 0.7; /* Optional: make it slightly transparent */
-  display: block; /* Ensure the element is displayed */
-  pointer-events: none; /* Prevent the highlight from interfering with interactions */
-}
-
-/* .hero-content {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
-  margin-bottom: 80px;
-}
-
-.hero-text {
-  display: flex;
-  flex-direction: column;
-  max-width: 1200px;
-  width: 100%;
-}
-
-.hero-heading {
-  font-size: 5.5rem;
-  font-weight: 800;
-  line-height: 1.2;
-  margin-bottom: 20px;
-  color: #000000;
-  font-family: 'Caveat', 'Brush Script MT', cursive;
-  letter-spacing: 0px;
-  text-shadow: none;
-  transform: none;
+.x_wd_blue_highlight_01 {
+  background-image: url('../assets/blue_highlight_01.svg');
+  background-position: center bottom;
+  background-repeat: no-repeat;
+  background-size: contain;
   white-space: nowrap;
 }
 
-.highlighted-text {
-  position: relative;
-  display: inline-block;
-  }
-
-.highlighted-text::before {
-  content: '';
-  position: absolute;
-  top: 45%;
-  left: 0%;
-  right: 0%;
-  height: 60%;
-  background-color: #fac000;
-  transform: rotate(-1.5deg);
-  z-index: -1;
-  border-radius: 100px;
-} */
+.x_wd_secondary_highlight_bold_05 {
+  background-image: url('../assets/highlighter_secondary.svg');
+  background-position: center 60%;
+  background-repeat: no-repeat;
+  background-size: contain;
+  white-space: nowrap;
+}
 
 .hero-subheading {
-  font-size: 3.8rem;
-  font-weight: 500;
+  font-size: 4rem;
+  font-weight: 640;
   color: #000000;
   margin-bottom: 40px;
   font-family: 'Caveat', 'Brush Script MT', cursive;
-  letter-spacing: 0px;
+  letter-spacing: -1px;
   text-shadow: none;
   transform: none;
 }
@@ -595,6 +502,46 @@
   }
 }
 
+.tech-showcase-container {
+  position: relative;
+  width: 100vw;
+  left: 50%;
+  right: 50%;
+  margin-left: -50vw;
+  margin-right: -50vw;
+  padding: 80px 0 40px;
+  background-color: #f3f4f6;
+  overflow: hidden;
+  will-change: transform;
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  perspective: 1000px;
+}
+
+.custom-shape-divider-top-tech-showcase {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  overflow: hidden;
+  line-height: 0;
+  transform: rotate(180deg);
+  z-index: 1;
+  will-change: transform;
+  transform: translateZ(0) rotate(180deg);
+}
+
+.custom-shape-divider-top-tech-showcase svg {
+  position: relative;
+  display: block;
+  width: calc(100% + 1.3px);
+  height: 191px;
+}
+
+.custom-shape-divider-top-tech-showcase .shape-fill {
+  fill: #ffffff; /* White background above the arch */
+}
+
 .tech-showcase-container::before {   
   content: '';   
   position: absolute;   
@@ -602,7 +549,7 @@
   left: -50%;   
   width: 200%;   
   height: 200px;   
-  background-color: #e0e0e0;   
+  background-color: #f3f4f6;   
   border-radius: 50% / 100%;   
   transform: translateX(0);   
   z-index: 1;   
@@ -619,7 +566,7 @@
 }
 
 .tech-showcase-title {
-  font-size: 3.2rem;
+  font-size: 4.2rem;
   font-weight: 700;
   color: #000000;
   margin-bottom: 40px;
@@ -629,6 +576,14 @@
   letter-spacing: 0px;
   text-shadow: none;
   transform: none;
+}
+
+.x_wd_yellow_highlight_03 {
+  background-image: url('../assets/underline_secondary.svg');
+  background-position: center bottom;
+  background-repeat: no-repeat;
+  background-size: contain;
+  white-space: nowrap;
 }
 
 .platform-item {

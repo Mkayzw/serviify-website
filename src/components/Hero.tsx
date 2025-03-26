@@ -27,11 +27,11 @@ const Hero: React.FC<HeroProps> = ({ setShowSignup }) => {
         <div className="hero-content">
           <div className="hero-text">
             <h1 className="hero-heading">
-              All your services{" "}
-              <span className="highlighted-text">in one platform.</span>
+              All your services in{" "}
+              <span className="x_wd_secondary_highlight_bold_05">one platform.</span>
             </h1>
             <h2 className="hero-subheading">
-              Convenient, reliable, yet affordable!
+              Simple, reliable, yet <span className="x_wd_blue_highlight_01">affordable!</span>
             </h2>
 
             <div className="hero-cta">
@@ -58,7 +58,7 @@ const Hero: React.FC<HeroProps> = ({ setShowSignup }) => {
             <div className="row">
               <div className="col-12 text-center mb-5">
                 <h2 className="tech-showcase-title">
-                  Ta-da! All your services in one fantastic app
+                  All your <span className="x_wd_yellow_highlight_03">providers</span> in one fantastic app
                 </h2>
               </div>
             </div>
