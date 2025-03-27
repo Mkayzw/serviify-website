@@ -1,4 +1,5 @@
 import "../styles/Hero.css";
+import { FeaturesShowcase } from "./features-showcase";
 
 interface HeroProps {
   setShowSignup: (show: boolean) => void;
@@ -193,6 +194,13 @@ const Hero: React.FC<HeroProps> = ({ setShowSignup }) => {
                 </p>
               </div>
             </div>
+
+            {/* FeaturesShowcase within the tech showcase container */}
+            <div className="row mt-5">
+              <div className="col-12">
+                <FeaturesShowcase />
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -270,9 +278,6 @@ const Hero: React.FC<HeroProps> = ({ setShowSignup }) => {
           </div>
         </div>
       </div>
-
-      {/* Wave shape at the bottom */}
-      <div className="wave-shape"></div>
     </div>
   );
 };
