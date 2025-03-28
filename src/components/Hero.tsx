@@ -1,5 +1,6 @@
 import "../styles/Hero.css";
 import { FeaturesShowcase } from "./features-showcase";
+import Footer from "./Footer";
 
 interface HeroProps {
   setShowSignup: (show: boolean) => void;
@@ -209,56 +210,10 @@ const Hero: React.FC<HeroProps> = ({ setShowSignup }) => {
       <div className="core-function-container">
         <div className="container">
           <div className="row py-5">
-            <div className="col-12 text-center mb-4">
-              <h2 className="core-function-title">
-                Imagine all your services in one place
-              </h2>
-              <p className="core-function-subtitle">
-                No complexity, no cost, just a one-click connection
-              </p>
-            </div>
+            
           </div>
 
-          <div className="row g-4 core-features">
-            <div className="col-md-4">
-              <div className="core-feature-card">
-                <div className="feature-icon">
-                  <i className="bi bi-person-check"></i>
-                </div>
-                <h3>Find vetted providers</h3>
-                <p>
-                  Each service provider is thoroughly verified to ensure the
-                  highest quality of work and reliability.
-                </p>
-              </div>
-            </div>
-
-            <div className="col-md-4">
-              <div className="core-feature-card">
-                <div className="feature-icon">
-                  <i className="bi bi-calendar-check"></i>
-                </div>
-                <h3>Book instantly</h3>
-                <p>
-                  Schedule appointments in seconds with our intuitive booking
-                  system - no phone calls or waiting required.
-                </p>
-              </div>
-            </div>
-
-            <div className="col-md-4">
-              <div className="core-feature-card">
-                <div className="feature-icon">
-                  <i className="bi bi-stars"></i>
-                </div>
-                <h3>Review and track</h3>
-                <p>
-                  Share your experience and help others find the perfect service
-                  provider for their needs.
-                </p>
-              </div>
-            </div>
-          </div>
+         
 
           <div className="row mt-5">
             <div className="col-12 text-center">
@@ -278,6 +233,9 @@ const Hero: React.FC<HeroProps> = ({ setShowSignup }) => {
           </div>
         </div>
       </div>
+      
+      {/* Footer */}
+      <Footer />
     </div>
   );
 };
