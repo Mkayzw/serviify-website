@@ -15,7 +15,7 @@ const Navbar: React.FC<NavbarProps> = ({ setShowSignup }) => {
     
     const handleScroll = () => {
       const currentScrollPos = window.scrollY;
-      const isVisible = prevScrollPosRef.current > currentScrollPos || currentScrollPos < 70;
+      const isVisible = prevScrollPosRef.current > currentScrollPos || currentScrollPos < 300;
       
       // Only update state if visibility changed to avoid unnecessary renders
       if (visible !== isVisible && !menuOpen) {

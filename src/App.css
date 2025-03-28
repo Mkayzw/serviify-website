@@ -9,12 +9,15 @@ body {
   font-family: 'Poppins', sans-serif;
   color: #333;
   line-height: 1.6;
+  padding-top: 70px; /* Add padding for fixed navbar */
+  overflow-x: hidden;
 }
 
 .app {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
+  position: relative;
 }
 
 /* Signup Modal */
@@ -110,4 +113,12 @@ body {
 
 .Toastify__progress-bar-theme--light {
   background: #0F172B !important;
+}
+
+/* Ensure navbar is visible */
+.navbar {
+  display: block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  z-index: 1000 !important;
 }

@@ -1,0 +1,377 @@
+/* Showcase wrapper for blending with parent container */
+.features-showcase-blend {
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  background: linear-gradient(to bottom, #ffffff 0%, #f8f9fb 100%);
+  position: relative;
+  overflow: hidden;
+}
+
+/* Subtle wave divider for top of component */
+.features-showcase-blend::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 40px;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 100'%3E%3Cpath fill='%23ffffff' fill-opacity='1' d='M0,64L80,69.3C160,75,320,85,480,80C640,75,800,53,960,48C1120,43,1280,53,1360,58.7L1440,64L1440,0L1360,0C1280,0,1120,0,960,0C800,0,640,0,480,0C320,0,160,0,80,0L0,0Z'%3E%3C/path%3E%3C/svg%3E");
+  background-size: cover;
+  background-position: bottom;
+  z-index: 1;
+  opacity: 0.7;
+}
+
+/* Standalone features title */
+.standalone-features-title {
+  font-size: 2.8rem;
+  font-weight: 700;
+  text-align: center;
+  margin: 40px auto 50px;
+  color: #0F172B;
+  width: 100%;
+  max-width: 1200px;
+  padding: 0 20px;
+}
+
+.standalone-features-title .highlight {
+  background-image: url('../assets/highlighter_secondary.svg');
+  background-position: center 60%;
+  background-repeat: no-repeat;
+  background-size: contain;
+  padding: 0 5px;
+}
+
+/* Feature item parent container (applied to the FeaturesShowcase component) */
+:root:has(.feature-item) {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 30px;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px 40px;
+  background: #f8f9fb;
+}
+
+/* Feature item */
+.feature-item {
+  display: flex;
+  flex-direction: column;
+  animation: fadeIn 0.5s ease-out forwards;
+  opacity: 0;
+  position: relative;
+  width: calc(33.333% - 20px);
+  margin-bottom: 30px;
+}
+
+.feature-image {
+  width: 100%;
+  height: 380px;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+  cursor: pointer;
+  background: transparent;
+  box-shadow: none;
+  border-radius: 4px;
+}
+
+.feature-image:hover {
+  transform: scale(1.03);
+}
+
+.feature-name {
+  position: absolute;
+  bottom: 15px;
+  left: 15px;
+  background-color: rgba(15, 23, 43, 0.8);
+  color: white;
+  padding: 6px 12px;
+  border-radius: 30px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  backdrop-filter: blur(3px);
+}
+
+/* Animation */
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Fullscreen overlay */
+.fullscreen-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.95);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+}
+
+.fullscreen-container {
+  position: relative;
+  width: 98vw;
+  height: 98vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: auto;
+}
+
+.fullscreen-image {
+  max-width: 98%;
+  max-height: 98vh;
+  object-fit: contain;
+}
+
+.fullscreen-close {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  width: 40px;
+  height: 40px;
+  background-color: rgba(0, 0, 0, 0.5);
+  border: none;
+  color: white;
+  font-size: 30px;
+  cursor: pointer;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Standalone bottom image */
+.standalone-bottom-image {
+  display: block;
+  width: auto;
+  max-width: 100%;
+  max-height: 600px;
+  margin: 40px auto 30px;
+  object-fit: contain;
+}
+
+/* Responsive styles */
+@media (max-width: 992px) {
+  .features-showcase-blend::before {
+    height: 30px;
+  }
+  
+  .standalone-features-title {
+    font-size: 2.4rem;
+    margin: 30px auto 40px;
+  }
+  
+  :root:has(.feature-item) {
+    padding: 0 15px 50px;
+    gap: 25px;
+  }
+  
+  .feature-item {
+    width: calc(50% - 12.5px);
+  }
+  
+  .feature-image {
+    height: 280px;
+  }
+  
+  .standalone-bottom-image {
+    max-height: 400px;
+    margin: 30px auto 25px;
+  }
+  
+  .fullscreen-close {
+    top: -30px;
+    right: 0;
+  }
+}
+
+@media (max-width: 768px) {
+  .features-showcase-blend {
+    background: linear-gradient(to bottom, #ffffff 0%, #f7f8fa 100%);
+  }
+  
+  .features-showcase-blend::before {
+    height: 25px;
+    opacity: 0.6;
+  }
+  
+  .standalone-features-title {
+    font-size: 2rem;
+    margin: 25px auto 35px;
+  }
+  
+  :root:has(.feature-item) {
+    padding: 0 15px 40px;
+    gap: 20px;
+  }
+  
+  .feature-item {
+    width: calc(50% - 10px);
+  }
+  
+  .feature-image {
+    height: 240px;
+  }
+  
+  .standalone-bottom-image {
+    max-height: 350px;
+    margin: 25px auto 20px;
+  }
+  
+  .feature-name {
+    margin-top: 10px;
+  }
+}
+
+@media (max-width: 576px) {
+  .features-showcase-blend::before {
+    height: 20px;
+    opacity: 0.5;
+  }
+  
+  .standalone-features-title {
+    font-size: 1.8rem;
+    margin: 20px auto 30px;
+  }
+  
+  :root:has(.feature-item) {
+    padding: 0 15px 35px;
+    gap: 25px;
+  }
+  
+  .feature-item {
+    width: calc(100% - 0px);
+  }
+  
+  .feature-image {
+    height: 260px;
+  }
+  
+  .standalone-bottom-image {
+    max-height: 300px;
+    margin: 20px auto 15px;
+  }
+}
+
+/* Added for large screens */
+@media (min-width: 1200px) {
+  .feature-item {
+    width: calc(33.333% - 30px);
+  }
+  
+  .feature-image {
+    height: 450px;
+  }
+  
+  .standalone-bottom-image {
+    max-height: 700px;
+  }
+  
+  :root:has(.feature-item) {
+    max-width: 1400px;
+  }
+}
+
+@media (min-width: 1600px) {
+  .feature-image {
+    height: 500px;
+  }
+  
+  .standalone-bottom-image {
+    max-height: 800px;
+  }
+  
+  :root:has(.feature-item) {
+    max-width: 1600px;
+  }
+}
+
+/* Remove the old features-title styles which are no longer needed */
+.features-title {
+  display: none;
+}
+
+/* Performance highlight section */
+.performance-highlight {
+  width: 100%;
+  max-width: 800px;
+  margin: 40px auto;
+  text-align: center;
+  padding: 0 20px;
+}
+
+.performance-highlight h3 {
+  font-size: 2.2rem;
+  font-weight: 700;
+  margin-bottom: 20px;
+  color: #0F172B;
+}
+
+.performance-highlight h3 .highlight {
+  background-image: url('../assets/highlighter_secondary.svg');
+  background-position: center 60%;
+  background-repeat: no-repeat;
+  background-size: contain;
+  padding: 0 5px;
+}
+
+.performance-highlight p {
+  font-size: 1.2rem;
+  line-height: 1.6;
+  color: #4B5563;
+  max-width: 700px;
+  margin: 0 auto;
+}
+
+/* Responsive styles for performance highlight */
+@media (max-width: 992px) {
+  .performance-highlight h3 {
+    font-size: 2rem;
+  }
+  
+  .performance-highlight p {
+    font-size: 1.1rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .performance-highlight {
+    margin: 30px auto;
+  }
+  
+  .performance-highlight h3 {
+    font-size: 1.8rem;
+  }
+  
+  .performance-highlight p {
+    font-size: 1rem;
+  }
+}
+
+@media (max-width: 576px) {
+  .performance-highlight {
+    margin: 25px auto;
+  }
+  
+  .performance-highlight h3 {
+    font-size: 1.6rem;
+  }
+  
+  .performance-highlight p {
+    font-size: 0.95rem;
+  }
+}
