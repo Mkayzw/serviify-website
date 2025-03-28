@@ -8,41 +8,36 @@ interface NavbarProps {
 const Navbar: React.FC<NavbarProps> = ({ setShowSignup }) => {
   const [menuOpen, setMenuOpen] = useState(false);
   const [visible, setVisible] = useState(true);
-  const prevScrollPosRef = useRef(0);
+  const prevScrollPosRef = useRef(window.scrollY);
+  const lastScrollTime = useRef(Date.now());
   
   useEffect(() => {
-    prevScrollPosRef.current = window.scrollY;
-    
     const handleScroll = () => {
+      // Skip if menu is open
+      if (menuOpen) return;
+      
       const currentScrollPos = window.scrollY;
-      const isVisible = prevScrollPosRef.current > currentScrollPos || currentScrollPos < 300;
+      const currentTime = Date.now();
       
-      // Only update state if visibility changed to avoid unnecessary renders
-      if (visible !== isVisible && !menuOpen) {
-        setVisible(isVisible);
+      // Only process the scroll event if enough time has passed since the last one (throttling)
+      if (currentTime - lastScrollTime.current > 100) {
+        // Show navbar when scrolling up or near the top of the page
+        const isScrollingUp = prevScrollPosRef.current > currentScrollPos;
+        const isAtTop = currentScrollPos < 100;
+        
+        // Update visibility state based on scroll direction
+        setVisible(isScrollingUp || isAtTop);
+        
+        // Update references for next scroll event
+        prevScrollPosRef.current = currentScrollPos;
+        lastScrollTime.current = currentTime;
       }
-      
-      prevScrollPosRef.current = currentScrollPos;
     };
     
-    // Set a small timeout to avoid scroll calculations during the actual scroll event
-    const throttledScroll = () => {
-      let timeout: number | undefined;
-      return () => {
-        if (timeout) {
-          window.cancelAnimationFrame(timeout);
-        }
-        timeout = window.requestAnimationFrame(() => {
-          handleScroll();
-        });
-      };
-    };
+    window.addEventListener('scroll', handleScroll, { passive: true });
     
-    const optimizedScroll = throttledScroll();
-    window.addEventListener('scroll', optimizedScroll);
-    
-    return () => window.removeEventListener('scroll', optimizedScroll);
-  }, [menuOpen]); // Add menuOpen to dependency array to rerun effect when menu state changes
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [menuOpen]);
 
   const handleMenuToggle = () => {
     setMenuOpen(!menuOpen);

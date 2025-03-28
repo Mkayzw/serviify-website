@@ -18,6 +18,17 @@ body {
   line-height: 1.6;
 }
 
+/* Apply Caveat font to all headings */
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Caveat', 'Brush Script MT', cursive !important;
+  font-weight: 700;
+}
+
+/* Ensure paragraphs use the professional font */
+p {
+  font-family: 'Poppins', sans-serif !important;
+}
+
 #root {
   height: 100%;
   width: 100%;

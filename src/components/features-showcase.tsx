@@ -60,7 +60,7 @@ export const FeaturesShowcase: React.FC = () => {
   return (
     <>
       <h2 className="standalone-features-title">
-        Powerful <span className="highlight">Features</span> for Users & Providers
+        Powerful  <span className="highlight">Features</span>  for Users & Providers
       </h2>
       
       {features.map((feature, index) => (
@@ -84,8 +84,7 @@ export const FeaturesShowcase: React.FC = () => {
       )}
       
       <div className="performance-highlight">
-        <h3>Experience true <span className="highlight">speed</span></h3>
-        <p>Streamlined service booking, smart matching, and a responsive UI. All operations are done in less than 90ms - faster than a blink.</p>
+        <p>Experience true <span className="highlight">speed</span>    Streamlined service booking, smart matching, and a responsive UI. All operations are done in less than 90ms - faster than a blink.</p>
       </div>
 
       {fullscreenImage && (
