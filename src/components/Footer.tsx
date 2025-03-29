@@ -66,7 +66,7 @@ const Footer: React.FC = () => {
                 </li>
                 <li>
                   <i className="bi bi-envelope"></i>
-                  <span>admin@serviify.com</span>
+                  <span>admin@serviify.co.zw</span>
                 </li>
                 <li>
                   <i className="bi bi-telephone"></i>
