@@ -207,6 +207,19 @@ body, html {
   background-color: #f0f0f0;
 }
 
+.arrow-doodle {
+  background-image: url('../assets/arrow_doodle.svg');
+  background-repeat: no-repeat;
+  background-position: top center;
+  padding-top: 80px; /* Adjust based on the image height */
+  margin-bottom: 1rem; /* To replace the mb-3 from the image */
+}
+
+/* If you need the RTL flip functionality */
+.o_rtl .arrow-doodle {
+  transform: scaleX(-1);
+}
+
 .pricing-note {
   margin-top: 20px;
   position: relative;

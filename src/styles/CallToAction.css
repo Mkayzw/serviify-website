@@ -117,6 +117,15 @@
   margin: 5px 0;
 }
 
+.arrow-up {
+  background-image: url('../assets/arrow_up.svg');
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+  height: 30px; /* Adjust based on your arrow height */
+  width: 30px;  /* Adjust based on your arrow width */
+}
+
 @media (max-width: 768px) {
   .cta-section {
     padding: 60px 15px;

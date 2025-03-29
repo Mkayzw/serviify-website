@@ -428,6 +428,16 @@
   font-family: 'Poppins', sans-serif;
 }
 
+.arrow-down {
+  background-image: url('../assets/arrow_down.svg');
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+  height: 70px; /* Adjust based on your actual arrow height */
+  width: 70px;  /* Adjust based on your actual arrow width */
+  display: block; /* Maintains the same display behavior as the img */
+}
+
 /* Responsive styles for performance highlight */
 @media (max-width: 992px) {
   .performance-highlight h3 {

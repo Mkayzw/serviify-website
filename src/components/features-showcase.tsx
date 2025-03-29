@@ -92,9 +92,9 @@ export const FeaturesShowcase: React.FC = () => {
 
       <div className="performance-highlight">
         <p><span className="highlight">Experience true speed,</span> Streamlined service booking, smart matching, and a responsive UI. All operations are done in less than 90ms - faster than a blink.</p>
-        <img src="/src/assets/arrow_down.svg" alt="" className="rotate-40 o_rtl_no_rotate mx-auto mt-2" loading="lazy" style={{}} />
+        <div className="arrow-down rotate-40 o_rtl_no_rotate mx-auto mt-2"></div>
         <div className="x_wd_doodle_features">
-            First of its Kind
+          First of its Kind
         </div>
       </div>
 
