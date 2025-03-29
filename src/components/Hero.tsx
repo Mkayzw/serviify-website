@@ -35,8 +35,14 @@ const Hero: React.FC<HeroProps> = ({ setShowSignup }) => {
             </h1>
             <h2 className="hero-subheading">
               Simple, reliable, yet <span className="x_wd_blue_highlight_01">affordable!</span>
+              <em className="x_wd_doodle position-absolute d-none d-lg-inline rotate-350 me-n10">
+                <img src="/src/assets/arrow_doodle.svg" className="d-block o_rtl_flip mb-3" alt="Arrow doodle" loading="lazy" />
+                <span data-oe-type="monetary" data-oe-expression="pricing.get('yearly_standard_discounted', 25)">US$&nbsp;<span className="oe_currency_value">0&nbsp;</span></span>
+                / month
+                <br/>
+                Completely free
+              </em>
             </h2>
-
             <div className="hero-cta">
               <button
                 className="start-now-btn"
@@ -211,14 +217,14 @@ const Hero: React.FC<HeroProps> = ({ setShowSignup }) => {
       <div className="core-function-container">
         <div className="container">
           <div className="row py-5">
-            
+
           </div>
         </div>
       </div>
-      
+
       {/* Call to Action Section */}
       <CallToAction setShowSignup={setShowSignup} />
-      
+
       {/* Footer */}
       <Footer />
     </div>

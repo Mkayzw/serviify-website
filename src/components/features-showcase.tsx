@@ -7,7 +7,7 @@ const featuresContext = import.meta.glob("../assets/features/*.{jpeg,jpg,png,web
 export const FeaturesShowcase: React.FC = () => {
   const [features, setFeatures] = useState<Array<{ id: string; name: string; path: string }>>([]);
   const [fullscreenImage, setFullscreenImage] = useState<string | null>(null);
-  const [bottomImage, setBottomImage] = useState<{name: string; path: string} | null>(null);
+  const [bottomImage, setBottomImage] = useState<{ name: string; path: string } | null>(null);
 
   useEffect(() => {
     // Process all feature images
@@ -18,7 +18,7 @@ export const FeaturesShowcase: React.FC = () => {
         .replace(/_/g, " ")
         .replace(/\b\w/g, (char) => char.toUpperCase())
         .replace(/(\d+)$/, "");
-      
+
       // Return file info
       return {
         id: `feature-${index}`,
@@ -26,25 +26,25 @@ export const FeaturesShowcase: React.FC = () => {
         path: (module as { default: string }).default,
       };
     });
-    
+
     // If there's a fresh image, set it as the bottom image and remove it from the grid
-    const freshImageIndex = featuresList.findIndex(f => 
-      f.name.toLowerCase().includes("fresh") || 
+    const freshImageIndex = featuresList.findIndex(f =>
+      f.name.toLowerCase().includes("fresh") ||
       f.name.toLowerCase().includes("new") ||
       featuresList.length - 1 === featuresList.indexOf(f) // Or just use the last image
     );
-    
+
     if (freshImageIndex !== -1) {
       const freshImage = featuresList[freshImageIndex];
       setBottomImage({
         name: freshImage.name,
         path: freshImage.path
       });
-      
+
       // Remove from main grid
       featuresList.splice(freshImageIndex, 1);
     }
-    
+
     setFeatures(featuresList);
   }, []);
 
@@ -58,41 +58,52 @@ export const FeaturesShowcase: React.FC = () => {
   };
 
   return (
-    <>
+    <div className="features-showcase-wrapper">
+      {/* Full viewport width background div */}
+      <div className="fullwidth-background-container">
+        <div className="o_we_shape o_illustration_doodle_02"></div>
+      </div>
+
       <h2 className="standalone-features-title">
-        Powerful  <span className="highlight">Features</span>  for Users & Providers
+        Powerful <span className="x_wd_yellow_highlight_03">features</span> for Users & Providers
       </h2>
-      
-      {features.map((feature, index) => (
-        <div key={feature.id} className="feature-item" style={{ animationDelay: `${index * 0.1}s` }}>
-          <img
-            src={feature.path}
-            alt={feature.name}
-            className="feature-image"
-            onClick={(e) => handleImageClick(feature.path, e)}
-          />
-          <div className="feature-name">{feature.name}</div>
-        </div>
-      ))}
-      
+
+      <div className="features-grid">
+        {features.map((feature, index) => (
+          <div key={feature.id} className="feature-item" style={{ animationDelay: `${index * 0.1}s` }}>
+            <img
+              src={feature.path}
+              alt={feature.name}
+              className="feature-image"
+              onClick={(e) => handleImageClick(feature.path, e)}
+            />
+            <div className="feature-name">{feature.name}</div>
+          </div>
+        ))}
+      </div>
+
       {bottomImage && (
-        <img 
+        <img
           src={bottomImage.path}
           alt={bottomImage.name}
           className="standalone-bottom-image"
         />
       )}
-      
+
       <div className="performance-highlight">
-        <p>Experience true <span className="highlight">speed</span>    Streamlined service booking, smart matching, and a responsive UI. All operations are done in less than 90ms - faster than a blink.</p>
+        <p><span className="highlight">Experience true speed,</span> Streamlined service booking, smart matching, and a responsive UI. All operations are done in less than 90ms - faster than a blink.</p>
+        <img src="/src/assets/arrow_down.svg" alt="" className="rotate-40 o_rtl_no_rotate mx-auto mt-2" loading="lazy" style={{}} />
+        <div className="x_wd_doodle_features">
+            First of its Kind
+        </div>
       </div>
 
       {fullscreenImage && (
         <div className="fullscreen-overlay" onClick={closeFullscreen}>
           <div className="fullscreen-container">
-            <img 
-              src={fullscreenImage} 
-              alt="Feature fullscreen view" 
+            <img
+              src={fullscreenImage}
+              alt="Feature fullscreen view"
               className="fullscreen-image"
             />
             <button className="fullscreen-close" onClick={closeFullscreen}>
@@ -101,6 +112,6 @@ export const FeaturesShowcase: React.FC = () => {
           </div>
         </div>
       )}
-    </>
+    </div>
   );
-}; 
+};

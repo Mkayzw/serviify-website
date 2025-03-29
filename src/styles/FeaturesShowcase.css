@@ -1,4 +1,64 @@
 /* Showcase wrapper for blending with parent container */
+
+/* Add these styles to your FeaturesShowcase.css */
+
+.features-showcase-wrapper {
+  position: relative;
+  width: 100%;
+  overflow: visible;
+  padding: 40px 0;
+  z-index: 1;
+}
+
+.fullwidth-background-container {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  right: 50%;
+  width: 100vw;
+  height: 100%;
+  margin-left: -50vw;
+  margin-right: -50vw;
+  z-index: -1;
+  overflow: hidden;
+}
+
+.o_we_shape.o_illustration_doodle_02 {
+  position: absolute;
+  width: 100%;
+  bottom: 18px;
+  height: 100%;
+  background-image: url("../assets/illustrator_secondary.svg");
+  background-position: center top;
+  background-size: 100% auto;
+  background-repeat: no-repeat;
+  pointer-events: none;
+}
+
+.x_wd_yellow_highlight_03 {
+  background-image: url('../assets/underline_secondary.svg');
+  background-position: center bottom;
+  background-repeat: no-repeat;
+  background-size: contain;
+  white-space: nowrap;
+}
+
+.features-grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
+  position: relative;
+  z-index: 2;
+}
+
+.standalone-features-title, 
+.performance-highlight,
+.feature-item {
+  position: relative;
+  z-index: 2;
+}
+
 .features-showcase-blend {
   width: 100%;
   margin: 0;
@@ -19,7 +79,8 @@
   font-weight: 700;
   text-align: center;
   margin: 40px auto 50px;
-  color: #0F172B;
+  font-family: 'Caveat', 'Brush Script MT', cursive;
+  color: #000000;
   width: 100%;
   max-width: 1200px;
   padding: 0 20px;
@@ -98,6 +159,13 @@
   }
 }
 
+.o_we_shape.o_illustration_doodle_02 {
+  background-image: url("../assets/illustrator_secondary.svg");
+  background-position: top center;
+  background-size: 100% auto;
+  background-repeat: no-repeat no-repeat;
+}
+
 /* Fullscreen overlay */
 .fullscreen-overlay {
   position: fixed;
@@ -150,11 +218,39 @@
   display: block;
   width: auto;
   max-width: 90%;
-  max-height: 700px;
+  max-height: 900px;
   margin: 50px auto 40px;
   object-fit: contain;
   box-shadow: none;
   border-radius: 10px;
+}
+
+.x_wd_doodle_features {
+  display: block;
+  color: #293040;
+  font-family: "Caveat";
+  font-size: calc(1.325rem + 0.9vw);
+  font-style: normal;
+  font-weight: 700;
+  margin-top: 10px;
+  text-align: center;
+}
+
+.rotate-40 {
+  rotate: 40deg;
+}
+
+.mb-4 {
+  margin-bottom: 1.5rem !important;
+}
+
+.mt-2 {
+  top: 10px;
+}
+
+.mx-auto {
+  margin-right: auto !important;
+  margin-left: auto !important;
 }
 
 /* Responsive styles */
@@ -221,7 +317,7 @@
   }
   
   .standalone-bottom-image {
-    max-height: 350px;
+    max-height: 550px;
     margin: 25px auto 20px;
   }
   
@@ -255,7 +351,7 @@
   }
   
   .standalone-bottom-image {
-    max-height: 300px;
+    max-height: 400px;
     margin: 20px auto 15px;
   }
 }
@@ -271,7 +367,7 @@
   }
   
   .standalone-bottom-image {
-    max-height: 700px;
+    max-height: 1200px;
   }
   
   :root:has(.feature-item) {
@@ -285,7 +381,7 @@
   }
   
   .standalone-bottom-image {
-    max-height: 800px;
+    max-height: 1300px;
   }
   
   :root:has(.feature-item) {
@@ -309,7 +405,7 @@
 
 .performance-highlight h3 {
   font-size: 2.2rem;
-  font-weight: 700;
+  font-weight: 600;
   margin-bottom: 20px;
   color: #0F172B;
   font-family: 'Poppins', sans-serif !important;

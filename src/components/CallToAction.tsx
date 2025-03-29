@@ -10,27 +10,22 @@ const CallToAction: React.FC<CallToActionProps> = ({ setShowSignup }) => {
     <div className="cta-wrapper">
       <section className="cta-section">
         <div className="cta-container">
-          <span className="cta-sparkle">✨</span>
-          <span className="cta-sparkle">✨</span>
-          <span className="cta-sparkle">✨</span>
-          <span className="cta-sparkle">✨</span>
-          
+
           <h2 className="cta-title">
-            Unleash <br />
+            <span className="x_wd_display_fireworks_01">Unleash</span>
+            <br />
             your <span className="highlight">growth potential</span>
           </h2>
-          
-          <button 
+
+          <button
             className="cta-button"
             onClick={() => setShowSignup(true)}
           >
             Start now - It's free
           </button>
-          
-          <div className="cta-arrow">
-            <i className="bi bi-arrow-down"></i>
-          </div>
-          
+
+          <img src="/src/assets/arrow_up.svg" className="d-block mx-auto mb-2" alt="" loading="lazy" />
+
           <p className="cta-info">No credit card required</p>
           <p className="cta-info">Instant access</p>
         </div>

@@ -11,16 +11,28 @@
   background: transparent;
   position: relative;
   overflow: visible;
-  margin: 0;
+  margin-top: 0;
   border: none;
 }
 
 .cta-container {
   max-width: 900px;
-  margin: 0 auto;
+  margin: 20px auto;
   position: relative;
   z-index: 2;
   background: transparent;
+}
+
+.mb-2 {
+  margin-bottom: 0.5rem !important;
+}
+
+.mx-auto {
+  margin-right: auto !important;
+  margin-left: auto !important;
+}
+.d-block {
+  display: block !important;
 }
 
 .cta-section::before {
@@ -35,9 +47,11 @@
 }
 
 .cta-title {
-  font-size: 3.5rem;
+  font-size: 5.5rem;
   line-height: 1.2;
+  font-weight: 700;
   margin-bottom: 20px;
+  font-family: "Caveat";
   color: #212529;
 }
 
@@ -47,68 +61,47 @@
   display: inline-block;
 }
 
-.cta-title .highlight::after {
-  content: "";
+.x_wd_display_fireworks_01 {
+  position: relative;
+}
+
+.x_wd_display_fireworks_01::before {
+  content: url('../assets/fireworks_a.svg');
   position: absolute;
-  bottom: 8px;
-  left: 0;
-  width: 100%;
-  height: 8px;
-  background-color:#845c4b;
-  z-index: -1;
-  opacity: 0.6;
+  top: auto;
+  left: -7rem;
+  bottom: -1rem;
+  right: auto;
+  pointer-events: none;
 }
 
-.cta-sparkle {
+.x_wd_display_fireworks_01::after {
+  content: url('../assets/fireworks_b.svg');
   position: absolute;
-  color: #ffc107;
-  font-size: 1.5rem;
-}
-
-.cta-sparkle:nth-child(1) {
-  top: 10%;
-  left: 10%;
-  transform: rotate(-15deg);
-}
-
-.cta-sparkle:nth-child(2) {
-  top: 15%;
-  right: 15%;
-  transform: rotate(25deg);
-}
-
-.cta-sparkle:nth-child(3) {
-  bottom: 20%;
-  left: 20%;
-  transform: rotate(45deg);
-}
-
-.cta-sparkle:nth-child(4) {
-  bottom: 30%;
-  right: 25%;
-  transform: rotate(-30deg);
+  top: auto;
+  left: 100%;
+  bottom: 0;
+  right: auto;
+  pointer-events: none;
 }
 
 .cta-button {
   display: inline-block;
-  background-color: #0F172B;
+  background-color: #293040;
   color: white;
   font-size: 1.1rem;
   font-weight: 600;
   padding: 15px 40px;
-  border-radius: 50px;
+  border-radius: 5px;
   margin: 25px 0 15px;
   text-decoration: none;
   transition: all 0.3s ease;
   border: none;
   cursor: pointer;
-  box-shadow: 0 4px 15px rgba(108, 70, 117, 0.3);
 }
 
 .cta-button:hover {
-  background-color: #7d5286;
-  transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(108, 70, 117, 0.4);
+  background-color: #0F172B;
 }
 
 .cta-arrow {

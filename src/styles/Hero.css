@@ -174,9 +174,9 @@ body, html {
 
 .start-now-btn {
   padding: 10px 20px;
-  background-color: #0F172B;
+  background-color: #293040;
   color: white;
-  font-size: 14px;
+  font-size: 16px;
   font-weight: 500;
   border: none;
   border-radius: 5px;
@@ -192,10 +192,10 @@ body, html {
 .meet-advisor-btn {
   padding: 10px 20px;
   background: none;
-  border: 1px solid #ccc;
-  font-size: 14px;
+  border: 0px solid #ccc;
+  font-size: 16px;
   font-weight: 500;
-  color:  #0F172B;
+  color:  #293040;
   border-radius: 5px;
   background-color:#F3F4F6;
   cursor: pointer;
@@ -227,7 +227,7 @@ body, html {
 .monthly-price {
   position: relative;
   display: inline-block;
-  color: #0F172B;
+  color: #293040;
   text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.1);
   transform: rotate(-2deg);
   z-index: 1;
@@ -239,13 +239,13 @@ body, html {
   font-size: 1.4rem;
   font-weight: 500;
   font-family: 'Caveat', 'Brush Script MT', cursive;
-  color: #0F172B;
+  color: #293040;
 }
 
 .free-label {
   position: relative;
   display: inline-block;
-  color: #0F172B;
+  color: #293040;
   text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.1);
   transform: rotate(-2deg);
   z-index: 1;
@@ -383,7 +383,7 @@ body, html {
 .feature-icon {
   width: 80px;
   height: 80px;
-  background-color: rgba(15, 23, 43, 0.05);
+  background-color: #293040;
   border-radius: 50%;
   display: flex;
   align-items: center;
@@ -394,7 +394,7 @@ body, html {
 
 .feature-icon i {
   font-size: 2.5rem;
-  color: #0F172B;
+  color: #293040;
 }
 
 .core-feature-card:hover .feature-icon {
@@ -431,7 +431,7 @@ body, html {
 
 .start-exploring-btn {
   padding: 14px 30px;
-  background-color: #0F172B;
+  background-color: #293040;
   color: white;
   font-size: 18px;
   font-weight: 500;
@@ -527,6 +527,10 @@ body, html {
   background-repeat: no-repeat;
   background-size: contain;
   white-space: nowrap;
+}
+
+.rotate-350 {
+  rotate: 350deg;
 }
 
 .platform-item {
@@ -657,6 +661,12 @@ body, html {
   }
 }
 
+@media (min-width: 992px) {
+  .d-lg-inline {
+      display: inline !important;
+  }
+}
+
 @media (max-width: 768px) {
   .platform-image-container {
     width: 120px;
@@ -693,7 +703,7 @@ body, html {
 }
 
 .view-all-link {
-  color: #0F172B;
+  color: #293040;
   text-decoration: none;
   font-weight: 500;
   font-size: 1rem;
@@ -766,7 +776,8 @@ body {
 
 .x_wd_doodle {
   display: block;
-  color: #0F172B;
+  color: #293040;
+  margin-top: 70px;
   font-family: "Caveat";
   font-size: calc(1.325rem + 0.9vw);
   font-style: normal;
@@ -785,14 +796,6 @@ body {
 
 .mt-n3 {
   margin-top: -1rem !important;
-}
-
-.end-0 {
-  right: 0 !important;
-}
-
-.top-100 {
-  top: 100% !important;
 }
 
 .position-absolute {
@@ -855,7 +858,7 @@ body {
   left: 0;
   right: 0;
   height: 60%;
-  background-color: #8B4513; 
+  background-color: #906449; 
   opacity: 0.3;
   z-index: -1;
   transform: rotate(-1deg) scale(1.05);
