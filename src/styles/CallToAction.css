@@ -1,0 +1,145 @@
+.cta-wrapper {
+  width: 100%;
+  background-color: #ffffff;
+  margin: 0;
+  padding: 0;
+}
+
+.cta-section {
+  text-align: center;
+  padding: 40px 20px 60px;
+  background: transparent;
+  position: relative;
+  overflow: visible;
+  margin: 0;
+  border: none;
+}
+
+.cta-container {
+  max-width: 900px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 2;
+  background: transparent;
+}
+
+.cta-section::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: none;
+  z-index: 1;
+}
+
+.cta-title {
+  font-size: 3.5rem;
+  line-height: 1.2;
+  margin-bottom: 20px;
+  color: #212529;
+}
+
+.cta-title .highlight {
+  color: #845c4b;
+  position: relative;
+  display: inline-block;
+}
+
+.cta-title .highlight::after {
+  content: "";
+  position: absolute;
+  bottom: 8px;
+  left: 0;
+  width: 100%;
+  height: 8px;
+  background-color:#845c4b;
+  z-index: -1;
+  opacity: 0.6;
+}
+
+.cta-sparkle {
+  position: absolute;
+  color: #ffc107;
+  font-size: 1.5rem;
+}
+
+.cta-sparkle:nth-child(1) {
+  top: 10%;
+  left: 10%;
+  transform: rotate(-15deg);
+}
+
+.cta-sparkle:nth-child(2) {
+  top: 15%;
+  right: 15%;
+  transform: rotate(25deg);
+}
+
+.cta-sparkle:nth-child(3) {
+  bottom: 20%;
+  left: 20%;
+  transform: rotate(45deg);
+}
+
+.cta-sparkle:nth-child(4) {
+  bottom: 30%;
+  right: 25%;
+  transform: rotate(-30deg);
+}
+
+.cta-button {
+  display: inline-block;
+  background-color: #0F172B;
+  color: white;
+  font-size: 1.1rem;
+  font-weight: 600;
+  padding: 15px 40px;
+  border-radius: 50px;
+  margin: 25px 0 15px;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  border: none;
+  cursor: pointer;
+  box-shadow: 0 4px 15px rgba(108, 70, 117, 0.3);
+}
+
+.cta-button:hover {
+  background-color: #7d5286;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(108, 70, 117, 0.4);
+}
+
+.cta-arrow {
+  display: block;
+  margin: 5px auto;
+  color: #0d6e6e;
+  font-size: 1.5rem;
+}
+
+.cta-info {
+  font-size: 0.9rem;
+  opacity: 0.8;
+  margin: 5px 0;
+}
+
+@media (max-width: 768px) {
+  .cta-section {
+    padding: 60px 15px;
+  }
+  
+  .cta-title {
+    font-size: 2.5rem;
+  }
+  
+  .cta-button {
+    padding: 12px 30px;
+  }
+}
+
+@media (max-width: 576px) {
+  .cta-title {
+    font-size: 2rem;
+  }
+}

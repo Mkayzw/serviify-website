@@ -4,21 +4,24 @@
   left: 0;
   width: 100%;
   height: 70px;
-  transition: transform 0.3s ease-in-out;
+  transition: transform 0.3s ease-in-out, opacity 0.3s ease;
   z-index: 1000;
   background-color: white;
 }
 
 .navbar-hidden {
   transform: translateY(-100%);
+  opacity: 0;
 }
 
 .navbar-visible {
   transform: translateY(0);
+  opacity: 1;
 }
 
 .menu-open {
   transform: translateY(0) !important;
+  opacity: 1 !important;
 }
 
 .navbar-container {

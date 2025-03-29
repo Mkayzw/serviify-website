@@ -1,6 +1,7 @@
 import "../styles/Hero.css";
 import { FeaturesShowcase } from "./features-showcase";
 import Footer from "./Footer";
+import CallToAction from "./CallToAction";
 
 interface HeroProps {
   setShowSignup: (show: boolean) => void;
@@ -176,10 +177,10 @@ const Hero: React.FC<HeroProps> = ({ setShowSignup }) => {
             {/* App Benefits Text - integrated within tech showcase */}
             <div className="row mt-5">
               <div className="col-12 text-center">
-                <h2 className="app-benefits-heading">
+                <p className="app-benefits-heading">
                   Imagine a vast collection of service providers at your
                   fingertips.
-                </h2>
+                </p>
                 <p className="app-benefits-text">
                   Need a service completed? There's a professional for that on
                   Serviify.
@@ -212,27 +213,11 @@ const Hero: React.FC<HeroProps> = ({ setShowSignup }) => {
           <div className="row py-5">
             
           </div>
-
-         
-
-          <div className="row mt-5">
-            <div className="col-12 text-center">
-              <p className="core-function-impact">
-                Each service simplifies a process and empowers more people.
-                <br />
-                Imagine the impact when everyone gets the right service for the
-                job, with perfect integration.
-              </p>
-              <button
-                className="start-exploring-btn"
-                onClick={() => setShowSignup(true)}
-              >
-                Start Exploring
-              </button>
-            </div>
-          </div>
         </div>
       </div>
+      
+      {/* Call to Action Section */}
+      <CallToAction setShowSignup={setShowSignup} />
       
       {/* Footer */}
       <Footer />
