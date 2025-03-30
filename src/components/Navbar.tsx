@@ -1,11 +1,20 @@
 import { useState, useEffect, useRef } from 'react';
+import { Link } from 'react-router-dom';
 import '../styles/Navbar.css';
 
 interface NavbarProps {
   setShowSignup: (show: boolean) => void;
+  setShowPrivacyPolicy: () => void;
+  setShowTermsOfService: () => void;
+  setShowHelpCentre: () => void;
 }
 
-const Navbar: React.FC<NavbarProps> = ({ setShowSignup }) => {
+const Navbar: React.FC<NavbarProps> = ({ 
+  setShowSignup, 
+  setShowPrivacyPolicy, 
+  setShowTermsOfService,
+  setShowHelpCentre 
+}) => {
   const [menuOpen, setMenuOpen] = useState(false);
   const [visible, setVisible] = useState(true);
   const prevScrollPosRef = useRef(window.scrollY);
@@ -51,8 +60,10 @@ const Navbar: React.FC<NavbarProps> = ({ setShowSignup }) => {
     <nav className={`navbar ${visible ? 'navbar-visible' : 'navbar-hidden'} ${menuOpen ? 'menu-open' : ''}`}>
       <div className="navbar-container">
         <div className="navbar-logo">
-          <img src="https://ngratesc.sirv.com/i-claim/serviify/logo.png" alt="Serviify Logo" />
-          <span className="logo-text">Serviify</span>
+          <Link to="/">
+            <img src="https://ngratesc.sirv.com/i-claim/serviify/logo.png" alt="Serviify Logo" />
+            <span className="logo-text">Serviify</span>
+          </Link>
         </div>
         
         <div className={`navbar-links ${menuOpen ? 'active' : ''}`}>
@@ -60,7 +71,18 @@ const Navbar: React.FC<NavbarProps> = ({ setShowSignup }) => {
           <a href="#Providers" onClick={handleNavLinkClick}>Providers</a>
           <a href="#About us" onClick={handleNavLinkClick}>About us</a>
           <a href="#support" onClick={handleNavLinkClick}>Support</a>
-          <a href="#Help" onClick={handleNavLinkClick}>Help</a>
+          <Link to="/help-centre" onClick={() => {
+            handleNavLinkClick();
+            setShowHelpCentre();
+          }}>Help</Link>
+          <Link to="/privacy-policy" onClick={() => {
+            handleNavLinkClick();
+            setShowPrivacyPolicy();
+          }}>Privacy Policy</Link>
+          <Link to="/terms-of-service" onClick={() => {
+            handleNavLinkClick();
+            setShowTermsOfService();
+          }}>Terms of Service</Link>
         </div>
         
         <div className="navbar-buttons">

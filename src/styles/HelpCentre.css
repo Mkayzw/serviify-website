@@ -1,0 +1,516 @@
+/* Add the simple header and footer styles at the top */
+.simple-header {
+  background-color: white;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  padding: 15px 0;
+}
+
+.simple-header-content {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.logo-link {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  color: #293040;
+}
+
+.logo-link img {
+  height: 40px;
+  margin-right: 10px;
+}
+
+.logo-link span {
+  font-size: 1.4rem;
+  font-weight: 700;
+}
+
+.back-link {
+  display: flex;
+  align-items: center;
+  color: #293040;
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.3s ease;
+}
+
+.back-link i {
+  margin-right: 5px;
+}
+
+.back-link:hover {
+  color: #1e2532;
+}
+
+/* Simple Footer Styles */
+.simple-footer {
+  background-color: #293040;
+  color: white;
+  padding: 20px 0;
+  margin-top: auto;
+}
+
+.simple-footer-content {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.simple-footer p {
+  margin: 0;
+}
+
+.footer-links {
+  display: flex;
+  gap: 20px;
+}
+
+.footer-links a {
+  color: white;
+  text-decoration: none;
+  transition: opacity 0.3s ease;
+}
+
+.footer-links a:hover {
+  opacity: 0.8;
+}
+
+.help-centre-page {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background-color: #f8f9fa;
+}
+
+.help-centre-container {
+  flex: 1;
+  padding: 60px 0;
+  width: 100%;
+}
+
+.help-centre-content-wrapper {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 30px;
+  background-color: transparent;
+  box-shadow: none;
+}
+
+.help-centre-title {
+  color: #293040;
+  font-size: 3rem;
+  margin-bottom: 2rem;
+  text-align: center;
+  font-weight: 800;
+  position: relative;
+  display: inline-block;
+  width: 100%;
+}
+
+.help-centre-title::after {
+  content: '';
+  position: absolute;
+  width: 100px;
+  height: 4px;
+  background-color: #293040;
+  bottom: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  border-radius: 2px;
+}
+
+.help-centre-main {
+  display: flex;
+  margin-bottom: 3rem;
+  gap: 30px;
+}
+
+.help-categories {
+  width: 280px;
+  flex-shrink: 0;
+}
+
+.category-btn {
+  display: block;
+  width: 100%;
+  text-align: left;
+  padding: 15px 20px;
+  background-color: white;
+  border: none;
+  font-size: 1.1rem;
+  color: #555;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border-radius: 8px;
+  margin-bottom: 10px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.06);
+  border-left: 4px solid transparent;
+}
+
+.category-btn:hover {
+  background-color: #f0f0f0;
+  color: #293040;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.category-btn.active {
+  background-color: white;
+  color: #293040;
+  font-weight: 600;
+  border-left: 4px solid #293040;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.faq-container {
+  flex: 1;
+  background-color: white;
+  border-radius: 10px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+  padding: 30px;
+}
+
+.category-title {
+  font-size: 2rem;
+  color: #293040;
+  margin-top: 0;
+  margin-bottom: 1.5rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 2px solid #f0f0f0;
+  font-weight: 700;
+}
+
+.faq-item {
+  margin-bottom: 15px;
+  border: 1px solid #eee;
+  border-radius: 8px;
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+.faq-item:hover {
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+}
+
+.faq-item.open {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.faq-question {
+  padding: 18px 20px;
+  background-color: #f9f9f9;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: background-color 0.3s ease;
+}
+
+.faq-question:hover {
+  background-color: #f3f3f3;
+}
+
+.faq-question h3 {
+  margin: 0;
+  font-size: 1.1rem;
+  color: #333;
+  font-weight: 600;
+}
+
+.toggle-icon {
+  font-size: 1.5rem;
+  color: #666;
+  font-weight: 300;
+  line-height: 1;
+  transition: transform 0.3s ease;
+}
+
+.faq-item.open .toggle-icon {
+  transform: rotate(180deg);
+}
+
+.faq-answer {
+  padding: 20px;
+  border-top: 1px solid #eee;
+  background-color: white;
+  line-height: 1.7;
+}
+
+.faq-answer p {
+  margin: 0;
+  font-size: 1rem;
+  color: #555;
+}
+
+.help-centre-contact {
+  text-align: center;
+  padding: 40px;
+  background-color: white;
+  border-radius: 10px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+  margin-top: 3rem;
+}
+
+.help-centre-contact h2 {
+  font-size: 1.8rem;
+  color: #293040;
+  margin-bottom: 1rem;
+  font-weight: 700;
+}
+
+.help-centre-contact p {
+  color: #555;
+  margin-bottom: 1.5rem;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+  font-size: 1.1rem;
+  line-height: 1.6;
+}
+
+.contact-button {
+  display: inline-block;
+  background-color: #293040;
+  color: white;
+  padding: 12px 25px;
+  border-radius: 5px;
+  text-decoration: none;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  font-size: 1.1rem;
+}
+
+.contact-button:hover {
+  background-color: #1c2330;
+  color: white;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+@media (max-width: 992px) {
+  .help-centre-container {
+    padding: 40px 0;
+  }
+  
+  .help-centre-content-wrapper {
+    padding: 0 20px;
+  }
+  
+  .help-centre-main {
+    flex-direction: column;
+    gap: 20px;
+  }
+  
+  .help-categories {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  
+  .category-btn {
+    flex: 1;
+    min-width: calc(50% - 10px);
+    text-align: center;
+    padding: 12px 15px;
+    font-size: 1rem;
+    margin-bottom: 0;
+  }
+  
+  .category-btn.active {
+    border-left: none;
+    border-bottom: 4px solid #293040;
+  }
+  
+  .faq-container {
+    padding: 20px;
+  }
+  
+  .category-title {
+    font-size: 1.8rem;
+  }
+  
+  .help-centre-contact {
+    padding: 30px;
+  }
+}
+
+@media (max-width: 768px) {
+  .help-centre-container {
+    padding: 30px 0;
+  }
+  
+  .help-centre-title {
+    font-size: 2.5rem;
+  }
+  
+  .help-centre-content-wrapper {
+    padding: 0 15px;
+  }
+  
+  .category-btn {
+    min-width: 100%;
+    padding: 10px 15px;
+  }
+  
+  .faq-question h3 {
+    font-size: 1rem;
+  }
+  
+  .help-centre-contact h2 {
+    font-size: 1.6rem;
+  }
+  
+  .help-centre-contact p {
+    font-size: 1rem;
+  }
+  
+  .contact-button {
+    font-size: 1rem;
+    padding: 10px 20px;
+  }
+  
+  .simple-footer-content,
+  .simple-header-content {
+    flex-direction: column;
+    gap: 10px;
+    text-align: center;
+  }
+  
+  .footer-links {
+    margin-top: 10px;
+  }
+  
+  .help-centre-body {
+    flex-direction: column;
+  }
+}
+
+@media (max-width: 480px) {
+  .help-centre-container {
+    padding: 20px 0;
+  }
+  
+  .help-centre-title {
+    font-size: 2rem;
+  }
+  
+  .faq-container {
+    padding: 15px;
+  }
+  
+  .category-title {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+  }
+  
+  .faq-question {
+    padding: 15px;
+  }
+  
+  .faq-answer {
+    padding: 15px;
+  }
+  
+  .help-centre-contact {
+    padding: 20px;
+    margin-top: 2rem;
+  }
+  
+  .help-centre-contact h2 {
+    font-size: 1.4rem;
+  }
+  
+  .logo-link span {
+    font-size: 1.2rem;
+  }
+  
+  .logo-link img {
+    height: 30px;
+  }
+}
+
+/* Keep the modal styles for backward compatibility */
+.help-centre-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.6);
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  z-index: 1000;
+  overflow-y: auto;
+  padding: 20px;
+}
+
+.help-centre-content {
+  background-color: white;
+  border-radius: 8px;
+  width: 100%;
+  max-width: 900px;
+  max-height: 90vh;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+  margin-top: 20px;
+}
+
+.help-centre-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px;
+  border-bottom: 1px solid #eee;
+  position: sticky;
+  top: 0;
+  background-color: white;
+  z-index: 1;
+}
+
+.help-centre-header h2 {
+  margin: 0;
+  font-size: 1.8rem;
+  color: #293040;
+  font-weight: 700;
+}
+
+.help-centre-body {
+  padding: 0;
+  overflow-y: auto;
+  display: flex;
+  flex: 1;
+}
+
+.help-centre-footer {
+  padding: 20px;
+  text-align: center;
+  border-top: 1px solid #eee;
+}
+
+.help-centre-footer p {
+  margin: 0;
+  color: #666;
+}
+
+.contact-support {
+  color: #293040;
+  text-decoration: underline;
+  font-weight: 500;
+  transition: color 0.3s ease;
+}
+
+.contact-support:hover {
+  color: #1a2542;
+} 

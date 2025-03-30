@@ -122,3 +122,20 @@ body {
   opacity: 1 !important;
   z-index: 1000 !important;
 }
+
+.policy-links {
+  display: flex;
+  gap: 15px;
+  margin-top: 5px;
+}
+
+.policy-links small a {
+  color: #4a6eb5;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.policy-links small a:hover {
+  color: #293040;
+  text-decoration: underline;
+}
