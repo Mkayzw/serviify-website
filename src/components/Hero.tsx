@@ -24,7 +24,9 @@ const TechShowcaseCurve = () => (
   </div>
 );
 
-const Hero: React.FC<HeroProps> = ({ setShowSignup }) => {
+const Hero: React.FC<HeroProps> = ({ 
+  setShowSignup
+}) => {
   return (
     <div className="hero-section">
       <div className="hero-container">
@@ -225,6 +227,23 @@ const Hero: React.FC<HeroProps> = ({ setShowSignup }) => {
 
       {/* Call to Action Section */}
       <CallToAction setShowSignup={setShowSignup} />
+
+      {/* Download Section */}
+      <div className="download-section">
+        <div className="container text-center py-5">
+          <h2 className="download-heading">Download for Android.</h2>
+          <div className="download-buttons">
+            <div className="android-download">
+              <img 
+                src="https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png" 
+                alt="Get it on Google Play"
+                className="google-play-badge opacity-50"
+              />
+              <p className="coming-soon-text">Coming Soon</p>
+            </div>
+          </div>
+        </div>
+      </div>
 
       {/* Footer */}
       <Footer />

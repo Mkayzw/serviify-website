@@ -2,16 +2,39 @@ import {FormEvent, useState} from "react";
 import {createUserWithEmailAndPassword} from "firebase/auth"
 import {auth} from "./db/init_firebase.ts";
 import {ToastContainer, toast} from "react-toastify";
+import { Routes, Route, useNavigate } from 'react-router-dom';
 import 'react-toastify/dist/ReactToastify.css';
 import './App.css';
 import Navbar from './components/Navbar';
 import Hero from './components/Hero';
+import PrivacyPolicy from './components/PrivacyPolicy';
+import HelpCentre from './components/HelpCentre';
+import TermsOfService from './components/TermsOfService';
 
 function App() {
-  const [email,set_email] = useState("")
-  const [password,set_password] = useState("")
-  const [loading,set_loading] = useState<boolean>(false)
+  const [email, set_email] = useState("");
+  const [password, set_password] = useState("");
+  const [loading, set_loading] = useState<boolean>(false);
   const [showSignup, setShowSignup] = useState(false);
+  const navigate = useNavigate();
+
+  // Functions to navigate to pages instead of showing modals
+  const goToPrivacyPolicy = () => {
+    navigate('/privacy-policy');
+  };
+
+  const goToTermsOfService = () => {
+    navigate('/terms-of-service');
+  };
+
+  const goToHelpCentre = () => {
+    navigate('/help-centre');
+  };
+
+  // Wrapper functions to match Footer's expected function signatures
+  const navToPrivacyPolicy = () => goToPrivacyPolicy();
+  const navToTermsOfService = () => goToTermsOfService();
+  const navToHelpCentre = () => goToHelpCentre();
 
   const handle_submit = (e:FormEvent) => {
     e.preventDefault()
@@ -30,8 +53,33 @@ function App() {
   
   return (
     <div className="app">
-      <Navbar setShowSignup={setShowSignup} />
-      <Hero setShowSignup={setShowSignup} />
+      <Routes>
+        <Route path="/" element={
+          <>
+            <Navbar 
+              setShowSignup={setShowSignup} 
+              setShowPrivacyPolicy={navToPrivacyPolicy}
+              setShowTermsOfService={navToTermsOfService}
+              setShowHelpCentre={navToHelpCentre}
+            />
+            <Hero 
+              setShowSignup={setShowSignup}
+            />
+          </>
+        } />
+        
+        <Route path="/privacy-policy" element={
+          <PrivacyPolicy />
+        } />
+        
+        <Route path="/terms-of-service" element={
+          <TermsOfService />
+        } />
+        
+        <Route path="/help-centre" element={
+          <HelpCentre />
+        } />
+      </Routes>
       
       {/* Signup Modal */}
       {showSignup && (
@@ -69,6 +117,22 @@ function App() {
               
               <div className="mb-3">
                 <span><small>By signing up you agree to be contacted in relation to Serviify services and custom offers</small></span>
+                <div className="policy-links">
+                  <small>
+                    <a href="/privacy-policy" onClick={(e) => {
+                      e.preventDefault();
+                      setShowSignup(false);
+                      goToPrivacyPolicy();
+                    }}>Read our Privacy Policy</a>
+                  </small>
+                  <small>
+                    <a href="/terms-of-service" onClick={(e) => {
+                      e.preventDefault();
+                      setShowSignup(false);
+                      goToTermsOfService();
+                    }}>Terms of Service</a>
+                  </small>
+                </div>
               </div>
               
               <div>

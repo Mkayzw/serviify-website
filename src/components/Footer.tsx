@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import "../styles/Footer.css";
 
 const Footer: React.FC = () => {
@@ -36,10 +37,12 @@ const Footer: React.FC = () => {
             <div className="col-lg-2 col-md-6 mb-4 mb-md-0">
               <h3 className="footer-title">Quick Links</h3>
               <ul className="footer-links">
-                <li><a href="/">Home</a></li>
+                <li><Link to="/">Home</Link></li>
                 <li><a href="/about">About Us</a></li>
                 <li><a href="/services">Services</a></li>
                 <li><a href="/contact">Contact</a></li>
+                <li><Link to="/terms-of-service">Terms of Service</Link></li>
+                <li><Link to="/privacy-policy">Privacy Policy</Link></li>
               </ul>
             </div>
 
@@ -59,10 +62,12 @@ const Footer: React.FC = () => {
               <ul className="footer-contact">
                 <li>
                   <i className="bi bi-geo-alt"></i>
-                  <span>258 Smuts Rd
-                    Waterfalls
-                    Harare
-                    Zimbabwe</span>
+                  <span>
+                    258 Smuts Rd<br />
+                    Waterfalls<br />
+                    Harare<br />
+                    Zimbabwe
+                  </span>
                 </li>
                 <li>
                   <i className="bi bi-envelope"></i>
@@ -97,8 +102,8 @@ const Footer: React.FC = () => {
             </div>
             <div className="col-md-6 text-md-end">
               <div className="footer-legal">
-                <a href="/privacy">Privacy Policy</a>
-                <a href="/terms">Terms of Service</a>
+                <Link to="/privacy-policy">Privacy Policy</Link>
+                <Link to="/terms-of-service">Terms of Service</Link>
               </div>
             </div>
           </div>
