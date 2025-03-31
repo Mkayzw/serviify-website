@@ -5,17 +5,7 @@ import Footer from './Footer';
 
 const TermsOfService: React.FC = () => {
   const [activeSection, setActiveSection] = useState<string>('agreement');
-  const [isMobile, setIsMobile] = useState<boolean>(window.innerWidth < 768);
-
-  useEffect(() => {
-    const handleResize = () => {
-      setIsMobile(window.innerWidth < 768);
-    };
-
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
-  }, []);
-
+  
   const handleNavClick = (sectionId: string) => {
     setActiveSection(sectionId);
     const section = document.getElementById(sectionId);
@@ -57,9 +47,6 @@ const TermsOfService: React.FC = () => {
             <span className="header-title">Terms of Service</span>
           </Link>
           <div className="header-links">
-            <Link to="/privacy-policy" className="header-link">
-              Privacy Policy
-            </Link>
             <Link to="/" className="back-link">
               <i className="bi bi-arrow-left"></i> Back to Homepage
             </Link>
@@ -69,7 +56,7 @@ const TermsOfService: React.FC = () => {
       
       <div className="terms-of-service-container">
         <div className="terms-content-wrapper">
-          <div className={`terms-sidebar ${isMobile ? 'mobile' : ''}`}>
+          <div className="terms-sidebar">
             <nav className="terms-nav">
               <ul>
                 <li className={activeSection === 'agreement' ? 'active' : ''}>

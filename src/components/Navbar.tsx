@@ -4,15 +4,11 @@ import '../styles/Navbar.css';
 
 interface NavbarProps {
   setShowSignup: (show: boolean) => void;
-  setShowPrivacyPolicy: () => void;
-  setShowTermsOfService: () => void;
   setShowHelpCentre: () => void;
 }
 
 const Navbar: React.FC<NavbarProps> = ({ 
   setShowSignup, 
-  setShowPrivacyPolicy, 
-  setShowTermsOfService,
   setShowHelpCentre 
 }) => {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -75,14 +71,6 @@ const Navbar: React.FC<NavbarProps> = ({
             handleNavLinkClick();
             setShowHelpCentre();
           }}>Help</Link>
-          <Link to="/privacy-policy" onClick={() => {
-            handleNavLinkClick();
-            setShowPrivacyPolicy();
-          }}>Privacy Policy</Link>
-          <Link to="/terms-of-service" onClick={() => {
-            handleNavLinkClick();
-            setShowTermsOfService();
-          }}>Terms of Service</Link>
         </div>
         
         <div className="navbar-buttons">
