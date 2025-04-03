@@ -23,8 +23,24 @@ const About: React.FC = () => {
       </div>
 
       <div className="about-container">
+        {/* Background service icons */}
+        <div className="bg-icon bg-icon-1"><i className="bi bi-tools"></i></div>
+        <div className="bg-icon bg-icon-2"><i className="bi bi-brush"></i></div>
+        <div className="bg-icon bg-icon-3"><i className="bi bi-house-gear"></i></div>
+        <div className="bg-icon bg-icon-4"><i className="bi bi-car-front"></i></div>
+        <div className="bg-icon bg-icon-5"><i className="bi bi-laptop"></i></div>
+        <div className="bg-icon bg-icon-6"><i className="bi bi-gear"></i></div>
+        <div className="bg-icon bg-icon-7"><i className="bi bi-hammer"></i></div>
+        <div className="bg-icon bg-icon-8"><i className="bi bi-scissors"></i></div>
+        <div className="bg-icon bg-icon-9"><i className="bi bi-truck"></i></div>
+        <div className="bg-icon bg-icon-10"><i className="bi bi-telephone"></i></div>
+        <div className="bg-icon bg-icon-11"><i className="bi bi-lightning"></i></div>
+        <div className="bg-icon bg-icon-12"><i className="bi bi-clipboard2-check"></i></div>
+        <div className="bg-icon bg-icon-13"><i className="bi bi-briefcase"></i></div>
+        <div className="bg-icon bg-icon-14"><i className="bi bi-palette"></i></div>
+        <div className="bg-icon bg-icon-15"><i className="bi bi-pc-display"></i></div>
+        
         <div className="about-content">
-          
           <section className="about-section">
             <h2>Who are we?</h2>
             <p className="about-intro">
@@ -32,15 +48,7 @@ const About: React.FC = () => {
               We're building a platform that will connect service providers with clients,
               making professional services accessible to everyone.
             </p>
-            <p>
-              Founded with a mission to transform service discovery, Serviify is being developed as the platform of choice 
-              for both service providers and clients. Our team combines expertise in technology, 
-              customer service, and industry knowledge to create an exceptional experience.
-           
-
-              We're working to build a platform that connects skilled service providers with clients who need their 
-              expertise, creating economic opportunity for both.
-            </p>
+        
           </section>
 
           <section className="about-section">
@@ -58,71 +66,6 @@ const About: React.FC = () => {
               through a reliable and affordable platform to make them more productive and successful.
             </p>
           </section>
-
-          <section className="about-section">
-            <h2>Our Team</h2>
-            <p>
-              Serviify is being developed by a dedicated team of professionals with experience in technology, 
-              customer service, and marketplace solutions.
-            </p>
-            
-            <div className="team-members">
-              <div className="team-member">
-                <div className="member-photo">
-                  <i className="bi bi-person-circle"></i>
-                </div>
-                <h3>Samuel Nyamatore</h3>
-                <p className="member-title">Founder & CEO</p>
-                <p className="member-bio">
-                  With a passion for connecting service providers with clients, 
-                  Samuel leads Serviify's strategic vision and development.
-                </p>
-              </div>
-              
-              <div className="team-member">
-                <div className="member-photo">
-                  <i className="bi bi-person-circle"></i>
-                </div>
-                <h3>Grace Mwangi</h3>
-                <p className="member-title">Technical Lead</p>
-                <p className="member-bio">
-                  Grace oversees Serviify's technological development, 
-                  bringing valuable experience in software engineering and platform architecture.
-                </p>
-              </div>
-              
-              <div className="team-member">
-                <div className="member-photo">
-                  <i className="bi bi-person-circle"></i>
-                </div>
-                <h3>David Moyo</h3>
-                <p className="member-title">Operations Lead</p>
-                <p className="member-bio">
-                  David manages operational planning and service provider strategies, 
-                  working to ensure Serviify will deliver exceptional experiences for all users.
-                </p>
-              </div>
-            </div>
-          </section>
-
-          <div className="impact-stats">
-            <div className="stat-card">
-              <h3>100k+</h3>
-              <p>Target Users</p>
-            </div>
-            <div className="stat-card">
-              <h3>50K+</h3>
-              <p>Provider Goal</p>
-            </div>
-            <div className="stat-card">
-              <h3>100+</h3>
-              <p>Planned Categories</p>
-            </div>
-            <div className="stat-card">
-              <h3>95%</h3>
-              <p>Satisfaction Target</p>
-            </div>
-          </div>
         </div>
       </div>
 
@@ -131,29 +74,24 @@ const About: React.FC = () => {
           <h2 className="more-info-title">For more information about our company</h2>
           
           <div className="info-links">
-            <div className="info-link-item">
-              <i className="bi bi-grid-3x3-gap-fill" style={{fontSize: "2.5rem", color: "#293040"}}></i>
-              <h3>Products and services</h3>
-              <p>Grow your business with our unique mix of products.</p>
-              <Link to="/services" className="learn-more-link">Learn more</Link>
-            </div>
+            
             
             <div className="info-link-item">
-              <i className="bi bi-people-fill" style={{fontSize: "2.5rem", color: "#293040"}}></i>
+              <i className="bi bi-people-fill" style={{fontSize: "2.2rem", color: "#293040"}}></i>
               <h3>Company Page</h3>
               <p>Connect with our network of service professionals.</p>
               <Link to="/about" className="learn-more-link">Learn more</Link>
             </div>
             
             <div className="info-link-item">
-              <i className="bi bi-newspaper" style={{fontSize: "2.5rem", color: "#293040"}}></i>
+              <i className="bi bi-newspaper" style={{fontSize: "2.2rem", color: "#293040"}}></i>
               <h3>Pressroom</h3>
               <p>Explore the latest Serviify news, updates, and reports.</p>
               <Link to="/help-centre" className="learn-more-link">Learn more</Link>
             </div>
             
             <div className="info-link-item">
-              <i className="bi bi-brush-fill" style={{fontSize: "2.5rem", color: "#293040"}}></i>
+              <i className="bi bi-brush-fill" style={{fontSize: "2.2rem", color: "#293040"}}></i>
               <h3>Branding policies</h3>
               <p>Find up-to-date guidelines on Serviify brand usage.</p>
               <Link to="/terms-of-service" className="learn-more-link">Learn more</Link>
