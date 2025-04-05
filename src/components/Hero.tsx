@@ -3,6 +3,7 @@ import { FeaturesShowcase } from "./features-showcase";
 import arrowDoodle from '../assets/arrow_doodle.svg';
 import Footer from "./Footer";
 import CallToAction from "./CallToAction";
+import { Link } from 'react-router-dom';
 
 interface HeroProps {
   setShowSignup: (show: boolean) => void;
@@ -47,16 +48,9 @@ const Hero: React.FC<HeroProps> = ({
               </em>
             </h2>
             <div className="hero-cta">
-              <button
-                className="start-now-btn"
-                onClick={() => setShowSignup(true)}
-                style={{
-                  transition: "all 0.3s ease",
-                  boxShadow: "0 4px 6px rgba(15, 23, 43, 0.2)",
-                }}
-              >
-                Start now - It's free
-              </button>
+              <Link to="/auth" className="cta-button">
+                Get Started <i className="bi bi-arrow-right"></i>
+              </Link>
               <div className="advisor-dropdown">
                 <button className="meet-advisor-btn">Contact Us ▾</button>
               </div>

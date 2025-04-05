@@ -74,10 +74,9 @@ const Navbar: React.FC<NavbarProps> = ({
         </div>
         
         <div className="navbar-buttons">
-          <button className="sign-in-btn" onClick={() => {
-            setShowSignup(true);
-            setMenuOpen(false);
-          }}>Sign in</button>
+          <Link to="/auth" className="sign-in-btn">
+            Sign up
+          </Link>
           <button className="try-free-btn" onClick={() => {
             setShowSignup(true);
             setMenuOpen(false);

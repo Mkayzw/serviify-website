@@ -63,7 +63,7 @@
   position: absolute;
   z-index: 0;
   opacity: 0.3;
-  font-size: 6rem;
+  font-size: 4rem;
   color: #764c35;
   transform: rotate(-10deg);
 }
@@ -72,107 +72,109 @@
   filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.15));
 }
 
-
+/* Horseshoe shape at the top */
 .bg-icon-1 {
-  top: 10%;
-  right: 18%;
+  top: 8%;
+  left: 3%;
   transform: rotate(-15deg);
 }
 
 .bg-icon-2 {
-  top: 25%;
-  left: 7%;
+  top: 9%;
+  left: 18%;
   transform: rotate(8deg);
-  font-size: 5rem;
+  font-size: 3.5rem;
 }
 
 .bg-icon-3 {
-  top: 40%;
-  right: 15%;
+  top: 12%;
+  left: 33%;
   transform: rotate(-5deg);
-  font-size: 7rem;
-}
-
-.bg-icon-4 {
-  top: 55%;
-  left: 12%;
-  transform: rotate(12deg);
-}
-
-.bg-icon-5 {
-  top: 70%;
-  right: 6%;
-  transform: rotate(-8deg);
-  font-size: 5.5rem;
-}
-
-.bg-icon-6 {
-  top: 30%;
-  left: 22%;
-  transform: rotate(20deg);
   font-size: 4.5rem;
 }
 
+.bg-icon-4 {
+  top: 18%;
+  left: 43%;
+  transform: rotate(12deg);
+  font-size: 3.8rem;
+}
+
+.bg-icon-5 {
+  top: 25%;
+  left: 48%;
+  transform: rotate(-8deg);
+  font-size: 3.5rem;
+}
+
+.bg-icon-6 {
+  top: 25%;
+  left: 58%;
+  transform: rotate(20deg);
+  font-size: 3rem;
+}
+
 .bg-icon-7 {
-  top: 15%;
-  left: 5%;
+  top: 18%;
+  left: 68%;
   transform: rotate(-12deg);
+  font-size: 3.8rem;
 }
 
 .bg-icon-8 {
-  top: 45%;
-  right: 5%;
+  top: 12%;
+  left: 78%;
   transform: rotate(15deg);
-  font-size: 5rem;
+  font-size: 3.5rem;
 }
 
 .bg-icon-9 {
-  top: 65%;
-  left: 3%;
+  top: 9%;
+  left: 88%;
   transform: rotate(-18deg);
-  font-size: 6.5rem;
+  font-size: 4.5rem;
 }
 
 .bg-icon-10 {
-  top: 20%;
-  right: 6%;
+  top: 7%;
+  left: 96%;
   transform: rotate(5deg);
-  font-size: 5.2rem;
+  font-size: 3.8rem;
 }
 
 .bg-icon-11 {
-  top: 75%;
-  right: 20%;
+  top: 13%;
+  left: 8%;
   transform: rotate(-22deg);
-  font-size: 4.8rem;
+  font-size: 3.2rem;
 }
 
 .bg-icon-12 {
-  top: 35%;
-  left: 3%;
+  top: 15%;
+  left: 23%;
   transform: rotate(15deg);
-  font-size: 5.5rem;
+  font-size: 3.8rem;
 }
 
 .bg-icon-13 {
-  top: 5%;
-  right: 25%;
+  top: 20%;
+  left: 35%;
   transform: rotate(-8deg);
-  font-size: 5rem;
+  font-size: 3.5rem;
 }
 
 .bg-icon-14 {
-  top: 50%;
-  left: 25%;
+  top: 20%;
+  left: 73%;
   transform: rotate(12deg);
-  font-size: 4.7rem;
+  font-size: 3.2rem;
 }
 
 .bg-icon-15 {
-  top: 82%;
-  right: 15%;
+  top: 15%;
+  left: 88%;
   transform: rotate(-15deg);
-  font-size: 5.2rem;
+  font-size: 3.6rem;
 }
 
 /* Document style container */
