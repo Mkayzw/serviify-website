@@ -1,7 +1,7 @@
 /* Add the simple header and footer styles at the top */
 .simple-header {
   background-color: white;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  box-shadow: none;
   padding: 15px 0;
 }
 

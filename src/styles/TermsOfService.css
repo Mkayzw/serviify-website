@@ -8,10 +8,38 @@
   position: relative;
 }
 
+/* Ensure navbar appears with correct font weights */
+.terms-of-service-page .navbar .logo-text {
+  font-weight: 700 !important;
+  font-size: 24px !important;
+  color: #293040 !important;
+}
+
+.terms-of-service-page .navbar .navbar-links a {
+  font-weight: 600 !important;
+  color: #444 !important;
+  font-size: 16px !important;
+}
+
+.terms-of-service-page .navbar .navbar-links a:hover {
+  color: #293040 !important;
+}
+
+.terms-of-service-page .navbar .sign-in-btn {
+  font-weight: 600 !important;
+  color: #444 !important;
+}
+
+.terms-of-service-page .navbar .try-free-btn {
+  font-weight: 600 !important;
+  background-color: #293040 !important;
+  color: white !important;
+}
+
 /* Header Styles */
 .simple-header {
   background-color: white;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+  box-shadow:white;
   padding: 15px 0;
   position: sticky;
   top: 0;
@@ -101,7 +129,7 @@
   background: white;
   z-index: 25;
   padding: 20px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  box-shadow: none;
 }
 
 .terms-header-inner {
@@ -345,7 +373,7 @@
     position: relative;
     margin-bottom: 30px;
     padding-bottom: 10px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    box-shadow: none;
   }
   
   .terms-content {
