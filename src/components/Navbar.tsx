@@ -66,7 +66,7 @@ const Navbar: React.FC<NavbarProps> = ({
           <a href="#services" onClick={handleNavLinkClick}>Services</a>
           <a href="#Providers" onClick={handleNavLinkClick}>Providers</a>
           <Link to="/about" onClick={handleNavLinkClick}>About us</Link>
-          <a href="#support" onClick={handleNavLinkClick}>Support</a>
+          <Link to="/support" onClick={handleNavLinkClick}>Support</Link>
           <Link to="/help-centre" onClick={() => {
             handleNavLinkClick();
             setShowHelpCentre();

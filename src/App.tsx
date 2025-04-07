@@ -10,6 +10,7 @@ import TermsOfService from './components/TermsOfService';
 import About from './components/About';
 import Auth from './components/Auth';
 import ScrollToTop from './components/ScrollToTop';
+import Support from './components/Support';
 
 function App() {
   const navigate = useNavigate();
@@ -63,6 +64,10 @@ function App() {
         
         <Route path="/forgot-password" element={
           <Auth />
+        } />
+        
+        <Route path="/support" element={
+          <Support />
         } />
       </Routes>
       
