@@ -147,7 +147,7 @@
     padding: 0;
     overflow: hidden;
     transition: height 0.3s ease;
-    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+    box-shadow: none;
     gap: 0;
     z-index: 1000;
   }
@@ -229,7 +229,7 @@
     background-color: white;
     padding: 10px;
     border-radius: 0 0 0 5px;
-    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+    box-shadow: none;
     display: none;
   }
   
