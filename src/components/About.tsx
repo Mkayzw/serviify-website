@@ -71,10 +71,9 @@ const About: React.FC = () => {
 
       <div className="more-info-section">
         <div className="more-info-content">
-          <h2 className="more-info-title">For more information about our company</h2>
+          <h2 className="more-info-title">For more information about Serviify</h2>
           
           <div className="info-links">
-            
             
             <div className="info-link-item">
               <i className="bi bi-people-fill" style={{fontSize: "2.2rem", color: "#293040"}}></i>
@@ -95,6 +94,13 @@ const About: React.FC = () => {
               <h3>Branding policies</h3>
               <p>Find up-to-date guidelines on Serviify brand usage.</p>
               <Link to="/terms-of-service" className="learn-more-link">Learn more</Link>
+            </div>
+            
+            <div className="info-link-item">
+              <i className="bi bi-phone-fill" style={{fontSize: "2.2rem", color: "#293040"}}></i>
+              <h3>App Services</h3>
+              <p>Access our services on the go with mobile applications.</p>
+              <Link to="/app-services" className="learn-more-link">Learn more</Link>
             </div>
           </div>
         </div>

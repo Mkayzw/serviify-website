@@ -388,7 +388,7 @@
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  gap: 3rem;
+  gap: 2rem;
 }
 
 .info-link-item {
@@ -545,6 +545,17 @@
   .stat-card:first-child {
     border-top: none;
   }
+  
+  .info-links {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2rem;
+  }
+  
+  .info-link-item {
+    min-width: auto;
+    max-width: 100%;
+  }
 }
 
 @media (max-width: 768px) {
@@ -559,5 +570,18 @@
   .impact-stats {
     flex-direction: column;
     gap: 2rem;
+  }
+}
+
+@media (min-width: 993px) {
+  .info-links {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 2rem;
+  }
+  
+  .info-link-item {
+    min-width: auto;
+    max-width: 100%;
   }
 } 
