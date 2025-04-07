@@ -60,6 +60,10 @@ function App() {
         <Route path="/auth" element={
           <Auth />
         } />
+        
+        <Route path="/forgot-password" element={
+          <Auth />
+        } />
       </Routes>
       
       <ToastContainer />

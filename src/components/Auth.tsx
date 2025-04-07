@@ -3,6 +3,7 @@
 import type React from "react"
 
 import { useState } from "react"
+import { Link } from "react-router-dom"
 import logo from '../assets/logo.png'
 
 export default function Auth() {
@@ -38,7 +39,7 @@ export default function Auth() {
   return (
     <div className="min-vh-100 d-flex align-items-center justify-content-center bg-light p-4 position-relative">
       <div className="position-absolute top-0 end-0 p-4">
-        <a href="/" className="text-decoration-none" style={{ color: "#293040" }}>Home</a>
+        <Link to="/" className="text-decoration-none" style={{ color: "#293040" }}>Home</Link>
       </div>
       <div className="card shadow border-0 mx-auto" style={{ maxWidth: "450px" }}>
         <div className="card-header bg-white border-0 text-center position-relative">
@@ -177,9 +178,9 @@ export default function Auth() {
                     className="form-control py-2"
                   />
                   <div className="d-flex justify-content-end mt-2">
-                    <a href="/forgot-password" className="text-primary text-decoration-none small">
+                    <Link to="/forgot-password" className="text-primary text-decoration-none small">
                       Forgot password?
-                    </a>
+                    </Link>
                   </div>
                 </div>
 
@@ -233,13 +234,13 @@ export default function Auth() {
 
           <div className="text-center text-muted" style={{ fontSize: "0.75rem" }}>
             By continuing, you agree to our{" "}
-            <a href="/terms-of-service" className="text-primary text-decoration-none">
+            <Link to="/terms-of-service" className="text-primary text-decoration-none">
               Terms of Service
-            </a>{" "}
+            </Link>{" "}
             and{" "}
-            <a href="/privacy-policy" className="text-primary text-decoration-none">
+            <Link to="/privacy-policy" className="text-primary text-decoration-none">
               Privacy Policy
-            </a>
+            </Link>
           </div>
         </div>
       </div>

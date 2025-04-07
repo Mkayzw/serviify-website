@@ -1,12 +1,31 @@
-import React, { useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import '../styles/About.css';
 import Footer from './Footer';
 
 const About: React.FC = () => {
+  const navigate = useNavigate();
+  const [menuOpen, setMenuOpen] = useState(false);
+
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
+
+  const goToHelpCentre = () => {
+    navigate('/help-centre');
+  };
+
+  const goToAuth = () => {
+    navigate('/auth');
+  };
+
+  const handleMenuToggle = () => {
+    setMenuOpen(!menuOpen);
+  };
+  
+  const handleNavLinkClick = () => {
+    setMenuOpen(false);
+  };
 
   return (
     <div className="about-page">
@@ -16,9 +35,33 @@ const About: React.FC = () => {
             <img src="https://ngratesc.sirv.com/i-claim/serviify/logo.png" alt="Serviify Logo" />
             <span>About Serviify</span>
           </Link>
-          <Link to="/" className="back-link">
-            <i className="bi bi-arrow-left"></i> Back to Homepage
-          </Link>
+          
+          <div className={`navbar-links ${menuOpen ? 'active' : ''}`}>
+            <a href="/#services" onClick={handleNavLinkClick}>Services</a>
+            <a href="/#Providers" onClick={handleNavLinkClick}>Providers</a>
+            <Link to="/about" onClick={handleNavLinkClick}>About us</Link>
+            <a href="/#support" onClick={handleNavLinkClick}>Support</a>
+            <Link to="/help-centre" onClick={() => {
+              handleNavLinkClick();
+              goToHelpCentre();
+            }}>Help</Link>
+          </div>
+          
+          <div className="navbar-buttons">
+            <Link to="/auth" className="sign-in-btn" onClick={handleNavLinkClick}>
+              Sign up
+            </Link>
+            <button className="try-free-btn" onClick={() => {
+              handleNavLinkClick();
+              goToAuth();
+            }}>Find a provider</button>
+          </div>
+          
+          <div className="mobile-menu-btn" onClick={handleMenuToggle}>
+            <div className={`bar ${menuOpen ? 'change' : ''}`}></div>
+            <div className={`bar ${menuOpen ? 'change' : ''}`}></div>
+            <div className={`bar ${menuOpen ? 'change' : ''}`}></div>
+          </div>
         </div>
       </div>
 
