@@ -33,7 +33,7 @@ const About: React.FC = () => {
         <div className="simple-header-content">
           <Link to="/" className="logo-link">
             <img src="https://ngratesc.sirv.com/i-claim/serviify/logo.png" alt="Serviify Logo" />
-            <span>About </span>
+            <span>Serviify</span>
           </Link>
           
           <div className={`navbar-links ${menuOpen ? 'active' : ''}`}>
