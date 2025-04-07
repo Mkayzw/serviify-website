@@ -1,26 +1,72 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import '../styles/PrivacyPolicy.css';
 import Footer from './Footer';
 
 const PrivacyPolicy: React.FC = () => {
+  const navigate = useNavigate();
+  const [menuOpen, setMenuOpen] = useState(false);
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
+  const goToHelpCentre = () => {
+    navigate('/help-centre');
+  };
+
+  const goToAuth = () => {
+    navigate('/auth');
+  };
+
+  const handleMenuToggle = () => {
+    setMenuOpen(!menuOpen);
+  };
+  
+  const handleNavLinkClick = () => {
+    setMenuOpen(false);
+  };
+
   return (
     <div className="privacy-policy-page">
       <div className="simple-header">
         <div className="simple-header-content">
           <Link to="/" className="logo-link">
             <img src="https://ngratesc.sirv.com/i-claim/serviify/logo.png" alt="Serviify Logo" />
-            <span>Serviify</span>
+            <span>Privacy Policy</span>
           </Link>
-          <Link to="/" className="back-link">
-            <i className="bi bi-arrow-left"></i> Back to Homepage
-          </Link>
+          
+          <div className={`navbar-links ${menuOpen ? 'active' : ''}`}>
+            <a href="/#services" onClick={handleNavLinkClick}>Services</a>
+            <a href="/#Providers" onClick={handleNavLinkClick}>Providers</a>
+            <Link to="/about" onClick={handleNavLinkClick}>About us</Link>
+            <a href="/#support" onClick={handleNavLinkClick}>Support</a>
+            <Link to="/help-centre" onClick={() => {
+              handleNavLinkClick();
+              goToHelpCentre();
+            }}>Help</Link>
+          </div>
+          
+          <div className="navbar-buttons">
+            <Link to="/auth" className="sign-in-btn" onClick={handleNavLinkClick}>
+              Sign up
+            </Link>
+            <button className="try-free-btn" onClick={() => {
+              handleNavLinkClick();
+              goToAuth();
+            }}>Find a provider</button>
+          </div>
+          
+          <div className="mobile-menu-btn" onClick={handleMenuToggle}>
+            <div className={`bar ${menuOpen ? 'change' : ''}`}></div>
+            <div className={`bar ${menuOpen ? 'change' : ''}`}></div>
+            <div className={`bar ${menuOpen ? 'change' : ''}`}></div>
+          </div>
         </div>
       </div>
       
       <div className="privacy-policy-container">
         <div className="privacy-policy-content">
-          <h1 className="privacy-policy-title">Privacy Policy</h1>
           
           <section className="privacy-policy-section">
             <h2>1. Introduction</h2>
