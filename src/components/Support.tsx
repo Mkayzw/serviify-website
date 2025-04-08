@@ -21,23 +21,23 @@ const TechShowcaseCurve = () => (
 
 const Support: React.FC = () => {
   // Dummy functions for navbar props
-  const dummySetShowSignup = () => {};
-  const dummySetShowHelpCentre = () => {};
+  const dummySetShowSignup = () => { };
+  const dummySetShowHelpCentre = () => { };
 
   return (
     <div className="support-section">
-      <Navbar 
+      <Navbar
         setShowSignup={dummySetShowSignup}
         setShowHelpCentre={dummySetShowHelpCentre}
       />
-      
+
       <div className="container py-5">
         <div className="row">
           <div className="col-md-10">
             <h1 className="support-heading mb-4 text-start">
-              Need <span className="x_wd_secondary_highlight_bold_05">help?</span>
+              Need <span className="x_wd_yellow_highlight_03">help?</span>
             </h1>
-            
+
             <div className="support-search-container wider-search d-flex align-items-center">
               <div className="search-input-wrapper flex-grow-1 position-relative">
                 <input
@@ -121,14 +121,13 @@ const Support: React.FC = () => {
                   </div>
                   <div className="office-email">
                     <p className="mb-0">
-                      <img src="https://ngratesc.sirv.com/i-claim/serviify/logo.png" alt="Serviify Logo" className="small-logo me-2" />
                       <a href="mailto:support@serviify.com" className="email-link">support@serviify.com</a>
                     </p>
                   </div>
                 </div>
               </div>
             </div>
-            
+
             <div className="col-lg-6">
               <div className="card expansion-card">
                 <div className="card-body">

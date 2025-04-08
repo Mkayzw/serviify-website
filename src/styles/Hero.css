@@ -183,6 +183,7 @@ body, html {
   cursor: pointer;
   transition: background-color 0.3s ease;
   width: auto;
+  text-decoration: none;
 }
 
 .start-now-btn:hover {
@@ -935,7 +936,7 @@ body {
 }
 
 .cta-button {
-  padding: 15px 25px;
+  padding: 8px 16px;
   background-color: #764c35;
   color: #fff;
   border: none;
