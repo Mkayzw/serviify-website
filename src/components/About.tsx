@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import '../styles/About.css';
+import '../styles/Navbar.css';
 import Footer from './Footer';
 
 const About: React.FC = () => {
@@ -29,12 +30,20 @@ const About: React.FC = () => {
 
   return (
     <div className="about-page">
-      <div className="simple-header">
-        <div className="simple-header-content">
-          <Link to="/" className="logo-link">
-            <img src="https://ngratesc.sirv.com/i-claim/serviify/logo.png" alt="Serviify Logo" />
-            <span>Serviify</span>
-          </Link>
+      <div className="navbar navbar-visible">
+        <div className="navbar-container">
+          <div className="navbar-logo">
+            <Link to="/" className="logo-link">
+              <img src="https://ngratesc.sirv.com/i-claim/serviify/logo.png" alt="Serviify Logo" />
+              <span className="logo-text">Serviify</span>
+            </Link>
+          </div>
+          
+          <div className="mobile-menu-btn" onClick={handleMenuToggle}>
+            <div className={`bar ${menuOpen ? 'change' : ''}`}></div>
+            <div className={`bar ${menuOpen ? 'change' : ''}`}></div>
+            <div className={`bar ${menuOpen ? 'change' : ''}`}></div>
+          </div>
           
           <div className={`navbar-links ${menuOpen ? 'active' : ''}`}>
             <a href="/#services" onClick={handleNavLinkClick}>Services</a>
@@ -55,12 +64,6 @@ const About: React.FC = () => {
               handleNavLinkClick();
               goToAuth();
             }}>Find a provider</button>
-          </div>
-          
-          <div className="mobile-menu-btn" onClick={handleMenuToggle}>
-            <div className={`bar ${menuOpen ? 'change' : ''}`}></div>
-            <div className={`bar ${menuOpen ? 'change' : ''}`}></div>
-            <div className={`bar ${menuOpen ? 'change' : ''}`}></div>
           </div>
         </div>
       </div>
