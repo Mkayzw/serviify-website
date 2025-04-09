@@ -39,7 +39,7 @@ export default function Auth() {
   return (
     <div className="min-vh-100 d-flex align-items-center justify-content-center bg-light p-4 position-relative">
       <div className="position-absolute top-0 end-0 p-4">
-        <Link to="/" className="text-decoration-none" style={{ color: "#293040" }}>Home</Link>
+        <Link to="/" className="text-decoration-none" style={{ color: "#293040" }} target="_blank" rel="noopener noreferrer">Home</Link>
       </div>
       <div className="card shadow border-0 mx-auto" style={{ maxWidth: "450px" }}>
         <div className="card-header bg-white border-0 text-center position-relative">
@@ -178,7 +178,7 @@ export default function Auth() {
                     className="form-control py-2"
                   />
                   <div className="d-flex justify-content-end mt-2">
-                    <Link to="/forgot-password" className="text-primary text-decoration-none small">
+                    <Link to="/forgot-password" className="text-primary text-decoration-none small" target="_blank" rel="noopener noreferrer">
                       Forgot password?
                     </Link>
                   </div>
@@ -234,11 +234,11 @@ export default function Auth() {
 
           <div className="text-center text-muted" style={{ fontSize: "0.75rem" }}>
             By continuing, you agree to our{" "}
-            <Link to="/terms-of-service" className="text-primary text-decoration-none">
+            <Link to="/terms-of-service" className="text-primary text-decoration-none" target="_blank" rel="noopener noreferrer">
               Terms of Service
             </Link>{" "}
             and{" "}
-            <Link to="/privacy-policy" className="text-primary text-decoration-none">
+            <Link to="/privacy-policy" className="text-primary text-decoration-none" target="_blank" rel="noopener noreferrer">
               Privacy Policy
             </Link>
           </div>
