@@ -64,8 +64,8 @@
 }
 
 .ask-human-btn {
-  background-color: #764c35 !important;
-  border-color: #764c35 !important;
+  background-color:  #293040 !important;
+  border-color:  #293040 !important;
   white-space: nowrap;
   flex-shrink: 0;
   border-radius: 8px !important;
@@ -73,8 +73,8 @@
 }
 
 .ask-human-btn:hover {
-  background-color: #5f3d2a !important;
-  border-color: #5f3d2a !important;
+  background-color:  #293040 !important;
+  border-color:  #293040 !important;
 }
 
 /* Tech showcase curved container */

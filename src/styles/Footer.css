@@ -165,12 +165,17 @@
 
 .newsletter-form button {
   width: 44px;
+  height: 44px;
   background-color: #8f6449;
   color: #ffffff;
   border: none;
   border-radius: 0 4px 4px 0;
   cursor: pointer;
   transition: all 0.3s ease;
+  font-size: 1.2rem;
+  padding: 0;
+  line-height: 44px;
+  text-align: center;
 }
 
 .newsletter-form button:hover {
