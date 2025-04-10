@@ -11,7 +11,7 @@ import About from './components/About';
 import Auth from './components/Auth';
 import ScrollToTop from './components/ScrollToTop';
 import Support from './components/Support';
-import ProviderSearch from './components/ProviderSearch';
+
 
 function App() {
   const navigate = useNavigate();
@@ -71,9 +71,8 @@ function App() {
           <Support />
         } />
         
-        <Route path="/provider-search" element={
-          <ProviderSearch />
-        } />
+        
+      
       </Routes>
       
       <ToastContainer />
