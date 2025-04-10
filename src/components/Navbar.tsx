@@ -79,7 +79,7 @@ const Navbar: React.FC<NavbarProps> = ({
           <Link to="/auth" className="sign-in-btn" onClick={() => setShowSignup(false)}>
             Sign up
           </Link>
-          <Link to="/provider-search" className="try-free-btn" onClick={() => {
+          <Link to="/provider-search" className="try-free-btn text-decoration-none" onClick={() => {
             setMenuOpen(false);
           }}>Find a provider</Link>
         </div>
