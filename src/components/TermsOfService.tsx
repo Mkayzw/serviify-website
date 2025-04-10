@@ -35,7 +35,7 @@ const TermsOfService: React.FC = () => {
   };
 
   const setShowHelpCentre = () => {
-    // This function is required by the Navbar component but doesn't need to do anything here
+    
   };
 
   useEffect(() => {
@@ -47,7 +47,7 @@ const TermsOfService: React.FC = () => {
     window.scrollTo(0, 0);
   }, []);
   
-  // This effect addresses the linter warning by using the showSignup state
+  
   useEffect(() => {
     if (showSignup) {
       console.log('Signup dialog should be shown');
@@ -57,7 +57,7 @@ const TermsOfService: React.FC = () => {
 
   return (
     <div className="terms-of-service-page">
-      <Navbar setShowSignup={setShowSignup} setShowHelpCentre={setShowHelpCentre} />
+      <Navbar title="Terms of Service" setShowSignup={setShowSignup} setShowHelpCentre={setShowHelpCentre} />
       
       <div className="terms-of-service-container">
         <div className="terms-content-wrapper">

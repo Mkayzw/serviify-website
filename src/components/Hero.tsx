@@ -48,7 +48,7 @@ const Hero: React.FC<HeroProps> = ({
               </em>
             </h2>
             <div className="hero-cta">
-              <Link to="/auth" className="cta-button">
+              <Link to="/auth" className="start-now-btn">
                 Get Started <i className="bi bi-arrow-right"></i>
               </Link>
               <div className="advisor-dropdown">

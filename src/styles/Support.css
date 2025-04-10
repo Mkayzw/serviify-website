@@ -64,8 +64,8 @@
 }
 
 .ask-human-btn {
-  background-color: #764c35 !important;
-  border-color: #764c35 !important;
+  background-color:  #293040 !important;
+  border-color:  #293040 !important;
   white-space: nowrap;
   flex-shrink: 0;
   border-radius: 8px !important;
@@ -73,8 +73,8 @@
 }
 
 .ask-human-btn:hover {
-  background-color: #5f3d2a !important;
-  border-color: #5f3d2a !important;
+  background-color:  #293040 !important;
+  border-color:  #293040 !important;
 }
 
 /* Tech showcase curved container */
@@ -199,7 +199,8 @@
   font-weight: 700;
   color: #000000;
   margin-bottom: 10px;
-  font-family: 'Caveat', 'Brush Script MT', cursive;
+  font-family: 'Times New Roman', Times, serif
+  
 }
 
 .offices-subtitle {
@@ -214,6 +215,7 @@
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
   border-radius: 8px;
   height: 100%;
+  font-family: 'Georgia', serif;
 }
 
 .country-flag {
@@ -241,6 +243,7 @@
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
   border-radius: 8px;
   height: 100%;
+  font-family: 'Georgia', serif;
 }
 
 .small-logo {
@@ -327,7 +330,7 @@
   border-radius: 8px;
   height: 100%;
   background-color: #f9f9f9;
-  border-left: 4px solid #1976d2;
+  border-left: 4px solid #5f3d2a;
 }
 
 .global-icon {

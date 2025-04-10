@@ -3,11 +3,13 @@ import { Link } from 'react-router-dom';
 import '../styles/Navbar.css';
 
 interface NavbarProps {
+  title?: string;
   setShowSignup: (show: boolean) => void;
   setShowHelpCentre: () => void;
 }
 
 const Navbar: React.FC<NavbarProps> = ({ 
+  title,
   setShowSignup, 
   setShowHelpCentre 
 }) => {
@@ -58,7 +60,7 @@ const Navbar: React.FC<NavbarProps> = ({
         <div className="navbar-logo">
           <Link to="/">
             <img src="https://ngratesc.sirv.com/i-claim/serviify/logo.png" alt="Serviify Logo" />
-            <span className="logo-text">Serviify</span>
+            <span className="logo-text">{title || 'Serviify'}</span>
           </Link>
         </div>
         
