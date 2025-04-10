@@ -31,6 +31,7 @@ const About: React.FC = () => {
   return (
     <div className="about-page">
       <div className="navbar navbar-visible">
+        {/* Your existing navbar code */}
         <div className="navbar-container">
           <div className="navbar-logo">
             <Link to="/" className="logo-link">
@@ -69,7 +70,7 @@ const About: React.FC = () => {
       </div>
 
       <div className="about-container">
-        {/* Background service icons */}
+        {/* Top section - High density icons */}
         <div className="bg-icon bg-icon-1"><i className="bi bi-tools"></i></div>
         <div className="bg-icon bg-icon-2"><i className="bi bi-brush"></i></div>
         <div className="bg-icon bg-icon-3"><i className="bi bi-house-gear"></i></div>
@@ -80,13 +81,37 @@ const About: React.FC = () => {
         <div className="bg-icon bg-icon-8"><i className="bi bi-scissors"></i></div>
         <div className="bg-icon bg-icon-9"><i className="bi bi-truck"></i></div>
         <div className="bg-icon bg-icon-10"><i className="bi bi-telephone"></i></div>
+        
+        {/* Left side - Encapsulating */}
         <div className="bg-icon bg-icon-11"><i className="bi bi-lightning"></i></div>
         <div className="bg-icon bg-icon-12"><i className="bi bi-clipboard2-check"></i></div>
         <div className="bg-icon bg-icon-13"><i className="bi bi-briefcase"></i></div>
         <div className="bg-icon bg-icon-14"><i className="bi bi-palette"></i></div>
         <div className="bg-icon bg-icon-15"><i className="bi bi-pc-display"></i></div>
         
+        {/* Right side - Encapsulating */}
+        <div className="bg-icon bg-icon-16"><i className="bi bi-wrench"></i></div>
+        <div className="bg-icon bg-icon-17"><i className="bi bi-camera"></i></div>
+        <div className="bg-icon bg-icon-18"><i className="bi bi-basket"></i></div>
+        <div className="bg-icon bg-icon-19"><i className="bi bi-gem"></i></div>
+        <div className="bg-icon bg-icon-20"><i className="bi bi-calendar-check"></i></div>
+        
+        {/* Middle section - Medium density */}
+        <div className="bg-icon bg-icon-21"><i className="bi bi-cloud-arrow-up"></i></div>
+        <div className="bg-icon bg-icon-22"><i className="bi bi-flower1"></i></div>
+        <div className="bg-icon bg-icon-23"><i className="bi bi-shield-check"></i></div>
+        <div className="bg-icon bg-icon-24"><i className="bi bi-printer"></i></div>
+        
+        {/* Lower section - Low density */}
+        <div className="bg-icon bg-icon-25"><i className="bi bi-key"></i></div>
+        <div className="bg-icon bg-icon-26"><i className="bi bi-music-note"></i></div>
+        
+        {/* Bottom - Sparse */}
+        <div className="bg-icon bg-icon-27"><i className="bi bi-lightbulb"></i></div>
+        <div className="bg-icon bg-icon-28"><i className="bi bi-award"></i></div>
+        
         <div className="about-content">
+          {/* Your existing content sections */}
           <section className="about-section">
             <h2>Who are we?</h2>
             <p className="about-intro">
@@ -94,7 +119,6 @@ const About: React.FC = () => {
               We're building a platform that will connect service providers with clients,
               making professional services accessible to everyone.
             </p>
-        
           </section>
 
           <section className="about-section">
@@ -116,11 +140,11 @@ const About: React.FC = () => {
       </div>
 
       <div className="more-info-section">
+        {/* Your existing info section */}
         <div className="more-info-content">
           <h2 className="more-info-title">For more information about Serviify</h2>
           
           <div className="info-links">
-            
             <div className="info-link-item">
               <i className="bi bi-people-fill" style={{fontSize: "2.2rem", color: "#293040"}}></i>
               <h3>Company Page</h3>
@@ -157,4 +181,4 @@ const About: React.FC = () => {
   );
 };
 
-export default About; 
+export default About;

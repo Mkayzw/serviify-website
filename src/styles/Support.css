@@ -35,10 +35,6 @@
   width: 100%;
 }
 
-.search-input-wrapper {
-  /* Styles for the div containing the input and icon */
-}
-
 .support-search-input {
   border: 1px solid #ddd;
   padding: 12px 40px 12px 15px;
@@ -122,8 +118,7 @@
   background-color: #f3f4f6;   
   border-radius: 50% / 100%;   
   transform: translateX(0);   
-  z-index: 1;   
-  box-shadow: 0 -5px 15px rgba(0, 0, 0, 0.05);
+  z-index: 1; 
 }
 
 .tech-showcase-container .container {
@@ -136,13 +131,12 @@
   font-size: 4rem;
   font-weight: 700;
   color: #000000;
-  margin-bottom: 40px;
+  margin-bottom: 20px;
   font-family: 'Caveat', 'Brush Script MT', cursive;
 }
 
 .contact-card {
   border: none;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
   cursor: pointer;
   text-align: center;
@@ -150,7 +144,6 @@
 
 .contact-card:hover {
   transform: translateY(-5px);
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
 }
 
 .contact-card .card-title {
@@ -160,10 +153,49 @@
   margin: 0;
 }
 
+.col-xxl-10 {
+  flex: 0 0 auto;
+  width: 83.33333333%;
+}
+
+.x_wd [class*="display-3"], .x_wd [class*="display-4"] {
+  line-height: 1;
+}
+
+@media (min-width: 1200px) {
+  .x_wd [class*="display-3"] {
+      font-size: 4rem;
+  }
+}
+
+.x_wd [class*="display-"] {
+  font-family: "Caveat";
+  color: #000000;
+  font-weight: 700;
+}
+
+.country-tag {
+  color: #777;
+}
+
+.fs-4 {
+  font-size: calc(1.275rem + 0.3vw) !important;
+}
+
+.mb-5 {
+  margin-bottom: 3rem !important;
+}
+
+
+@media (min-width: 1200px) {
+  .fs-4 {
+      font-size: 1.5rem !important;
+  }
+}
+
 /* Call us section */
 .call-us-card {
   border: none;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
   border-radius: 8px;
 }
 
@@ -212,7 +244,6 @@
 
 .office-card {
   border: none;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
   border-radius: 8px;
   height: 100%;
   font-family: 'Georgia', serif;
@@ -240,7 +271,6 @@
 /* Office cards styling */
 .office-card {
   border: none;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
   border-radius: 8px;
   height: 100%;
   font-family: 'Georgia', serif;
@@ -326,7 +356,6 @@
 
 .expansion-card {
   border: none;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
   border-radius: 8px;
   height: 100%;
   background-color: #f9f9f9;
@@ -351,3 +380,4 @@
     margin-top: 20px;
   }
 } 
+

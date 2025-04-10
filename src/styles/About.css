@@ -6,126 +6,78 @@
   margin-top: 70px; 
 }
 
-
-
-/* Background Service Icons */
+/* Background Service Icons Base Styling */
 .bg-icon {
   position: absolute;
   z-index: 0;
   opacity: 0.3;
-  font-size: 4rem;
   color: #764c35;
   transform: rotate(-10deg);
+  transition: all 0.5s ease;
 }
 
 .bg-icon i {
   filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.15));
 }
 
-/* Horseshoe shape at the top */
-.bg-icon-1 {
-  top: 8%;
-  left: 3%;
-  transform: rotate(-15deg);
+/* Top Section - High Density */
+.bg-icon-1 { top: 5%; left: 5%; font-size: 4.5rem; transform: rotate(-15deg); }
+.bg-icon-2 { top: 8%; left: 15%; font-size: 3.8rem; transform: rotate(8deg); }
+.bg-icon-3 { top: 6%; left: 25%; font-size: 4.2rem; transform: rotate(-5deg); }
+.bg-icon-4 { top: 9%; left: 35%; font-size: 3.5rem; transform: rotate(12deg); }
+.bg-icon-5 { top: 7%; left: 45%; font-size: 4rem; transform: rotate(-8deg); }
+.bg-icon-6 { top: 10%; left: 55%; font-size: 3.6rem; transform: rotate(20deg); }
+.bg-icon-7 { top: 6%; left: 65%; font-size: 4.3rem; transform: rotate(-12deg); }
+.bg-icon-8 { top: 9%; left: 75%; font-size: 3.7rem; transform: rotate(15deg); }
+.bg-icon-9 { top: 7%; left: 85%; font-size: 4.1rem; transform: rotate(-18deg); }
+.bg-icon-10 { top: 5%; left: 95%; font-size: 3.9rem; transform: rotate(5deg); }
+
+/* Left Side - Encapsulating */
+.bg-icon-11 { top: 18%; left: 2%; font-size: 3.8rem; transform: rotate(-10deg); }
+.bg-icon-12 { top: 26%; left: 4%; font-size: 3.5rem; transform: rotate(15deg); }
+.bg-icon-13 { top: 34%; left: 3%; font-size: 4rem; transform: rotate(-5deg); }
+.bg-icon-14 { top: 42%; left: 5%; font-size: 3.2rem; transform: rotate(8deg); }
+.bg-icon-15 { top: 50%; left: 2%; font-size: 3.7rem; transform: rotate(-12deg); }
+
+/* Right Side - Encapsulating */
+.bg-icon-16 { top: 18%; right: 2%; font-size: 3.9rem; transform: rotate(10deg); }
+.bg-icon-17 { top: 26%; right: 4%; font-size: 3.6rem; transform: rotate(-15deg); }
+.bg-icon-18 { top: 34%; right: 3%; font-size: 4.1rem; transform: rotate(5deg); }
+.bg-icon-19 { top: 42%; right: 5%; font-size: 3.3rem; transform: rotate(-8deg); }
+.bg-icon-20 { top: 50%; right: 2%; font-size: 3.8rem; transform: rotate(12deg); }
+
+/* Middle Section - Medium Density */
+.bg-icon-21 { top: 30%; left: 20%; font-size: 3.4rem; transform: rotate(-7deg); }
+.bg-icon-22 { top: 28%; left: 40%; font-size: 3.7rem; transform: rotate(9deg); }
+.bg-icon-23 { top: 32%; left: 60%; font-size: 3.5rem; transform: rotate(-11deg); }
+.bg-icon-24 { top: 35%; left: 80%; font-size: 3.2rem; transform: rotate(14deg); }
+
+/* Lower Section - Low Density */
+.bg-icon-25 { top: 65%; left: 10%; font-size: 3.3rem; transform: rotate(-9deg); }
+.bg-icon-26 { top: 70%; left: 70%; font-size: 3.6rem; transform: rotate(13deg); }
+
+/* Bottom Section - Sparse */
+.bg-icon-27 { top: 85%; left: 30%; font-size: 3.5rem; transform: rotate(-6deg); }
+.bg-icon-28 { top: 88%; left: 60%; font-size: 3.2rem; transform: rotate(8deg); }
+
+/* Add floating animation for enhanced effect */
+@keyframes float {
+  0% { transform: translateY(0) rotate(var(--rotation)); }
+  50% { transform: translateY(-10px) rotate(var(--rotation)); }
+  100% { transform: translateY(0) rotate(var(--rotation)); }
 }
 
-.bg-icon-2 {
-  top: 9%;
-  left: 18%;
-  transform: rotate(8deg);
-  font-size: 3.5rem;
+.bg-icon:nth-child(odd) {
+  --rotation: -10deg;
+  animation: float 8s ease-in-out infinite;
 }
 
-.bg-icon-3 {
-  top: 12%;
-  left: 33%;
-  transform: rotate(-5deg);
-  font-size: 4.5rem;
+.bg-icon:nth-child(even) {
+  --rotation: 10deg;
+  animation: float 12s ease-in-out infinite;
+  animation-delay: 2s;
 }
 
-.bg-icon-4 {
-  top: 18%;
-  left: 43%;
-  transform: rotate(12deg);
-  font-size: 3.8rem;
-}
-
-.bg-icon-5 {
-  top: 25%;
-  left: 48%;
-  transform: rotate(-8deg);
-  font-size: 3.5rem;
-}
-
-.bg-icon-6 {
-  top: 25%;
-  left: 58%;
-  transform: rotate(20deg);
-  font-size: 3rem;
-}
-
-.bg-icon-7 {
-  top: 18%;
-  left: 68%;
-  transform: rotate(-12deg);
-  font-size: 3.8rem;
-}
-
-.bg-icon-8 {
-  top: 12%;
-  left: 78%;
-  transform: rotate(15deg);
-  font-size: 3.5rem;
-}
-
-.bg-icon-9 {
-  top: 9%;
-  left: 88%;
-  transform: rotate(-18deg);
-  font-size: 4.5rem;
-}
-
-.bg-icon-10 {
-  top: 7%;
-  left: 96%;
-  transform: rotate(5deg);
-  font-size: 3.8rem;
-}
-
-.bg-icon-11 {
-  top: 13%;
-  left: 8%;
-  transform: rotate(-22deg);
-  font-size: 3.2rem;
-}
-
-.bg-icon-12 {
-  top: 15%;
-  left: 23%;
-  transform: rotate(15deg);
-  font-size: 3.8rem;
-}
-
-.bg-icon-13 {
-  top: 20%;
-  left: 35%;
-  transform: rotate(-8deg);
-  font-size: 3.5rem;
-}
-
-.bg-icon-14 {
-  top: 20%;
-  left: 73%;
-  transform: rotate(12deg);
-  font-size: 3.2rem;
-}
-
-.bg-icon-15 {
-  top: 15%;
-  left: 88%;
-  transform: rotate(-15deg);
-  font-size: 3.6rem;
-}
 
 /* Document style container */
 .about-container {

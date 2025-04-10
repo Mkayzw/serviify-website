@@ -35,7 +35,7 @@ const Support: React.FC = () => {
         <div className="row">
           <div className="col-md-10">
             <h1 className="support-heading mb-4 text-start">
-              Need <span className="x_wd_yellow_highlight_03">help?</span>
+              Need <span className="x_wd_yellow_highlight_03">assitance?</span>
             </h1>
 
             <div className="support-search-container wider-search d-flex align-items-center">
@@ -61,7 +61,7 @@ const Support: React.FC = () => {
           <div className="row mb-5">
             <div className="col-md-12">
               <h2 className="contact-title">
-                <span className="x_wd_yellow_highlight_03">Contact us</span>
+                <span className="x_wd_yellow_highlight_03">Contact</span> us
               </h2>
             </div>
           </div>
@@ -103,16 +103,21 @@ const Support: React.FC = () => {
           </div>
 
           <div className="row mt-5">
+            <div className="x_wd col-xxl-10">
+              <h2 className="display-3 mb-4">Serviify <span className="x_wd_yellow_highlight_03">Offices</span></h2>
+              <h3 className="fs-4 mb-5">Eastern and Southern Africa</h3>
+            </div>
+
+
             <div className="col-lg-6">
               <div className="card call-us-card">
                 <div className="card-body">
-                  <h2 className="call-title mb-4">Zimbabwe Office</h2>
                   <div className="d-flex align-items-center mb-3">
                     <span className="country-flag me-2">🇿🇼</span>
-                    <h4 className="mb-0">Harare Headquarters</h4>
+                    <h4 className="mb-0">Zimbabwe<span className="country-tag"> - ZW</span></h4>
                   </div>
                   <div className="office-address mb-3">
-                    <p className="mb-1">258 Smuts Rd Waterfalls       </p>
+                    <p className="mb-1">258 Smuts Rd Waterfalls</p>
                     <p className="mb-0">Harare, Zimbabwe</p>
                   </div>
                   <div className="phone-item d-flex align-items-center mb-3">
@@ -121,7 +126,7 @@ const Support: React.FC = () => {
                   </div>
                   <div className="office-email">
                     <p className="mb-0">
-                      <a href="mailto:support@serviify.com" className="email-link">support@serviify.com</a>
+                      <a href="mailto:support@serviify.com" className="email-link">support@serviify.co.zw</a>
                     </p>
                   </div>
                 </div>
@@ -131,20 +136,19 @@ const Support: React.FC = () => {
             <div className="col-lg-6">
               <div className="card expansion-card">
                 <div className="card-body">
-                  <h2 className="call-title mb-4">Global Expansion</h2>
                   <div className="expansion-content">
                     <div className="mb-3">
                       <span className="global-icon me-2">🌍</span>
                       <h4 className="d-inline">Coming Soon</h4>
                     </div>
                     <p>We're excited to announce our upcoming expansion to other countries! Our mission is to connect service providers with customers worldwide.</p>
-                    <p>Serviify is preparing to launch in:</p>
                     <div className="country-list">
                       <span className="badge bg-primary me-2 mb-2">South Africa</span>
-                      <span className="badge bg-primary me-2 mb-2">Kenya</span>
-                      <span className="badge bg-primary me-2 mb-2">Nigeria</span>
-                      <span className="badge bg-info me-2 mb-2">United Kingdom</span>
-                      <span className="badge bg-info me-2 mb-2">United States</span>
+                      <span className="badge bg-primary me-2 mb-2">Zambia</span>
+                      <span className="badge bg-primary me-2 mb-2">Botswana</span>
+                      <span className="badge bg-primary me-2 mb-2">Malawi</span>
+                      <span className="badge bg-info me-2 mb-2">Rwanda</span>
+                      <span className="badge bg-info me-2 mb-2">Ethopia</span>
                       <span className="badge bg-success me-2 mb-2">And more coming soon!</span>
                     </div>
                   </div>
