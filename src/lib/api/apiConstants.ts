@@ -1,5 +1,6 @@
 export const ApiConstants = {
   baseUrl: 'https://serviify-container.calmriver-5338a541.southafricanorth.azurecontainerapps.io',
+
   
   // Websocket endpoints
   wsBaseUrl: 'wss://serviify-container.calmriver-5338a541.southafricanorth.azurecontainerapps.io',
@@ -102,7 +103,7 @@ export const ApiConstants = {
   
   // Discover endpoints
   discover: {
-    services: '/api/discover/services'
+    services: '/discover/services'
   },
   
   // Version endpoints
@@ -112,5 +113,5 @@ export const ApiConstants = {
   },
   
   // Default timeout
-  timeout: 15000 // 15 seconds timeout
+  timeout: 30000 // 30 seconds timeout
 }; 

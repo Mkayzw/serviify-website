@@ -208,6 +208,45 @@ body, html {
   background-color: #f0f0f0;
 }
 
+.find-provider-btn {
+  background-color: #fff;
+  border: 2px solid #4a6bf5;
+  color: #4a6bf5;
+  padding: 10px 24px;
+  border-radius: 5px;
+  text-decoration: none;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  transition: all 0.3s ease;
+}
+
+.find-provider-btn:hover {
+  background-color: #4a6bf5;
+  color: #fff;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(74, 107, 245, 0.2);
+}
+
+.find-provider-btn i {
+  font-size: 14px;
+}
+
+@media (max-width: 768px) {
+  .hero-cta {
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+  }
+  
+  .find-provider-btn {
+    margin-top: 12px;
+    width: 100%;
+    justify-content: center;
+  }
+}
+
 .pricing-note {
   margin-top: 20px;
   position: relative;

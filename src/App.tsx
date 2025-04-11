@@ -11,6 +11,7 @@ import About from './components/About';
 import Auth from './components/Auth';
 import ScrollToTop from './components/ScrollToTop';
 import Support from './components/Support';
+import ProviderSearch from './components/ProviderSearch';
 
 
 function App() {
@@ -69,6 +70,10 @@ function App() {
         
         <Route path="/support" element={
           <Support />
+        } />
+        
+        <Route path="/provider-search" element={
+          <ProviderSearch />
         } />
         
         

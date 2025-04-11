@@ -18,6 +18,7 @@ export default function Auth() {
   const [phone, setPhone] = useState("")
   const [isLoading, setIsLoading] = useState(false)
   const [passwordError, setPasswordError] = useState("")
+  const [showApiWarning, setShowApiWarning] = useState(false)
 
   // Password validation function
   const validatePassword = (password: string): boolean => {
@@ -92,10 +93,16 @@ export default function Auth() {
     } catch (error) {
       console.error("Registration error:", error)
       
+      // Handle different error types more gracefully
+      const apiError = error as { status?: number; message?: string; code?: string }
       
-      const apiError = error as { status?: number; message?: string }
-      
-      if (apiError.status === 422) {
+      if (apiError.code === 'TIMEOUT') {
+        toast.error("Connection to server timed out. The server might be experiencing high load or connectivity issues. Please try again later.")
+        setShowApiWarning(true)
+      } else if (apiError.code === 'NO_CONNECTION') {
+        toast.error("No internet connection. Please check your connection and try again.")
+        setShowApiWarning(true)
+      } else if (apiError.status === 422) {
         // Validation error
         if (apiError.message?.includes("email")) {
           if (apiError.message?.includes("already")) {
@@ -156,6 +163,11 @@ export default function Auth() {
           {!isLogin ? (
             // Signup form
             <form onSubmit={handleSignup} className="mb-3">
+              {showApiWarning && (
+                <div className="alert alert-warning mb-3" role="alert">
+                  <small>⚠️ Our authentication service is currently experiencing delays. Your registration may take longer than expected or time out. Please try again later if you encounter issues.</small>
+                </div>
+              )}
               <div className="row mb-3">
                 <div className="col-6">
                   <label htmlFor="firstName" className="form-label">
