@@ -51,10 +51,9 @@ const Hero: React.FC<HeroProps> = ({
               <Link to="/auth" className="start-now-btn">
                 Get Started <i className="bi bi-arrow-right"></i>
               </Link>
-              <div className="advisor-dropdown">
-                <button className="meet-advisor-btn">Contact Us ▾</button>
-              </div>
-            
+              <Link to="/support" className="contact-us-btn">
+                Contact Us <i className="bi bi-arrow-right"></i>
+              </Link>
             </div>
           </div>
         </div>

@@ -60,9 +60,10 @@
 
 .navbar-links {
   display: flex;
-  gap: 30px;
+  gap: 40px;
   justify-content: center;
-  flex: 2;
+  flex: 1;
+  padding: 0 20px;
 }
 
 .navbar-links a {
@@ -71,10 +72,26 @@
   font-size: 16px;
   font-weight: 500;
   transition: color 0.3s ease;
+  position: relative;
 }
 
 .navbar-links a:hover {
   color: #293040;
+}
+
+.navbar-links a:after {
+  content: '';
+  position: absolute;
+  width: 0;
+  height: 2px;
+  background: #293040;
+  bottom: -5px;
+  left: 0;
+  transition: width 0.3s ease;
+}
+
+.navbar-links a:hover:after {
+  width: 100%;
 }
 
 .navbar-buttons {

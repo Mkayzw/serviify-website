@@ -2,14 +2,15 @@
 
 import type React from "react"
 
-import { useState } from "react"
-import { Link } from "react-router-dom"
+import { useState, useEffect } from "react"
+import { Link, useLocation } from "react-router-dom"
 import { toast } from "react-toastify"
 import logo from '../assets/logo.png'
 import { ApiService } from "../lib/api/apiService"
 import { ApiConstants } from "../lib/api/apiConstants"
 
 export default function Auth() {
+  const location = useLocation()
   const [isLogin, setIsLogin] = useState(false)
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
@@ -19,6 +20,16 @@ export default function Auth() {
   const [isLoading, setIsLoading] = useState(false)
   const [passwordError, setPasswordError] = useState("")
   const [showApiWarning, setShowApiWarning] = useState(false)
+
+  // Check URL parameters to determine which form to show
+  useEffect(() => {
+    // Check if coming from sign-in link or has mode=login in the URL
+    const params = new URLSearchParams(location.search)
+    const mode = params.get('mode')
+    if (mode === 'login' || location.state?.isLogin) {
+      setIsLogin(true)
+    }
+  }, [location])
 
   // Password validation function
   const validatePassword = (password: string): boolean => {

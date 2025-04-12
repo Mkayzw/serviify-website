@@ -65,19 +65,17 @@ const Navbar: React.FC<NavbarProps> = ({
         </div>
         
         <div className={`navbar-links ${menuOpen ? 'active' : ''}`}>
-          <a href="#services" onClick={handleNavLinkClick}>Services</a>
-          <a href="#Providers" onClick={handleNavLinkClick}>Providers</a>
           <Link to="/about" onClick={handleNavLinkClick}>About us</Link>
           <Link to="/support" onClick={handleNavLinkClick}>Support</Link>
           <Link to="/help-centre" onClick={() => {
             handleNavLinkClick();
             setShowHelpCentre();
-          }}>Help</Link>
+          }}>Help Centre</Link>
         </div>
         
         <div className="navbar-buttons">
-          <Link to="/auth" className="sign-in-btn" onClick={() => setShowSignup(false)}>
-            Sign up
+          <Link to="/auth?mode=login" className="sign-in-btn" onClick={() => setShowSignup(false)}>
+            Sign in
           </Link>
           <Link to="/provider-search" className="try-free-btn text-decoration-none" onClick={() => {
             setMenuOpen(false);

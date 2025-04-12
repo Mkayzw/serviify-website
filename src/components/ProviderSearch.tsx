@@ -7,7 +7,6 @@ import { Provider, ProvidersService, DiscoverServicesParams } from "../services/
 
 export default function ProviderSearch() {
   const [fullName, setFullName] = useState("")
-  const [serviceType, setServiceType] = useState("")
   const [searchResults, setSearchResults] = useState<Provider[]>([])
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
@@ -45,7 +44,6 @@ export default function ProviderSearch() {
       // Fall back to discover services method
       const params: DiscoverServicesParams = {
         query: fullName.trim() || undefined,
-        serviceType: serviceType || undefined,
         sortBy: 'rating'
       }
       
@@ -171,32 +169,14 @@ export default function ProviderSearch() {
             {/* Search Form */}
             <form onSubmit={handleSearch} className="d-flex flex-grow-1 align-items-center">
               <div className="input-group">
-                {/* Full Name */}
+                {/* Search input */}
                 <input
                   type="text"
-                  className="form-control border-end-0"
-                  placeholder="Full Name"
+                  className="form-control"
+                  placeholder="Enter a full name"
                   value={fullName}
                   onChange={(e) => setFullName(e.target.value)}
-                  style={{ borderTopRightRadius: 0, borderBottomRightRadius: 0 }}
                 />
-                
-                {/* Service Type */}
-                <select
-                  className="form-select border-start-0"
-                  value={serviceType}
-                  onChange={(e) => setServiceType(e.target.value)}
-                  style={{ borderTopLeftRadius: 0, borderBottomLeftRadius: 0, width: "auto", minWidth: "180px" }}
-                >
-                  <option value="">All Services</option>
-                  <option value="electrical">Electrical Services</option>
-                  <option value="auto">Auto Mechanics</option>
-                  <option value="carpentry">Carpentry Services</option>
-                  <option value="agriculture">Agricultural Services</option>
-                  <option value="cleaning">Cleaning Services</option>
-                  <option value="realestate">Real Estate Services</option>
-                  <option value="eventplanning">Event Planning</option>
-                </select>
                 
                 <button 
                   type="submit" 
@@ -235,7 +215,7 @@ export default function ProviderSearch() {
               />
             </div>
             <h2 className="mb-4">Looking for service providers?</h2>
-            <p className="mb-4 text-muted">Search by full name or browse service providers near you.</p>
+            <p className="mb-4 text-muted">Enter a full name to search or browse service providers near you.</p>
             <button 
               onClick={handleLoadNearbyServices} 
               className="btn rounded-pill px-4"

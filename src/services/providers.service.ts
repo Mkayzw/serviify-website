@@ -12,7 +12,6 @@ export interface Provider {
 
 export interface DiscoverServicesParams {
   query?: string;
-  serviceType?: string;
   location?: string;
   sortBy?: 'rating' | 'distance' | 'recent';
   limit?: number;
@@ -130,7 +129,6 @@ export class ProvidersService {
       // Build query parameters
       const queryParams = new URLSearchParams();
       if (params.query) queryParams.set('query', params.query);
-      if (params.serviceType) queryParams.set('service_type', params.serviceType);
       if (params.location) queryParams.set('location', params.location);
       if (params.sortBy) queryParams.set('sort_by', params.sortBy);
       
