@@ -156,7 +156,12 @@ export default function ProviderSearch() {
   }
   
   return (
-    <div className="min-vh-100 bg-white">
+    <div style={{ 
+      minHeight: "100vh", 
+      display: "flex", 
+      flexDirection: "column",
+      backgroundColor: "white"
+    }}>
       
       <header className="py-3 border-bottom bg-white">
         <div className="container">
@@ -180,7 +185,7 @@ export default function ProviderSearch() {
                 
                 <button 
                   type="submit" 
-                  className="btn ms-2"
+                  className="btn btn-sm ms-2"
                   style={{ backgroundColor: "#293040", color: "white" }}
                   disabled={isLoading}
                 >
@@ -196,13 +201,13 @@ export default function ProviderSearch() {
             </form>
             
             {/* Sign In Button */}
-            <Link to="/auth" className="btn rounded-pill ms-3 px-4" style={{ backgroundColor: "#293040", color: "white" }}>Sign in</Link>
+            <Link to="/auth" className="btn btn-sm rounded-pill ms-3 px-3" style={{ backgroundColor: "#293040", color: "white" }}>Sign in</Link>
           </div>
         </div>
       </header>
       
       {/* Results Area */}
-      <div className="container mt-4">
+      <div className="container mt-4" style={{ flex: "1 0 auto" }}>
         {/* Call to action for nearby services */}
         {searchResults.length === 0 && !error && !isLoading && (
           <div className="text-center my-5">
@@ -218,7 +223,7 @@ export default function ProviderSearch() {
             <p className="mb-4 text-muted">Enter a full name to search or browse service providers near you.</p>
             <button 
               onClick={handleLoadNearbyServices} 
-              className="btn rounded-pill px-4"
+              className="btn btn-sm rounded-pill px-3"
               style={{ backgroundColor: "#293040", color: "white" }}
               disabled={isLoading}
             >
@@ -250,7 +255,9 @@ export default function ProviderSearch() {
         {searchResults.length > 0 && (
           <div className="mt-4">
             <div className="d-flex justify-content-between mb-3">
-              <h3 style={{ color: "#293040" }}>Results</h3>
+              <h3 style={{ color: "#293040" }}>
+                Results {fullName.trim() ? `for "${fullName}"` : ''}
+              </h3>
               <span>{searchResults.length} providers found</span>
             </div>
             
@@ -260,10 +267,10 @@ export default function ProviderSearch() {
                   <div className="card-body">
                     <div className="d-flex">
                       <div className="flex-shrink-0">
-                        {provider.avatar ? (
+                        {provider.profile_image_url ? (
                           <img 
-                            src={provider.avatar} 
-                            alt={provider.name} 
+                            src={provider.profile_image_url} 
+                            alt={`${provider.first_name} ${provider.last_name}`} 
                             className="rounded-circle" 
                             style={{ width: "70px", height: "70px", objectFit: "cover" }}
                           />
@@ -274,29 +281,54 @@ export default function ProviderSearch() {
                                  height: "70px", 
                                  backgroundColor: "rgba(41, 48, 64, 0.1)" 
                                }}>
-                            <span style={{ color: "#293040" }} className="fw-bold fs-4">{provider.name.charAt(0)}</span>
+                            <span style={{ color: "#293040" }} className="fw-bold fs-4">{provider.first_name ? provider.first_name.charAt(0) : ''}</span>
                           </div>
                         )}
                       </div>
                       <div className="ms-3 flex-grow-1">
-                        <h5 className="card-title mb-1" style={{ color: "#293040" }}>{provider.name}</h5>
-                        <p className="card-text text-muted mb-1">{provider.serviceType} · {provider.location}</p>
-                        <div className="d-flex align-items-center mb-2">
-                          <div className="me-1" style={{ color: "#293040" }}>
-                            {'★'.repeat(Math.floor(provider.rating))}
-                            {provider.rating % 1 > 0 ? '☆' : ''}
-                            {'☆'.repeat(5 - Math.ceil(provider.rating))}
+                        <div className="d-flex justify-content-between align-items-center mb-1">
+                          <h5 className="card-title mb-0" style={{ color: "#293040" }}>
+                            {provider.first_name} {provider.last_name}
+                          </h5>
+                          <div className="d-flex align-items-center">
+                            <div className="me-1" style={{ color: "#293040" }}>
+                              {'★'.repeat(Math.floor(provider.service_rating || 0))}
+                              {(provider.service_rating || 0) % 1 > 0 ? '☆' : ''}
+                              {'☆'.repeat(5 - Math.ceil(provider.service_rating || 0))}
+                            </div>
+                            <span className="small text-muted">{(provider.service_rating || 0).toFixed(1)}</span>
                           </div>
-                          <span className="small text-muted">{provider.rating.toFixed(1)}</span>
                         </div>
-                        <button className="btn btn-sm" style={{ backgroundColor: "#293040", color: "white" }}>Contact</button>
-                        <Link 
-                          to={`/provider/${provider.id}`} 
-                          className="btn btn-sm ms-2" 
-                          style={{ borderColor: "#293040", color: "#293040" }}
-                        >
-                          View Profile
-                        </Link>
+                        
+                        {provider.headline && (
+                          <p className="card-text text-muted mb-1">{provider.headline}</p>
+                        )}
+                        
+                        <div className="mb-3">
+                          <span className="badge rounded-pill bg-light text-dark border me-1">
+                            {provider.service_type}
+                          </span>
+                        </div>
+                        
+                        <div className="d-flex mt-2 justify-content-between align-items-center">
+                          <div>
+                            <button className="btn btn-sm" style={{ backgroundColor: "#293040", color: "white" }}>Contact</button>
+                            <Link 
+                              to={`/provider/${provider.id}`} 
+                              className="btn btn-sm ms-2" 
+                              style={{ borderColor: "#293040", color: "#293040" }}
+                            >
+                              View Profile
+                            </Link>
+                          </div>
+                          <span className="badge rounded-pill bg-light text-dark border">
+                            {provider.provider_location 
+                              ? (provider.provider_location.split(',').length > 1 
+                                ? provider.provider_location.split(',')[provider.provider_location.split(',').length - 1].trim() 
+                                : provider.provider_location)
+                              : 'Location unknown'}
+                          </span>
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -318,25 +350,21 @@ export default function ProviderSearch() {
       </div>
       
       {/* Footer */}
-      <footer className="container-fluid border-top mt-5 py-3">
+      <footer style={{ 
+        height: "60px", 
+        backgroundColor: "white", 
+        borderTop: "1px solid #dee2e6",
+        display: "flex",
+        alignItems: "center",
+        flex: "0 0 auto"
+      }}>
         <div className="container">
           <div className="d-flex justify-content-between align-items-center">
-            <div className="d-flex align-items-center">
-              <img 
-                src={logo} 
-                alt="Serviify Logo" 
-                style={{ height: "24px" }}
-                className="me-2"
-              />
-              <span className="text-muted small">© {new Date().getFullYear()}</span>
-            </div>
-            
+            <div className="text-muted small">© {new Date().getFullYear()} Serviify</div>
             <div>
-              <ul className="nav m-0">
-                <li className="nav-item"><Link to="/about" className="nav-link px-2 text-muted small">About</Link></li>
-                <li className="nav-item"><Link to="/terms-of-service" className="nav-link px-2 text-muted small">Terms</Link></li>
-                <li className="nav-item"><Link to="/privacy-policy" className="nav-link px-2 text-muted small">Privacy</Link></li>
-              </ul>
+              <a href="#" className="text-decoration-none small me-3" style={{ color: "#293040" }}>Terms</a>
+              <a href="#" className="text-decoration-none small me-3" style={{ color: "#293040" }}>Privacy</a>
+              <a href="#" className="text-decoration-none small" style={{ color: "#293040" }}>Help</a>
             </div>
           </div>
         </div>

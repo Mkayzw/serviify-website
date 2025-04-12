@@ -102,10 +102,10 @@
 }
 
 .sign-in-btn {
-  padding: 10px 15px;
+  padding: 8px 16px;
   background: none;
   border: none;
-  font-size: 16px;
+  font-size: 14px;
   font-weight: 500;
   color: #444;
   cursor: pointer;
@@ -118,10 +118,10 @@
 }
 
 .try-free-btn {
-  padding: 10px 20px;
+  padding: 8px 16px;
   background-color: #293040;
   color: white;
-  font-size: 16px;
+  font-size: 14px;
   font-weight: 500;
   border: none;
   border-radius: 8px;
@@ -215,13 +215,13 @@
   }
   
   .sign-in-btn {
-    padding: 8px 12px;
-    font-size: 14px;
+    padding: 6px 10px;
+    font-size: 13px;
   }
   
   .try-free-btn {
-    padding: 8px 12px;
-    font-size: 14px;
+    padding: 6px 10px;
+    font-size: 13px;
   }
   
   .logo-text {

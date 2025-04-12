@@ -19,9 +19,11 @@ export default function Auth() {
   const [phone, setPhone] = useState("")
   const [isLoading, setIsLoading] = useState(false)
   const [passwordError, setPasswordError] = useState("")
+  const [phoneError, setPhoneError] = useState("")
+  const [nameError, setNameError] = useState("")
   const [showApiWarning, setShowApiWarning] = useState(false)
 
-  // Check URL parameters to determine which form to show
+  
   useEffect(() => {
     // Check if coming from sign-in link or has mode=login in the URL
     const params = new URLSearchParams(location.search)
@@ -67,12 +69,70 @@ export default function Auth() {
     return true
   }
 
+  // Name validation function
+  const validateName = (name: string, fieldName: string): boolean => {
+    if (!name.trim()) {
+      setNameError(`${fieldName} is required`)
+      return false
+    }
+    
+    // Check if name starts with a capital letter
+    if (!/^[A-Z]/.test(name)) {
+      setNameError(`${fieldName} should start with a capital letter`)
+      return false
+    }
+
+    setNameError("")
+    return true
+  }
+
+  // Phone validation function
+  const validatePhoneNumber = (phone: string): boolean => {
+    // Only allow digits
+    if (!/^\d+$/.test(phone)) {
+      setPhoneError("Phone number should contain only digits")
+      return false
+    }
+
+    // Check length (adjust for your country's phone number format)
+    if (phone.length < 10 || phone.length > 15) {
+      setPhoneError("Phone number should be between 10-15 digits")
+      return false
+    }
+
+    setPhoneError("")
+    return true
+  }
+
+  // Form validation function
+  const validateForm = (): boolean => {
+    const isPasswordValid = validatePassword(password)
+    const isFirstNameValid = validateName(firstName, "First name")
+    const isLastNameValid = validateName(lastName, "Last name")
+    const isPhoneValid = validatePhoneNumber(phone)
+
+    return isPasswordValid && isFirstNameValid && isLastNameValid && isPhoneValid
+  }
+
+  // Define a proper interface for API errors
+  interface ApiError {
+    status?: number;
+    message?: string;
+    code?: string;
+    data?: {
+      message?: string;
+      errors?: Record<string, string[]>;
+    };
+  }
+
   const handleSignup = async (e: React.FormEvent) => {
     e.preventDefault()
     
-    // Validate password first
-    if (!validatePassword(password)) {
-      toast.error(passwordError)
+    // Validate all form fields
+    if (!validateForm()) {
+      if (passwordError) toast.error(passwordError)
+      if (nameError) toast.error(nameError)
+      if (phoneError) toast.error(phoneError)
       return
     }
     
@@ -105,7 +165,7 @@ export default function Auth() {
       console.error("Registration error:", error)
       
       // Handle different error types more gracefully
-      const apiError = error as { status?: number; message?: string; code?: string }
+      const apiError = error as ApiError
       
       if (apiError.code === 'TIMEOUT') {
         toast.error("Connection to server timed out. The server might be experiencing high load or connectivity issues. Please try again later.")
@@ -129,7 +189,12 @@ export default function Auth() {
           toast.error(apiError.message || "Please check your information and try again.")
         }
       } else {
-        toast.error("Failed to create account. Please try again later.")
+        // Display the error message from the backend if available
+        const errorMessage = apiError.message || apiError.data?.message || "Failed to create account. Please try again later."
+        toast.error(errorMessage)
+        
+        // Don't show success message if there was an error
+        // This addresses the issue where account creation fails on the backend but success is shown
       }
     } finally {
       setIsLoading(false)
@@ -191,9 +256,16 @@ export default function Auth() {
                     required
                     placeholder="First name"
                     value={firstName}
-                    onChange={(e) => setFirstName(e.target.value)}
-                    className="form-control py-2"
+                    onChange={(e) => {
+                      setFirstName(e.target.value)
+                      if (nameError) validateName(e.target.value, "First name")
+                    }}
+                    onBlur={(e) => validateName(e.target.value, "First name")}
+                    className={`form-control py-2 ${nameError && nameError.includes("First name") ? "is-invalid" : ""}`}
                   />
+                  {nameError && nameError.includes("First name") && (
+                    <div className="invalid-feedback">{nameError}</div>
+                  )}
                 </div>
                 <div className="col-6">
                   <label htmlFor="lastName" className="form-label">
@@ -206,9 +278,16 @@ export default function Auth() {
                     required
                     placeholder="Last name"
                     value={lastName}
-                    onChange={(e) => setLastName(e.target.value)}
-                    className="form-control py-2"
+                    onChange={(e) => {
+                      setLastName(e.target.value)
+                      if (nameError) validateName(e.target.value, "Last name")
+                    }}
+                    onBlur={(e) => validateName(e.target.value, "Last name")}
+                    className={`form-control py-2 ${nameError && nameError.includes("Last name") ? "is-invalid" : ""}`}
                   />
+                  {nameError && nameError.includes("Last name") && (
+                    <div className="invalid-feedback">{nameError}</div>
+                  )}
                 </div>
               </div>
               
@@ -223,12 +302,20 @@ export default function Auth() {
                   required
                   placeholder="Enter your phone number"
                   value={phone}
-                  onChange={(e) => setPhone(e.target.value)}
-                  className="form-control py-2"
+                  onChange={(e) => {
+                    setPhone(e.target.value)
+                    if (phoneError) validatePhoneNumber(e.target.value)
+                  }}
+                  onBlur={(e) => validatePhoneNumber(e.target.value)}
+                  className={`form-control py-2 ${phoneError ? "is-invalid" : ""}`}
                 />
-                <small className="text-muted d-block mt-1">
-                  Enter a valid phone number (e.g., 0777777777)
-                </small>
+                {phoneError ? (
+                  <div className="invalid-feedback">{phoneError}</div>
+                ) : (
+                  <small className="text-muted d-block mt-1">
+                    Enter a valid phone number containing only digits (e.g., 0777777777)
+                  </small>
+                )}
               </div>
 
               <div className="mb-3">
@@ -265,13 +352,14 @@ export default function Auth() {
                     setPassword(e.target.value)
                     validatePassword(e.target.value)
                   }}
-                  className="form-control py-2"
+                  className={`form-control py-2 ${passwordError ? "is-invalid" : ""}`}
                 />
-                <small className="text-muted d-block mt-1">
-                  Password should include uppercase, lowercase, numbers, and special characters
-                </small>
-                {passwordError && (
-                  <div className="text-danger small mt-1">{passwordError}</div>
+                {passwordError ? (
+                  <div className="invalid-feedback">{passwordError}</div>
+                ) : (
+                  <small className="text-muted d-block mt-1">
+                    Password should include uppercase, lowercase, numbers, and special characters
+                  </small>
                 )}
               </div>
 

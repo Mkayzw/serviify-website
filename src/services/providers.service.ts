@@ -3,11 +3,20 @@ import { ApiConstants } from '../lib/api/apiConstants';
 // Types
 export interface Provider {
   id: string;
-  name: string;
-  serviceType: string;
-  location: string;
-  rating: number;
+  name?: string;
+  first_name?: string;
+  last_name?: string;
+  headline?: string;
+  serviceType?: string;
+  service_type?: string;
+  location?: string;
+  provider_location?: string;
+  rating?: number;
+  service_rating?: number;
   avatar?: string;
+  profile_image_url?: string;
+  provider_bio?: string | null;
+  is_service_provider?: boolean;
 }
 
 export interface DiscoverServicesParams {
@@ -32,7 +41,7 @@ interface ApiResponse<T> {
   success: boolean;
 }
 
-// Backend data interfaces for type safety
+
 interface BackendUser {
   id: string;
   first_name: string;
@@ -44,6 +53,7 @@ interface BackendUser {
   average_rating: number | null;
   provider_bio: string | null;
   provider_location: string | null;
+  headline?: string | null;
 }
 
 interface BackendService {
@@ -61,6 +71,7 @@ interface BackendService {
   average_rating?: number;
   avatar?: string;
   profileImage?: string;
+  headline?: string;
 }
 
 export class ProvidersService {
@@ -233,6 +244,7 @@ export class ProvidersService {
         service_type: user.service_type,
         service_rating: user.service_rating,
         average_rating: user.average_rating,
+        headline: user.headline,
         allKeys: Object.keys(user)
       });
       
@@ -245,10 +257,19 @@ export class ProvidersService {
       return {
         id: user.id,
         name: `${user.first_name} ${user.last_name}`.trim(),
+        first_name: user.first_name,
+        last_name: user.last_name,
+        headline: user.headline || undefined,
         serviceType: serviceType,
+        service_type: user.service_type || serviceType,
         location: user.provider_location || 'Location not specified',
+        provider_location: user.provider_location || 'Location not specified',
         rating: user.average_rating || user.service_rating || 0,
-        avatar: user.profile_image_url
+        service_rating: user.service_rating || user.average_rating || 0,
+        avatar: user.profile_image_url,
+        profile_image_url: user.profile_image_url,
+        provider_bio: user.provider_bio,
+        is_service_provider: user.is_service_provider
       };
     });
   }
@@ -266,16 +287,24 @@ export class ProvidersService {
         average_rating: service.average_rating,
         ratingType: typeof service.average_rating,
         hasRating: 'average_rating' in service,
+        headline: service.headline,
         allKeys: Object.keys(service)
       });
       
       return {
         id: service.id || service._id || service.userId || '',
         name: service.name || service.providerName || `${service.firstName || ''} ${service.lastName || ''}`.trim(),
+        first_name: service.firstName || '',
+        last_name: service.lastName || '',
+        headline: service.headline,
         serviceType: service.serviceType || service.service || 'Unknown service',
+        service_type: service.serviceType || service.service || 'Unknown service',
         location: service.location || 'Unknown location',
+        provider_location: service.location || 'Unknown location',
         rating: service.average_rating || service.rating || 0,
-        avatar: service.avatar || service.profileImage
+        service_rating: service.rating || service.average_rating || 0,
+        avatar: service.avatar || service.profileImage,
+        profile_image_url: service.profileImage || service.avatar
       };
     });
   }
