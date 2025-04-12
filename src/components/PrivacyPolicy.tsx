@@ -37,9 +37,7 @@ const PrivacyPolicy: React.FC = () => {
           </Link>
           
           <div className={`navbar-links ${menuOpen ? 'active' : ''}`}>
-            <a href="/#services" onClick={handleNavLinkClick}>Services</a>
-            <a href="/#Providers" onClick={handleNavLinkClick}>Providers</a>
-            <Link to="/about" onClick={handleNavLinkClick}>About us</Link>
+           <Link to="/about" onClick={handleNavLinkClick}>About us</Link>
             <a href="/#support" onClick={handleNavLinkClick}>Support</a>
             <Link to="/help-centre" onClick={() => {
               handleNavLinkClick();

@@ -10,7 +10,7 @@ interface NavbarProps {
 
 const Navbar: React.FC<NavbarProps> = ({ 
   title,
-  setShowSignup, 
+  setShowSignup,
   setShowHelpCentre 
 }) => {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -65,24 +65,23 @@ const Navbar: React.FC<NavbarProps> = ({
         </div>
         
         <div className={`navbar-links ${menuOpen ? 'active' : ''}`}>
-          <a href="#services" onClick={handleNavLinkClick}>Services</a>
-          <a href="#Providers" onClick={handleNavLinkClick}>Providers</a>
+          <Link to="/" onClick={handleNavLinkClick}>Home</Link>
+          <Link to="/services" onClick={handleNavLinkClick}>Services</Link>
           <Link to="/about" onClick={handleNavLinkClick}>About us</Link>
           <Link to="/support" onClick={handleNavLinkClick}>Support</Link>
           <Link to="/help-centre" onClick={() => {
             handleNavLinkClick();
             setShowHelpCentre();
-          }}>Help</Link>
+          }}>Help Centre</Link>
         </div>
         
         <div className="navbar-buttons">
-          <Link to="/auth" className="sign-in-btn">
-            Sign up
+          <Link to="/auth?mode=login" className="sign-in-btn" onClick={() => setShowSignup(false)}>
+            Sign in
           </Link>
-          <button className="try-free-btn" onClick={() => {
-            setShowSignup(true);
+          <Link to="/provider-search" className="try-free-btn text-decoration-none" onClick={() => {
             setMenuOpen(false);
-          }}>Find a provider</button>
+          }}>Find a provider</Link>
         </div>
         
         <div className="mobile-menu-btn" onClick={handleMenuToggle}>

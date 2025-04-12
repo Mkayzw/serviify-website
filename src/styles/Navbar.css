@@ -60,9 +60,10 @@
 
 .navbar-links {
   display: flex;
-  gap: 30px;
+  gap: 60px;
   justify-content: center;
   flex: 2;
+  padding: 0 30px;
 }
 
 .navbar-links a {
@@ -71,10 +72,27 @@
   font-size: 16px;
   font-weight: 500;
   transition: color 0.3s ease;
+  position: relative;
+  white-space: nowrap;
 }
 
 .navbar-links a:hover {
   color: #293040;
+}
+
+.navbar-links a:after {
+  content: '';
+  position: absolute;
+  width: 0;
+  height: 2px;
+  background: #293040;
+  bottom: -5px;
+  left: 0;
+  transition: width 0.3s ease;
+}
+
+.navbar-links a:hover:after {
+  width: 100%;
 }
 
 .navbar-buttons {
@@ -85,10 +103,10 @@
 }
 
 .sign-in-btn {
-  padding: 10px 15px;
+  padding: 8px 16px;
   background: none;
   border: none;
-  font-size: 16px;
+  font-size: 14px;
   font-weight: 500;
   color: #444;
   cursor: pointer;
@@ -101,10 +119,10 @@
 }
 
 .try-free-btn {
-  padding: 10px 20px;
+  padding: 8px 16px;
   background-color: #293040;
   color: white;
-  font-size: 16px;
+  font-size: 14px;
   font-weight: 500;
   border: none;
   border-radius: 8px;
@@ -134,6 +152,13 @@
 }
 
 /* Mobile responsiveness */
+@media (max-width: 1200px) {
+  .navbar-links {
+    gap: 40px;
+    padding: 0 20px;
+  }
+}
+
 @media (max-width: 1024px) {
   .navbar-links {
     position: fixed;
@@ -198,13 +223,13 @@
   }
   
   .sign-in-btn {
-    padding: 8px 12px;
-    font-size: 14px;
+    padding: 6px 10px;
+    font-size: 13px;
   }
   
   .try-free-btn {
-    padding: 8px 12px;
-    font-size: 14px;
+    padding: 6px 10px;
+    font-size: 13px;
   }
   
   .logo-text {
