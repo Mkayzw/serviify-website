@@ -60,10 +60,10 @@
 
 .navbar-links {
   display: flex;
-  gap: 40px;
+  gap: 60px;
   justify-content: center;
-  flex: 1;
-  padding: 0 20px;
+  flex: 2;
+  padding: 0 30px;
 }
 
 .navbar-links a {
@@ -73,6 +73,7 @@
   font-weight: 500;
   transition: color 0.3s ease;
   position: relative;
+  white-space: nowrap;
 }
 
 .navbar-links a:hover {
@@ -151,6 +152,13 @@
 }
 
 /* Mobile responsiveness */
+@media (max-width: 1200px) {
+  .navbar-links {
+    gap: 40px;
+    padding: 0 20px;
+  }
+}
+
 @media (max-width: 1024px) {
   .navbar-links {
     position: fixed;

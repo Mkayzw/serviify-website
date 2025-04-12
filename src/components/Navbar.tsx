@@ -65,6 +65,8 @@ const Navbar: React.FC<NavbarProps> = ({
         </div>
         
         <div className={`navbar-links ${menuOpen ? 'active' : ''}`}>
+          <Link to="/" onClick={handleNavLinkClick}>Home</Link>
+          <Link to="/services" onClick={handleNavLinkClick}>Services</Link>
           <Link to="/about" onClick={handleNavLinkClick}>About us</Link>
           <Link to="/support" onClick={handleNavLinkClick}>Support</Link>
           <Link to="/help-centre" onClick={() => {

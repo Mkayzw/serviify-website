@@ -3,6 +3,7 @@
 import { useState } from "react"
 import { Link } from "react-router-dom"
 import logo from '../assets/logo.png'
+import discoverImage from '../assets/discover/discover_1.png'
 import { Provider, ProvidersService, DiscoverServicesParams } from "../services/providers.service"
 
 export default function ProviderSearch() {
@@ -178,15 +179,14 @@ export default function ProviderSearch() {
                 <input
                   type="text"
                   className="form-control"
-                  placeholder="Enter a full name"
+                  placeholder="Full name"
                   value={fullName}
                   onChange={(e) => setFullName(e.target.value)}
                 />
                 
                 <button 
                   type="submit" 
-                  className="btn btn-sm ms-2"
-                  style={{ backgroundColor: "#293040", color: "white" }}
+                  className="start-now-btn ms-2"
                   disabled={isLoading}
                 >
                   {isLoading ? (
@@ -201,7 +201,7 @@ export default function ProviderSearch() {
             </form>
             
             {/* Sign In Button */}
-            <Link to="/auth" className="btn btn-sm rounded-pill ms-3 px-3" style={{ backgroundColor: "#293040", color: "white" }}>Sign in</Link>
+            <Link to="/auth?mode=login" className="start-now-btn ms-3">Sign in</Link>
           </div>
         </div>
       </header>
@@ -213,7 +213,7 @@ export default function ProviderSearch() {
           <div className="text-center my-5">
             <div className="illustration-container mb-4">
               <img 
-                src="https://static.licdn.com/aero-v1/sc/h/dxf91zhqd2z6b0bwg85ktm5s4"
+                src={discoverImage}
                 alt="People illustration" 
                 className="img-fluid mx-auto d-block"
                 style={{ maxWidth: "300px" }}
@@ -223,8 +223,7 @@ export default function ProviderSearch() {
             <p className="mb-4 text-muted">Enter a full name to search or browse service providers near you.</p>
             <button 
               onClick={handleLoadNearbyServices} 
-              className="btn btn-sm rounded-pill px-3"
-              style={{ backgroundColor: "#293040", color: "white" }}
+              className="start-now-btn"
               disabled={isLoading}
             >
               Find Nearby Services
@@ -293,7 +292,7 @@ export default function ProviderSearch() {
                           <div className="d-flex align-items-center">
                             <div className="me-1" style={{ color: "#293040" }}>
                               {'★'.repeat(Math.floor(provider.service_rating || 0))}
-                              {(provider.service_rating || 0) % 1 > 0 ? '☆' : ''}
+                              {(provider.service_rating || 0) % 1 >= 0.5 ? '★' : ''}
                               {'☆'.repeat(5 - Math.ceil(provider.service_rating || 0))}
                             </div>
                             <span className="small text-muted">{(provider.service_rating || 0).toFixed(1)}</span>
@@ -305,23 +304,23 @@ export default function ProviderSearch() {
                         )}
                         
                         <div className="mb-3">
-                          <span className="badge rounded-pill bg-light text-dark border me-1">
+                          <span>
                             {provider.service_type}
                           </span>
                         </div>
                         
                         <div className="d-flex mt-2 justify-content-between align-items-center">
                           <div>
-                            <button className="btn btn-sm" style={{ backgroundColor: "#293040", color: "white" }}>Contact</button>
+                            <button className="start-now-btn">Contact</button>
                             <Link 
                               to={`/provider/${provider.id}`} 
-                              className="btn btn-sm ms-2" 
+                              className="btn ms-2" 
                               style={{ borderColor: "#293040", color: "#293040" }}
                             >
                               View Profile
                             </Link>
                           </div>
-                          <span className="badge rounded-pill bg-light text-dark border">
+                          <span>
                             {provider.provider_location 
                               ? (provider.provider_location.split(',').length > 1 
                                 ? provider.provider_location.split(',')[provider.provider_location.split(',').length - 1].trim() 
