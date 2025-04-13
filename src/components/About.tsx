@@ -20,10 +20,14 @@ const About: React.FC = () => {
     navigate('/auth');
   };
 
+  const goToProviders = () => {
+    navigate('/provider-search');
+  };
+
   const handleMenuToggle = () => {
     setMenuOpen(!menuOpen);
   };
-  
+
   const handleNavLinkClick = () => {
     setMenuOpen(false);
   };
@@ -39,31 +43,34 @@ const About: React.FC = () => {
               <span className="logo-text">Serviify</span>
             </Link>
           </div>
-          
+
           <div className="mobile-menu-btn" onClick={handleMenuToggle}>
             <div className={`bar ${menuOpen ? 'change' : ''}`}></div>
             <div className={`bar ${menuOpen ? 'change' : ''}`}></div>
             <div className={`bar ${menuOpen ? 'change' : ''}`}></div>
           </div>
-          
+
           <div className={`navbar-links ${menuOpen ? 'active' : ''}`}>
-            <a href="/#services" onClick={handleNavLinkClick}>Services</a>
-            <a href="/#Providers" onClick={handleNavLinkClick}>Providers</a>
+            <a href="/" onClick={handleNavLinkClick}>Home</a>
+            <a href="/" onClick={handleNavLinkClick}>Services</a>
             <Link to="/about" onClick={handleNavLinkClick}>About us</Link>
-            <a href="/#support" onClick={handleNavLinkClick}>Support</a>
+            <a href="/support" onClick={handleNavLinkClick}>Support</a>
             <Link to="/help-centre" onClick={() => {
               handleNavLinkClick();
               goToHelpCentre();
-            }}>Help</Link>
+            }}>Help Centre</Link>
           </div>
-          
+
           <div className="navbar-buttons">
-            <Link to="/auth" className="sign-in-btn" onClick={handleNavLinkClick}>
+            <Link to="/auth" className="sign-in-btn" onClick={() => {
+              handleNavLinkClick();
+              goToAuth();
+            }}>
               Sign up
             </Link>
             <button className="try-free-btn" onClick={() => {
               handleNavLinkClick();
-              goToAuth();
+              goToProviders();
             }}>Find a provider</button>
           </div>
         </div>
@@ -81,41 +88,41 @@ const About: React.FC = () => {
         <div className="bg-icon bg-icon-8"><i className="bi bi-scissors"></i></div>
         <div className="bg-icon bg-icon-9"><i className="bi bi-truck"></i></div>
         <div className="bg-icon bg-icon-10"><i className="bi bi-telephone"></i></div>
-        
+
         {/* Left side - Encapsulating */}
         <div className="bg-icon bg-icon-11"><i className="bi bi-lightning"></i></div>
         <div className="bg-icon bg-icon-12"><i className="bi bi-clipboard2-check"></i></div>
         <div className="bg-icon bg-icon-13"><i className="bi bi-briefcase"></i></div>
         <div className="bg-icon bg-icon-14"><i className="bi bi-palette"></i></div>
         <div className="bg-icon bg-icon-15"><i className="bi bi-pc-display"></i></div>
-        
+
         {/* Right side - Encapsulating */}
         <div className="bg-icon bg-icon-16"><i className="bi bi-wrench"></i></div>
         <div className="bg-icon bg-icon-17"><i className="bi bi-camera"></i></div>
         <div className="bg-icon bg-icon-18"><i className="bi bi-basket"></i></div>
         <div className="bg-icon bg-icon-19"><i className="bi bi-gem"></i></div>
         <div className="bg-icon bg-icon-20"><i className="bi bi-calendar-check"></i></div>
-        
+
         {/* Middle section - Medium density */}
         <div className="bg-icon bg-icon-21"><i className="bi bi-cloud-arrow-up"></i></div>
         <div className="bg-icon bg-icon-22"><i className="bi bi-flower1"></i></div>
         <div className="bg-icon bg-icon-23"><i className="bi bi-shield-check"></i></div>
         <div className="bg-icon bg-icon-24"><i className="bi bi-printer"></i></div>
-        
+
         {/* Lower section - Low density */}
         <div className="bg-icon bg-icon-25"><i className="bi bi-key"></i></div>
         <div className="bg-icon bg-icon-26"><i className="bi bi-music-note"></i></div>
-        
+
         {/* Bottom - Sparse */}
         <div className="bg-icon bg-icon-27"><i className="bi bi-lightbulb"></i></div>
         <div className="bg-icon bg-icon-28"><i className="bi bi-award"></i></div>
-        
+
         <div className="about-content">
           {/* Your existing content sections */}
           <section className="about-section">
             <h2>Who are we?</h2>
             <p className="about-intro">
-              Serviify began as a vision to simplify how people find and access professional services. 
+              Serviify began as a vision to simplify how people find and access professional services.
               We're building a platform that will connect service providers with clients,
               making professional services accessible to everyone.
             </p>
@@ -124,7 +131,7 @@ const About: React.FC = () => {
           <section className="about-section">
             <h2>Vision</h2>
             <p>
-              Create economic opportunity for every service provider and client by making professional 
+              Create economic opportunity for every service provider and client by making professional
               services as simple as a single click, empowering both providers and clients to achieve their goals.
             </p>
           </section>
@@ -132,7 +139,7 @@ const About: React.FC = () => {
           <section className="about-section">
             <h2>Mission</h2>
             <p>
-              The mission of Serviify is simple: connect people with the right service providers 
+              The mission of Serviify is simple: connect people with the right service providers
               through a reliable and affordable platform to make them more productive and successful.
             </p>
           </section>
@@ -143,31 +150,31 @@ const About: React.FC = () => {
         {/* Your existing info section */}
         <div className="more-info-content">
           <h2 className="more-info-title">For more information about Serviify</h2>
-          
+
           <div className="info-links">
             <div className="info-link-item">
-              <i className="bi bi-people-fill" style={{fontSize: "2.2rem", color: "#293040"}}></i>
+              <i className="bi bi-people-fill" style={{ fontSize: "2.2rem", color: "#293040" }}></i>
               <h3>Company Page</h3>
               <p>Connect with our network of service professionals.</p>
               <Link to="/about" className="learn-more-link">Learn more</Link>
             </div>
-            
+
             <div className="info-link-item">
-              <i className="bi bi-newspaper" style={{fontSize: "2.2rem", color: "#293040"}}></i>
+              <i className="bi bi-newspaper" style={{ fontSize: "2.2rem", color: "#293040" }}></i>
               <h3>Pressroom</h3>
               <p>Explore the latest Serviify news, updates, and reports.</p>
               <Link to="/help-centre" className="learn-more-link">Learn more</Link>
             </div>
-            
+
             <div className="info-link-item">
-              <i className="bi bi-brush-fill" style={{fontSize: "2.2rem", color: "#293040"}}></i>
+              <i className="bi bi-brush-fill" style={{ fontSize: "2.2rem", color: "#293040" }}></i>
               <h3>Branding policies</h3>
               <p>Find up-to-date guidelines on Serviify brand usage.</p>
               <Link to="/terms-of-service" className="learn-more-link">Learn more</Link>
             </div>
-            
+
             <div className="info-link-item">
-              <i className="bi bi-phone-fill" style={{fontSize: "2.2rem", color: "#293040"}}></i>
+              <i className="bi bi-phone-fill" style={{ fontSize: "2.2rem", color: "#293040" }}></i>
               <h3>App Services</h3>
               <p>Access our services on the go with mobile applications.</p>
               <Link to="/app-services" className="learn-more-link">Learn more</Link>

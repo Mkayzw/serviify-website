@@ -5,6 +5,7 @@
   padding: 0;
 }
 
+
 .provider-search-page {
   display: flex;
   flex-direction: column;
@@ -39,6 +40,14 @@
 .logo-link {
   display: flex;
   align-items: center;
+  text-decoration: none; /* Removes underline from link */
+}
+
+.logo-text {
+  font-size: 24px;
+  font-weight: 700;
+  color: #293040;
+  margin-left: 8px; /* Adds spacing between logo and text */
 }
 
 .serviify-logo {
