@@ -11,12 +11,37 @@ export interface Provider {
   service_type?: string;
   location?: string;
   provider_location?: string;
-  rating?: number;
   service_rating?: number;
   avatar?: string;
   profile_image_url?: string;
   provider_bio?: string | null;
   is_service_provider?: boolean;
+  reviews?: Review[];
+  gallery?: GalleryItem[];
+  follows_count?: number;
+  following_count?: number;
+  posts_count?: number;
+}
+
+// Review interface
+export interface Review {
+  id: string;
+  user_id: string;
+  provider_id: string;
+  rating: number;
+  comment: string;
+  created_at: string;
+  reviewer_name?: string;
+  reviewer_image?: string;
+}
+
+// Gallery item interface
+export interface GalleryItem {
+  id: string;
+  user_id: string;
+  image_url: string;
+  caption?: string;
+  created_at: string;
 }
 
 export interface DiscoverServicesParams {
@@ -231,7 +256,88 @@ export class ProvidersService {
     }
   }
 
-  
+  // Get provider by ID
+  public async getProviderById(id: string): Promise<Provider | null> {
+    try {
+      const endpoint = ApiConstants.users.getDetails.replace(/^\/api/, '');
+      const url = `${this.baseUrl}${endpoint}/${encodeURIComponent(id)}`;
+      
+      const response = await fetch(url);
+      
+      if (!response.ok) {
+        throw new Error(`Failed to get provider details with status: ${response.status}`);
+      }
+      
+      const responseText = await response.text();
+      console.log('Raw provider details response:', responseText);
+      
+      let result;
+      try {
+        result = JSON.parse(responseText);
+      } catch (parseError) {
+        console.error('Error parsing JSON response:', parseError);
+        throw new Error('Invalid JSON response from server');
+      }
+      
+      console.log('Parsed provider details response:', result);
+      
+      const userData = result.data || null;
+      if (!userData || !userData.is_service_provider) {
+        return null;
+      }
+      
+      // Fetch additional data - reviews
+      let reviews = [];
+      try {
+        const reviewsEndpoint = ApiConstants.reviews.get.replace(/^\/api/, '');
+        const reviewsUrl = `${this.baseUrl}${reviewsEndpoint}/${encodeURIComponent(id)}`;
+        const reviewsResponse = await fetch(reviewsUrl);
+        
+        if (reviewsResponse.ok) {
+          const reviewsResult = await reviewsResponse.json();
+          reviews = reviewsResult.data || [];
+          console.log('Provider reviews:', reviews);
+        }
+      } catch (error) {
+        console.error('Error getting provider reviews:', error);
+        // Continue execution even if reviews fetch fails
+      }
+      
+      // Fetch portfolio/gallery
+      let gallery = [];
+      try {
+        const galleryEndpoint = `${ApiConstants.users.getDetails.replace(/^\/api/, '')}/${encodeURIComponent(id)}/gallery`;
+        const galleryUrl = `${this.baseUrl}${galleryEndpoint}`;
+        const galleryResponse = await fetch(galleryUrl);
+        
+        if (galleryResponse.ok) {
+          const galleryResult = await galleryResponse.json();
+          gallery = galleryResult.data || [];
+          console.log('Provider gallery:', gallery);
+        }
+      } catch (error) {
+        console.error('Error getting provider gallery:', error);
+        // Continue execution even if gallery fetch fails
+      }
+      
+      // Map the provider data
+      const mappedProvider = this.mapUsersToProviders([userData])[0];
+      
+      // Add additional data to the provider object
+      return {
+        ...mappedProvider,
+        reviews: reviews,
+        gallery: gallery,
+        follows_count: userData.follows_count || 0,
+        following_count: userData.following_count || 0,
+        posts_count: userData.posts_count || 0
+      };
+    } catch (error) {
+      console.error('Error getting provider details:', error);
+      throw error;
+    }
+  }
+
   private mapUsersToProviders(users: BackendUser[]): Provider[] {
     console.log('Raw users data for rating debug:', users);
     
