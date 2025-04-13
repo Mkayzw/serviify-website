@@ -30,7 +30,7 @@ export default function ProviderProfile() {
           last_name: "Doe",
           profile_image_url: "https://randomuser.me/api/portraits/men/1.jpg",
           headline: "Professional Plumber & Home Repair Specialist",
-          provider_location: "New York, NY",
+          provider_location: "Harare, Zimbabwe",
           service_type: "Home Services",
           service_rating: 4.7,
           posts_count: 24,
@@ -434,9 +434,9 @@ export default function ProviderProfile() {
                 </div>
                 
                 <div className="text-center">
-                  <button className="start-now-btn w-100">
+                  <Link to="/auth?mode=signup" className="start-now-btn w-100">
                     Join the Network
-                  </button>
+                  </Link>
                 </div>
               </div>
             </div>
