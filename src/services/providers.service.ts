@@ -21,6 +21,7 @@ export interface Provider {
   follows_count?: number;
   following_count?: number;
   posts_count?: number;
+  posts?: Post[];
 }
 
 // Review interface
@@ -28,11 +29,11 @@ export interface Review {
   id: string;
   user_id: string;
   provider_id: string;
+  reviewer_name: string;
+  reviewer_image: string;
   rating: number;
   comment: string;
   created_at: string;
-  reviewer_name?: string;
-  reviewer_image?: string;
 }
 
 // Gallery item interface
@@ -40,7 +41,17 @@ export interface GalleryItem {
   id: string;
   user_id: string;
   image_url: string;
-  caption?: string;
+  caption: string | null;
+  created_at: string;
+}
+
+export interface Post {
+  id: string;
+  user_id: string;
+  content: string;
+  image_url: string | null;
+  likes_count: number;
+  comments_count: number;
   created_at: string;
 }
 

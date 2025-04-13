@@ -2,7 +2,8 @@
 
 import { useState, useEffect } from "react"
 import { useParams, Link } from "react-router-dom"
-import type { Provider, GalleryItem } from "../services/providers.service"
+import type { Provider, GalleryItem, Post } from "../services/providers.service"
+import logo from "../assets/logo.png"
 
 export default function ProviderProfile() {
   const { id } = useParams<{ id: string }>()
@@ -36,6 +37,35 @@ export default function ProviderProfile() {
           follows_count: 156,
           following_count: 89,
           provider_bio: "With over 15 years of experience in plumbing and home repairs, I specialize in quick, reliable fixes for all your household needs. Licensed and insured professional ready to help with emergencies 24/7.",
+          posts: [
+            {
+              id: "1",
+              user_id: id,
+              content: "Just completed a major pipe replacement project for a client in downtown. #PlumbingWorks #HomeRepair",
+              image_url: "https://images.unsplash.com/photo-1504148455328-c376907d081c",
+              likes_count: 28,
+              comments_count: 5,
+              created_at: "2023-08-10T13:25:00Z"
+            },
+            {
+              id: "2",
+              user_id: id,
+              content: "Tips for preventing frozen pipes this winter: 1) Keep your heat on 2) Let faucets drip 3) Keep interior doors open 4) Seal up cracks and holes. Call me for emergency services!",
+              image_url: null,
+              likes_count: 42,
+              comments_count: 7,
+              created_at: "2023-07-25T09:15:00Z"
+            },
+            {
+              id: "3",
+              user_id: id,
+              content: "Finished installing a new kitchen sink and faucet today. The modern design really transformed the space! #KitchenUpgrade",
+              image_url: "https://images.unsplash.com/photo-1556911220-bff31c812dba",
+              likes_count: 36,
+              comments_count: 4,
+              created_at: "2023-07-18T16:40:00Z"
+            }
+          ],
           gallery: [
             {
               id: "1",
@@ -207,6 +237,9 @@ export default function ProviderProfile() {
         <div className="container">
           <div className="d-flex align-items-center">
             <Link to="/" className="d-flex align-items-center text-decoration-none me-auto">
+              <div className="me-2">
+                <img src={logo} alt="Serviify Logo" width="36" height="36" />
+              </div>
               <span style={{ fontSize: "24px", fontWeight: 700, color: "#293040" }}>
                 Serviify
               </span>
@@ -324,6 +357,89 @@ export default function ProviderProfile() {
                 </div>
               </div>
             </div>
+
+            {/* Join to View Panel - Moved from right column to left column */}
+            <div className="card shadow-sm mb-4">
+              <div className="card-body">
+                <h5 className="card-title mb-3">View Full Profile</h5>
+                <div className="mb-3">
+                  <div 
+                    className={`d-flex align-items-center mb-3 p-2 rounded cursor-pointer ${viewMode === 'activity' ? 'bg-light' : ''}`}
+                    onClick={() => setViewMode('activity')}
+                    style={{ cursor: 'pointer' }}
+                  >
+                    <div className="rounded-circle bg-light d-flex align-items-center justify-content-center me-2"
+                      style={{ width: "32px", height: "32px", flexShrink: 0 }}>
+                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#293040" viewBox="0 0 16 16">
+                        <path d="M5 3a5 5 0 0 0 0 10h6a5 5 0 0 0 0-10H5zm6 9a4 4 0 1 1 0-8 4 4 0 0 1 0 8z"/>
+                      </svg>
+                    </div>
+                    <div className="w-100">
+                      <div className="fw-medium">See activity</div>
+                      <small className="text-muted">View {provider.first_name}'s recent posts</small>
+                    </div>
+                    {viewMode === 'activity' && (
+                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#293040" viewBox="0 0 16 16">
+                        <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+                        <path d="M10.97 4.97a.235.235 0 0 0-.02.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-1.071-1.05z"/>
+                      </svg>
+                    )}
+                  </div>
+                  
+                  <div 
+                    className={`d-flex align-items-center mb-3 p-2 rounded cursor-pointer ${viewMode === 'introduction' ? 'bg-light' : ''}`}
+                    onClick={() => setViewMode('introduction')}
+                    style={{ cursor: 'pointer' }}
+                  >
+                    <div className="rounded-circle bg-light d-flex align-items-center justify-content-center me-2"
+                      style={{ width: "32px", height: "32px", flexShrink: 0 }}>
+                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#293040" viewBox="0 0 16 16">
+                        <path d="M15 14s1 0 1-1-1-4-5-4-5 3-5 4 1 1 1 1h8Zm-7.978-1A.261.261 0 0 1 7 12.996c.001-.264.167-1.03.76-1.72C8.312 10.629 9.282 10 11 10c1.717 0 2.687.63 3.24 1.276.593.69.758 1.457.76 1.72l-.008.002a.274.274 0 0 1-.014.002H7.022ZM11 7a2 2 0 1 0 0-4 2 2 0 0 0 0 4Zm3-2a3 3 0 1 1-6 0 3 3 0 0 1 6 0ZM6.936 9.28a5.88 5.88 0 0 0-1.23-.247A7.35 7.35 0 0 0 5 9c-4 0-5 3-5 4 0 .667.333 1 1 1h4.216A2.238 2.238 0 0 1 5 13c0-1.01.377-2.042 1.09-2.904.243-.294.526-.569.846-.816ZM4.92 10A5.493 5.493 0 0 0 4 13H1c0-.26.164-1.03.76-1.724.545-.636 1.492-1.256 3.16-1.275ZM1.5 5.5a3 3 0 1 1 6 0 3 3 0 0 1-6 0Zm3-2a2 2 0 1 0 0 4 2 2 0 0 0 0-4Z"/>
+                      </svg>
+                    </div>
+                    <div className="w-100">
+                      <div className="fw-medium">Get introduction</div>
+                      <small className="text-muted">Connect through mutual contacts</small>
+                    </div>
+                    {viewMode === 'introduction' && (
+                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#293040" viewBox="0 0 16 16">
+                        <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+                        <path d="M10.97 4.97a.235.235 0 0 0-.02.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-1.071-1.05z"/>
+                      </svg>
+                    )}
+                  </div>
+                  
+                  <div 
+                    className={`d-flex align-items-center p-2 rounded cursor-pointer ${viewMode === 'contact' ? 'bg-light' : ''}`}
+                    onClick={() => setViewMode('contact')}
+                    style={{ cursor: 'pointer' }}
+                  >
+                    <div className="rounded-circle bg-light d-flex align-items-center justify-content-center me-2"
+                      style={{ width: "32px", height: "32px", flexShrink: 0 }}>
+                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#293040" viewBox="0 0 16 16">
+                        <path d="M3.654 1.328a.678.678 0 0 0-1.015-.063L1.605 2.3c-.483.484-.661 1.169-.45 1.77a17.568 17.568 0 0 0 4.168 6.608 17.569 17.569 0 0 0 6.608 4.168c.601.211 1.286.033 1.77-.45l1.034-1.034a.678.678 0 0 0-.063-1.015l-2.307-1.794a.678.678 0 0 0-.58-.122l-2.19.547a1.745 1.745 0 0 1-1.657-.459L5.482 8.062a1.745 1.745 0 0 1-.46-1.657l.548-2.19a.678.678 0 0 0-.122-.58L3.654 1.328zM1.884.511a1.745 1.745 0 0 1 2.612.163L6.29 2.98c.329.423.445.974.315 1.494l-.547 2.19a.678.678 0 0 0 .178.643l2.457 2.457a.678.678 0 0 0 .644.178l2.189-.547a1.745 1.745 0 0 1 1.494.315l2.306 1.794c.829.645.905 1.87.163 2.611l-1.034 1.034c-.74.74-1.846 1.065-2.877.702a18.634 18.634 0 0 1-7.01-4.42 18.634 18.634 0 0 1-4.42-7.009c-.362-1.03-.037-2.137.703-2.877L1.885.511z"/>
+                      </svg>
+                    </div>
+                    <div className="w-100">
+                      <div className="fw-medium">Contact details</div>
+                      <small className="text-muted">Get direct contact information</small>
+                    </div>
+                    {viewMode === 'contact' && (
+                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#293040" viewBox="0 0 16 16">
+                        <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+                        <path d="M10.97 4.97a.235.235 0 0 0-.02.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-1.071-1.05z"/>
+                      </svg>
+                    )}
+                  </div>
+                </div>
+                
+                <div className="text-center">
+                  <button className="start-now-btn w-100">
+                    Join the Network
+                  </button>
+                </div>
+              </div>
+            </div>
           </div>
           
           {/* Right Content Area */}
@@ -395,14 +511,62 @@ export default function ProviderProfile() {
               </div>
               <div className="card-body">
                 {activeTab === 'posts' ? (
-                  <div className="text-center py-4">
-                    <div className="mb-3">
-                      <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="#ccc" className="bi bi-file-earmark-text" viewBox="0 0 16 16">
-                        <path d="M5.5 7a.5.5 0 0 0 0 1h5a.5.5 0 0 0 0-1h-5zM5 9.5a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5zm0 2a.5.5 0 0 1 .5-.5h2a.5.5 0 0 1 0 1h-2a.5.5 0 0 1-.5-.5z"/>
-                        <path d="M9.5 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V4.5L9.5 0zm0 1v2A1.5 1.5 0 0 0 11 4.5h2V14a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h5.5z"/>
-                      </svg>
-                    </div>
-                    <p className="text-muted">No posts available yet</p>
+                  <div>
+                    {provider.posts && provider.posts.length > 0 ? (
+                      <div className="posts-container">
+                        {provider.posts.map((post: Post) => (
+                          <div key={post.id} className="card mb-3 border-0 shadow-sm">
+                            <div className="card-body">
+                              <div className="d-flex align-items-center mb-3">
+                                <img 
+                                  src={provider.profile_image_url} 
+                                  alt={`${provider.first_name} ${provider.last_name}`}
+                                  className="rounded-circle me-2"
+                                  style={{ width: "40px", height: "40px", objectFit: "cover" }}
+                                />
+                                <div>
+                                  <div className="fw-bold">{provider.first_name} {provider.last_name}</div>
+                                  <div className="text-muted small">{formatDate(post.created_at)}</div>
+                                </div>
+                              </div>
+                              <p className="card-text">{post.content}</p>
+                              {post.image_url && (
+                                <img 
+                                  src={post.image_url} 
+                                  alt="Post" 
+                                  className="img-fluid rounded mb-3"
+                                  style={{ maxHeight: "300px", width: "100%", objectFit: "cover" }}
+                                />
+                              )}
+                              <div className="d-flex align-items-center">
+                                <button className="btn btn-sm text-muted me-3 d-flex align-items-center">
+                                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-hand-thumbs-up me-1" viewBox="0 0 16 16">
+                                    <path d="M8.864.046C7.908-.193 7.02.53 6.956 1.466c-.072 1.051-.23 2.016-.428 2.59-.125.36-.479 1.013-1.04 1.639-.557.623-1.282 1.178-2.131 1.41C2.685 7.288 2 7.87 2 8.72v4.001c0 .845.682 1.464 1.448 1.545 1.07.114 1.564.415 2.068.723l.048.03c.272.165.578.348.97.484.397.136.861.217 1.466.217h3.5c.937 0 1.599-.477 1.934-1.064a1.86 1.86 0 0 0 .254-.912c0-.152-.023-.312-.077-.464.201-.263.38-.578.488-.901.11-.33.172-.762.004-1.149.069-.13.12-.269.159-.403.077-.27.113-.568.113-.857 0-.288-.036-.585-.113-.856a2.144 2.144 0 0 0-.138-.362 1.9 1.9 0 0 0 .234-1.734c-.206-.592-.682-1.1-1.2-1.272-.847-.282-1.803-.276-2.516-.211a9.84 9.84 0 0 0-.443.05 9.365 9.365 0 0 0-.062-4.509A1.38 1.38 0 0 0 9.125.111L8.864.046zM11.5 14.721H8c-.51 0-.863-.069-1.14-.164-.281-.097-.506-.228-.776-.393l-.04-.024c-.555-.339-1.198-.731-2.49-.868-.333-.036-.554-.29-.554-.55V8.72c0-.254.226-.543.62-.65 1.095-.3 1.977-.996 2.614-1.708.635-.71 1.064-1.475 1.238-1.978.243-.7.407-1.768.482-2.85.025-.362.36-.594.667-.518l.262.066c.16.04.258.143.288.255a8.34 8.34 0 0 1-.145 4.725.5.5 0 0 0 .595.644l.003-.001.014-.003.058-.014a8.908 8.908 0 0 1 1.036-.157c.663-.06 1.457-.054 2.11.164.175.058.45.3.57.65.107.308.087.67-.266 1.022l-.353.353.353.354c.043.043.105.141.154.315.048.167.075.37.075.581 0 .212-.027.414-.075.582-.05.174-.111.272-.154.315l-.353.353.353.354c.047.047.109.177.005.488a2.224 2.224 0 0 1-.505.805l-.353.353.353.354c.006.005.041.05.041.17a.866.866 0 0 1-.121.416c-.165.288-.503.56-1.066.56z"/>
+                                  </svg>
+                                  <span>{post.likes_count}</span>
+                                </button>
+                                <button className="btn btn-sm text-muted d-flex align-items-center">
+                                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-chat me-1" viewBox="0 0 16 16">
+                                    <path d="M2.678 11.894a1 1 0 0 1 .287.801 10.97 10.97 0 0 1-.398 2c1.395-.323 2.247-.697 2.634-.893a1 1 0 0 1 .71-.074A8.06 8.06 0 0 0 8 14c3.996 0 7-2.807 7-6 0-3.192-3.004-6-7-6S1 4.808 1 8c0 1.468.617 2.83 1.678 3.894zm-.493 3.905a21.682 21.682 0 0 1-.713.129c-.2.032-.352-.176-.273-.362a9.68 9.68 0 0 0 .244-.637l.003-.01c.248-.72.45-1.548.524-2.319C.743 11.37 0 9.76 0 8c0-3.866 3.582-7 8-7s8 3.134 8 7-3.582 7-8 7a9.06 9.06 0 0 1-2.347-.306c-.52.263-1.639.742-3.468 1.105z"/>
+                                  </svg>
+                                  <span>{post.comments_count}</span>
+                                </button>
+                              </div>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    ) : (
+                      <div className="text-center py-4">
+                        <div className="mb-3">
+                          <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="#ccc" className="bi bi-file-earmark-text" viewBox="0 0 16 16">
+                            <path d="M5.5 7a.5.5 0 0 0 0 1h5a.5.5 0 0 0 0-1h-5zM5 9.5a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5zm0 2a.5.5 0 0 1 .5-.5h2a.5.5 0 0 1 0 1h-2a.5.5 0 0 1-.5-.5z"/>
+                            <path d="M9.5 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V4.5L9.5 0zm0 1v2A1.5 1.5 0 0 0 11 4.5h2V14a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h5.5z"/>
+                          </svg>
+                        </div>
+                        <p className="text-muted">No posts available yet</p>
+                      </div>
+                    )}
                   </div>
                 ) : (
                   <div>
@@ -440,78 +604,6 @@ export default function ProviderProfile() {
                     )}
                   </div>
                 )}
-              </div>
-            </div>
-
-            {/* Join to View Panel */}
-            <div className="card shadow-sm mb-4">
-              <div className="card-body">
-                <h5 className="card-title mb-3">View Full Profile</h5>
-                <div className="row mb-3">
-                  <div className="col-md-4">
-                    <div className="form-check mb-2">
-                      <input 
-                        className="form-check-input" 
-                        type="radio" 
-                        name="viewMode" 
-                        id="activityRadio"
-                        checked={viewMode === 'activity'}
-                        onChange={() => setViewMode('activity')}
-                      />
-                      <label className="form-check-label" htmlFor="activityRadio">
-                        See activity
-                      </label>
-                    </div>
-                    <div className="form-check mb-2">
-                      <input 
-                        className="form-check-input" 
-                        type="radio" 
-                        name="viewMode" 
-                        id="introductionRadio"
-                        checked={viewMode === 'introduction'} 
-                        onChange={() => setViewMode('introduction')}
-                      />
-                      <label className="form-check-label" htmlFor="introductionRadio">
-                        Get introduction
-                      </label>
-                    </div>
-                    <div className="form-check">
-                      <input 
-                        className="form-check-input" 
-                        type="radio" 
-                        name="viewMode" 
-                        id="contactRadio"
-                        checked={viewMode === 'contact'} 
-                        onChange={() => setViewMode('contact')}
-                      />
-                      <label className="form-check-label" htmlFor="contactRadio">
-                        Contact details
-                      </label>
-                    </div>
-                  </div>
-                  <div className="col-md-8">
-                    {viewMode === 'activity' && (
-                      <div className="p-3 bg-light rounded">
-                        <p className="mb-0">See {provider.first_name}'s recent activity and posts.</p>
-                      </div>
-                    )}
-                    {viewMode === 'introduction' && (
-                      <div className="p-3 bg-light rounded">
-                        <p className="mb-0">Request an introduction to {provider.first_name} through mutual connections.</p>
-                      </div>
-                    )}
-                    {viewMode === 'contact' && (
-                      <div className="p-3 bg-light rounded">
-                        <p className="mb-0">Get access to {provider.first_name}'s contact information.</p>
-                      </div>
-                    )}
-                  </div>
-                </div>
-                <div className="text-center">
-                  <button className="start-now-btn">
-                    Join the Network
-                  </button>
-                </div>
               </div>
             </div>
           </div>
