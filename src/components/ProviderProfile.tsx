@@ -3,6 +3,8 @@
 import { useState, useEffect } from "react"
 import { useParams, Link } from "react-router-dom"
 import type { Provider, GalleryItem, Post } from "../services/providers.service"
+import { ProvidersService } from "../services/providers.service"
+import { ApiConstants } from "../lib/api/apiConstants"
 import logo from "../assets/logo.png"
 
 export default function ProviderProfile() {
@@ -12,124 +14,101 @@ export default function ProviderProfile() {
   const [error, setError] = useState<string | null>(null)
   const [activeTab, setActiveTab] = useState<'posts' | 'gallery'>('posts')
   const [viewMode, setViewMode] = useState<'activity' | 'introduction' | 'contact'>('activity')
+  const [isFollowing, setIsFollowing] = useState(false)
+  const [isFollowLoading, setIsFollowLoading] = useState(false)
 
   useEffect(() => {
-    const loadPlaceholderData = () => {
-      // Simulate loading delay
-      setTimeout(() => {
-        if (!id) {
-          setError("Provider ID is missing")
-          setIsLoading(false)
-          return
-        }
-        
-        // Placeholder data for the provider
-        const placeholderProvider: Provider = {
-          id: id,
-          first_name: "John",
-          last_name: "Doe",
-          profile_image_url: "https://randomuser.me/api/portraits/men/1.jpg",
-          headline: "Professional Plumber & Home Repair Specialist",
-          provider_location: "Harare, Zimbabwe",
-          service_type: "Home Services",
-          service_rating: 4.7,
-          posts_count: 24,
-          follows_count: 156,
-          following_count: 89,
-          provider_bio: "With over 15 years of experience in plumbing and home repairs, I specialize in quick, reliable fixes for all your household needs. Licensed and insured professional ready to help with emergencies 24/7.",
-          posts: [
-            {
-              id: "1",
-              user_id: id,
-              content: "Just completed a major pipe replacement project for a client in downtown. #PlumbingWorks #HomeRepair",
-              image_url: "https://images.unsplash.com/photo-1504148455328-c376907d081c",
-              likes_count: 28,
-              comments_count: 5,
-              created_at: "2023-08-10T13:25:00Z"
-            },
-            {
-              id: "2",
-              user_id: id,
-              content: "Tips for preventing frozen pipes this winter: 1) Keep your heat on 2) Let faucets drip 3) Keep interior doors open 4) Seal up cracks and holes. Call me for emergency services!",
-              image_url: null,
-              likes_count: 42,
-              comments_count: 7,
-              created_at: "2023-07-25T09:15:00Z"
-            },
-            {
-              id: "3",
-              user_id: id,
-              content: "Finished installing a new kitchen sink and faucet today. The modern design really transformed the space! #KitchenUpgrade",
-              image_url: "https://images.unsplash.com/photo-1556911220-bff31c812dba",
-              likes_count: 36,
-              comments_count: 4,
-              created_at: "2023-07-18T16:40:00Z"
-            }
-          ],
-          gallery: [
-            {
-              id: "1",
-              user_id: id,
-              image_url: "https://images.unsplash.com/photo-1581578731548-c64695cc6952",
-              caption: "Fixing a kitchen sink",
-              created_at: "2023-05-15T10:30:00Z"
-            },
-            {
-              id: "2",
-              user_id: id,
-              image_url: "https://images.unsplash.com/photo-1615529328331-f8917597711f",
-              caption: "Bathroom renovation completed",
-              created_at: "2023-06-22T14:45:00Z"
-            },
-            {
-              id: "3",
-              user_id: id,
-              image_url: "https://images.unsplash.com/photo-1504148455328-c376907d081c",
-              caption: "Emergency pipe repair",
-              created_at: "2023-07-10T08:15:00Z"
-            }
-          ],
-          reviews: [
-            {
-              id: "101",
-              user_id: "user123",
-              provider_id: id,
-              reviewer_name: "Sarah Johnson",
-              reviewer_image: "https://randomuser.me/api/portraits/women/42.jpg",
-              rating: 5,
-              comment: "John came in and fixed our leaking sink in less than an hour. Very professional and reasonably priced. Would definitely recommend!",
-              created_at: "2023-04-18T16:30:00Z"
-            },
-            {
-              id: "102",
-              user_id: "user456",
-              provider_id: id,
-              reviewer_name: "Michael Brown",
-              reviewer_image: "https://randomuser.me/api/portraits/men/32.jpg",
-              rating: 4.5,
-              comment: "Great service. Came on time and fixed our bathroom issues. Only taking off half a star because the initial quote was a bit lower than the final price.",
-              created_at: "2023-03-05T11:20:00Z"
-            },
-            {
-              id: "103",
-              user_id: "user789",
-              provider_id: id,
-              reviewer_name: "Emma Wilson",
-              reviewer_image: "https://randomuser.me/api/portraits/women/24.jpg",
-              rating: 5,
-              comment: "John is our go-to plumber now. He's fixed multiple issues in our old house and always does quality work. Very reliable!",
-              created_at: "2023-02-12T09:45:00Z"
-            }
-          ]
-        };
-        
-        setProvider(placeholderProvider);
-        setIsLoading(false);
-      }, 800); // Simulate network delay
-    };
+    const fetchProviderData = async () => {
+      if (!id) {
+        setError("Provider ID is missing")
+        setIsLoading(false)
+        return
+      }
 
-    loadPlaceholderData();
-  }, [id]);
+      console.log("Fetching provider with ID:", id);
+      
+      try {
+        setIsLoading(true)
+        const providerService = ProvidersService.getInstance()
+        
+        // Log the API URL
+        const apiUrl = ApiConstants.baseUrl + ApiConstants.users.getDetails + "/" + id;
+        console.log("Requesting provider from:", apiUrl);
+        
+        const providerData = await providerService.getProviderById(id)
+        console.log("Provider data received:", providerData);
+        
+        if (!providerData) {
+          console.error("Provider not found for ID:", id);
+          setError("Provider not found")
+        } else {
+          console.log("Setting provider data:", {
+            name: `${providerData.first_name} ${providerData.last_name}`,
+            headline: providerData.headline,
+            location: providerData.provider_location,
+            rating: providerData.service_rating,
+            gallery: providerData.gallery?.length,
+            posts: providerData.posts?.length,
+            bio: providerData.provider_bio?.substring(0, 50) + "..."
+          });
+          setProvider(providerData)
+          // You would check if user is following this provider
+          // For now we'll default to false
+          setIsFollowing(false)
+        }
+      } catch (err) {
+        console.error("Error fetching provider data:", err)
+        setError("Failed to load provider data. Please try again later.")
+      } finally {
+        setIsLoading(false)
+      }
+    }
+
+    fetchProviderData()
+  }, [id])
+
+  const handleFollowToggle = async () => {
+    if (!id || !provider) return
+    
+    try {
+      setIsFollowLoading(true)
+      
+      // Here you would make an API call to follow/unfollow the provider
+      const endpoint = `/interactions/toggle-follow`
+      const response = await fetch(`${ApiConstants.baseUrl}${endpoint}`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ 
+          targetUserId: id 
+        }),
+        credentials: 'include' // Send cookies for authentication
+      })
+      
+      if (!response.ok) {
+        throw new Error('Failed to toggle follow status')
+      }
+      
+      // Toggle following state after successful API call
+      setIsFollowing((prev) => !prev)
+      
+      // Update follows count
+      if (provider) {
+        setProvider({
+          ...provider,
+          follows_count: isFollowing 
+            ? (provider.follows_count || 0) - 1 
+            : (provider.follows_count || 0) + 1
+        })
+      }
+    } catch (error) {
+      console.error('Error toggling follow status:', error)
+      // You might want to show an error toast or message here
+    } finally {
+      setIsFollowLoading(false)
+    }
+  }
 
   // Format date string to a more readable format
   const formatDate = (dateString: string) => {
@@ -461,13 +440,22 @@ export default function ProviderProfile() {
                       {renderRating(provider.service_rating || 0)}
                     </div>
                     <div className="d-flex align-items-center">
-                      <button className="start-now-btn me-2" style={{ minWidth: "120px", padding: "8px 16px" }}>
+                      <button 
+                        className="start-now-btn me-2" 
+                        style={{ minWidth: "120px", padding: "8px 16px" }} 
+                        onClick={handleFollowToggle}
+                        disabled={isFollowLoading}
+                      >
                         <div className="d-flex align-items-center justify-content-center">
-                          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="me-2" viewBox="0 0 16 16">
-                            <path d="M1 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H1zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/>
-                            <path fill-rule="evenodd" d="M13.5 5a.5.5 0 0 1 .5.5V7h1.5a.5.5 0 0 1 0 1H14v1.5a.5.5 0 0 1-1 0V8h-1.5a.5.5 0 0 1 0-1H13V5.5a.5.5 0 0 1 .5-.5z"/>
-                          </svg>
-                          <span>Follow</span>
+                          {isFollowLoading ? (
+                            <span className="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+                          ) : (
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="me-2" viewBox="0 0 16 16">
+                              <path d="M1 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H1zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/>
+                              <path fill-rule="evenodd" d="M13.5 5a.5.5 0 0 1 .5.5V7h1.5a.5.5 0 0 1 0 1H14v1.5a.5.5 0 0 1-1 0V8h-1.5a.5.5 0 0 1 0-1H13V5.5a.5.5 0 0 1 .5-.5z"/>
+                            </svg>
+                          )}
+                          <span>{isFollowing ? "Unfollow" : "Follow"}</span>
                         </div>
                       </button>
                       <button className="btn" style={{ borderColor: "#293040", color: "#293040", minWidth: "120px", padding: "8px 16px" }}>Contact</button>
