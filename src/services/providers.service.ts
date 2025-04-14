@@ -25,6 +25,13 @@ export interface Provider {
   posts?: Post[];
 }
 
+// Analytics data interface
+export interface AnalyticsData {
+  rating: number;
+  refers_count: number;
+  bookmarks_count: number;
+}
+
 // Review interface
 export interface Review {
   id: string;
@@ -35,6 +42,12 @@ export interface Review {
   rating: number;
   comment: string;
   created_at: string;
+  client?: {
+    id: string;
+    first_name: string;
+    last_name: string;
+    profile_image_url: string;
+  };
 }
 
 // Gallery item interface
@@ -71,12 +84,6 @@ export interface DiscoverServicesResponse {
   limit: number;
 }
 
-// Backend response format
-// interface ApiResponse<T> {
-//   message: string;
-//   data: T;
-//   success: boolean;
-// }
 
 
 interface BackendUser {

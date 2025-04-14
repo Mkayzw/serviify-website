@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react"
 import { useParams, Link } from "react-router-dom"
-import type { Provider, GalleryItem, Post } from "../services/providers.service"
+import type { Provider, GalleryItem, Post, AnalyticsData } from "../services/providers.service"
 import { ProvidersService } from "../services/providers.service"
 import { ApiConstants } from "../lib/api/apiConstants"
 import logo from "../assets/logo.png"
@@ -16,6 +16,12 @@ export default function ProviderProfile() {
   const [viewMode, setViewMode] = useState<'activity' | 'introduction' | 'contact'>('activity')
   const [isFollowing, setIsFollowing] = useState(false)
   const [isFollowLoading, setIsFollowLoading] = useState(false)
+  const [isUserSignedIn, setIsUserSignedIn] = useState(false)
+  const [providerAnalytics, setProviderAnalytics] = useState<AnalyticsData>({
+    rating: 0,
+    refers_count: 0,
+    bookmarks_count: 0
+  })
 
   useEffect(() => {
     const fetchProviderData = async () => {
@@ -31,12 +37,16 @@ export default function ProviderProfile() {
         setIsLoading(true)
         const providerService = ProvidersService.getInstance()
         
-        // Log the API URL
+      
         const apiUrl = ApiConstants.baseUrl + ApiConstants.users.getDetails + "/" + id;
         console.log("Requesting provider from:", apiUrl);
         
         const providerData = await providerService.getProviderById(id)
         console.log("Provider data received:", providerData);
+        
+        // Log detailed provider data structure to inspect all available fields
+        console.log("DETAILED PROVIDER DATA:");
+        console.log(JSON.stringify(providerData, null, 2));
         
         if (!providerData) {
           console.error("Provider not found for ID:", id);
@@ -52,8 +62,53 @@ export default function ProviderProfile() {
             bio: providerData.provider_bio?.substring(0, 50) + "..."
           });
           setProvider(providerData)
-          // You would check if user is following this provider
-          // For now we'll default to false
+          
+          // Set analytics data using only what's available in the provider object
+          const rating = providerData.service_rating || 0;
+          // Get reviews count from the provider object if available
+          const reviewsCount = providerData.reviews?.length || 0;
+          
+          setProviderAnalytics({
+            rating: rating,
+            refers_count: reviewsCount, // Use reviews count as a placeholder for refers
+            bookmarks_count: 0 // Default to 0
+          });
+          
+          // If you still want to attempt the refers API call
+          try {
+            const refersUrl = `${ApiConstants.baseUrl}${ApiConstants.interactions.getRefers}/${id}`;
+            console.log("Requesting refers from:", refersUrl);
+            
+            fetch(refersUrl, {
+              method: 'GET',
+              headers: {
+                'Content-Type': 'application/json',
+              },
+            })
+            .then(response => {
+              if (response.ok) {
+                return response.json();
+              }
+              console.log("Refers endpoint not available");
+              return { data: [] };
+            })
+            .then(data => {
+              console.log("Refers API response:", data);
+              // If data is available and has the expected structure, update the refers count
+              if (data && data.data && Array.isArray(data.data)) {
+                setProviderAnalytics(prev => ({
+                  ...prev,
+                  refers_count: data.data.length
+                }));
+              }
+            })
+            .catch(error => {
+              console.error("Error fetching refers:", error);
+            });
+          } catch (error) {
+            console.error("Exception fetching refers:", error);
+          }
+          
           setIsFollowing(false)
         }
       } catch (err) {
@@ -65,15 +120,38 @@ export default function ProviderProfile() {
     }
 
     fetchProviderData()
+    
+    // Check if user is signed in
+    const checkUserSignedIn = () => {
+      // Check for auth token in localStorage or cookies
+      const token = localStorage.getItem('auth_token') || getCookie('auth_token');
+      setIsUserSignedIn(!!token);
+    }
+    
+    checkUserSignedIn();
   }, [id])
+
+  // Helper function to get cookie value
+  const getCookie = (name: string): string | null => {
+    const value = `; ${document.cookie}`;
+    const parts = value.split(`; ${name}=`);
+    if (parts.length === 2) return parts.pop()?.split(';').shift() || null;
+    return null;
+  }
 
   const handleFollowToggle = async () => {
     if (!id || !provider) return
     
+    // Redirect to signup if user is not signed in
+    if (!isUserSignedIn) {
+      window.location.href = '/auth?mode=signup';
+      return;
+    }
+    
     try {
       setIsFollowLoading(true)
       
-      // Here you would make an API call to follow/unfollow the provider
+      
       const endpoint = `/interactions/toggle-follow`
       const response = await fetch(`${ApiConstants.baseUrl}${endpoint}`, {
         method: 'POST',
@@ -104,7 +182,7 @@ export default function ProviderProfile() {
       }
     } catch (error) {
       console.error('Error toggling follow status:', error)
-      // You might want to show an error toast or message here
+      setError("Failed to toggle follow status. Please try again later.")
     } finally {
       setIsFollowLoading(false)
     }
@@ -297,7 +375,7 @@ export default function ProviderProfile() {
                 
                 {/* About Section */}
                 <div className="mb-4 text-start">
-                  <h5 className="card-title border-bottom pb-2 mb-3">About</h5>
+                  <h5 className="card-title border-bottom pb-2 mb-3">Bio</h5>
                   {provider.provider_bio ? (
                     <p className="card-text">{provider.provider_bio}</p>
                   ) : (
@@ -311,33 +389,81 @@ export default function ProviderProfile() {
                   <div className="d-flex align-items-center mb-3">
                     <div className="rounded-circle bg-light d-flex align-items-center justify-content-center me-3"
                       style={{ width: "40px", height: "40px" }}>
-                      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="#293040" className="bi bi-eye" viewBox="0 0 16 16">
-                        <path d="M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8zM1.173 8a13.133 13.133 0 0 1 1.66-2.043C4.12 4.668 5.88 3.5 8 3.5c2.12 0 3.879 1.168 5.168 2.457A13.133 13.133 0 0 1 14.828 8c-.058.087-.122.183-.195.288-.335.48-.83 1.12-1.465 1.755C11.879 11.332 10.119 12.5 8 12.5c-2.12 0-3.879-1.168-5.168-2.457A13.134 13.134 0 0 1 1.172 8z"/>
-                        <path d="M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5zM4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0z"/>
+                      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="#293040" className="bi bi-star" viewBox="0 0 16 16">
+                        <path d="M2.866 14.85c-.078.444.36.791.746.593l4.39-2.256 4.389 2.256c.386.198.824-.149.746-.592l-.83-4.73 3.522-3.356c.33-.314.16-.888-.282-.95l-4.898-.696L8.465.792a.513.513 0 0 0-.927 0L5.354 5.12l-4.898.696c-.441.062-.612.636-.283.95l3.523 3.356-.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"/>
                       </svg>
                     </div>
                     <div>
-                      <div className="fw-bold">0</div>
-                      <div className="text-muted small">Profile views</div>
+                      <div className="fw-bold">{providerAnalytics.rating.toFixed(1)}</div>
+                      <div className="text-muted small">Rating</div>
+                    </div>
+                  </div>
+                  <div className="d-flex align-items-center mb-3">
+                    <div className="rounded-circle bg-light d-flex align-items-center justify-content-center me-3"
+                      style={{ width: "40px", height: "40px" }}>
+                      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="#293040" className="bi bi-person" viewBox="0 0 16 16">
+                        <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6Zm2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0Zm4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4Zm-1-.004c0-.001-.001-.044-.03-.089C13.538 10.023 12.236 9 8 9s-5.538 1.023-5.97 1.907c-.03.045-.03.088-.03.089V12h12v-.004Z"/>
+                      </svg>
+                    </div>
+                    <div>
+                      <div className="fw-bold">{providerAnalytics.refers_count}</div>
+                      <div className="text-muted small">Refers</div>
                     </div>
                   </div>
                   <div className="d-flex align-items-center">
                     <div className="rounded-circle bg-light d-flex align-items-center justify-content-center me-3"
                       style={{ width: "40px", height: "40px" }}>
-                      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="#293040" className="bi bi-graph-up" viewBox="0 0 16 16">
-                        <path fill-rule="evenodd" d="M0 0h1v15h15v1H0V0Zm14.817 3.113a.5.5 0 0 1 .07.704l-4.5 5.5a.5.5 0 0 1-.74.037L7.06 6.767l-3.656 5.027a.5.5 0 0 1-.808-.588l4-5.5a.5.5 0 0 1 .758-.06l2.609 2.61 4.15-5.073a.5.5 0 0 1 .704-.07Z"/>
+                      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="#293040" className="bi bi-bookmark-heart" viewBox="0 0 16 16">
+                        <path fillRule="evenodd" d="M8 4.41c1.387-1.425 4.854 1.07 0 4.277C3.146 5.48 6.613 2.986 8 4.412z"/>
+                        <path d="M2 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v13.5a.5.5 0 0 1-.777.416L8 13.101l-5.223 2.815A.5.5 0 0 1 2 15.5V2zm2-1a1 1 0 0 0-1 1v12.566l4.723-2.482a.5.5 0 0 1 .554 0L13 14.566V2a1 1 0 0 0-1-1H4z"/>
                       </svg>
                     </div>
                     <div>
-                      <div className="fw-bold">0</div>
-                      <div className="text-muted small">Post reach</div>
+                      <div className="fw-bold">{providerAnalytics.bookmarks_count}</div>
+                      <div className="text-muted small">Bookmarks</div>
                     </div>
                   </div>
+                </div>
+                
+                {/* Reviews Section */}
+                <div className="mt-4 border-top pt-4">
+                  <h5 className="card-title border-bottom pb-2 mb-3">Reviews</h5>
+                  {provider.reviews && provider.reviews.length > 0 ? (
+                    <div>
+                      {provider.reviews.map((review, index) => (
+                        <div key={review.id || index} className="card mb-3 shadow-sm">
+                          <div className="card-body">
+                            <div className="d-flex justify-content-between mb-2">
+                              <div className="fw-bold">
+                                {review.client?.first_name} {review.client?.last_name || review.reviewer_name}
+                              </div>
+                              <div>{renderRating(review.rating || 0)}</div>
+                            </div>
+                            <div className="text-muted small mb-2">
+                              {review.created_at ? formatDate(review.created_at) : 'Date not available'}
+                            </div>
+                            <p className="card-text">{review.comment}</p>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  ) : (
+                    <div className="text-center py-3">
+                      <div className="mb-3">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="#ccc" className="bi bi-chat-square-text" viewBox="0 0 16 16">
+                          <path d="M14 1a1 1 0 0 1 1 1v8a1 1 0 0 1-1 1h-2.5a2 2 0 0 0-1.6.8L8 14.333 6.1 11.8a2 2 0 0 0-1.6-.8H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h12zM2 0a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h2.5a1 1 0 0 1 .8.4l1.9 2.533a1 1 0 0 0 1.6 0l1.9-2.533a1 1 0 0 1 .8-.4H14a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z"/>
+                          <path d="M3 3.5a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5zM3 6a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9A.5.5 0 0 1 3 6zm0 2.5a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5z"/>
+                        </svg>
+                      </div>
+                      <p className="text-muted">No Reviews Available</p>
+                      <p className="text-muted small">Be the first to leave a review for this provider</p>
+                    </div>
+                  )}
                 </div>
               </div>
             </div>
 
-            {/* Join to View Panel - Moved from right column to left column */}
+      
             <div className="card shadow-sm mb-4">
               <div className="card-body">
                 <h5 className="card-title mb-3">View Full Profile</h5>
@@ -373,7 +499,7 @@ export default function ProviderProfile() {
                     <div className="rounded-circle bg-light d-flex align-items-center justify-content-center me-2"
                       style={{ width: "32px", height: "32px", flexShrink: 0 }}>
                       <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#293040" viewBox="0 0 16 16">
-                        <path d="M15 14s1 0 1-1-1-4-5-4-5 3-5 4 1 1 1 1h8Zm-7.978-1A.261.261 0 0 1 7 12.996c.001-.264.167-1.03.76-1.72C8.312 10.629 9.282 10 11 10c1.717 0 2.687.63 3.24 1.276.593.69.758 1.457.76 1.72l-.008.002a.274.274 0 0 1-.014.002H7.022ZM11 7a2 2 0 1 0 0-4 2 2 0 0 0 0 4Zm3-2a3 3 0 1 1-6 0 3 3 0 0 1 6 0ZM6.936 9.28a5.88 5.88 0 0 0-1.23-.247A7.35 7.35 0 0 0 5 9c-4 0-5 3-5 4 0 .667.333 1 1 1h4.216A2.238 2.238 0 0 1 5 13c0-1.01.377-2.042 1.09-2.904.243-.294.526-.569.846-.816ZM4.92 10A5.493 5.493 0 0 0 4 13H1c0-.26.164-1.03.76-1.724.545-.636 1.492-1.256 3.16-1.275ZM1.5 5.5a3 3 0 1 1 6 0 3 3 0 0 1-6 0Zm3-2a2 2 0 1 0 0 4 2 2 0 0 0 0-4Z"/>
+                        <path d="M15 14s1 0 1-1-1-4-5-4-5 3-5 4 1 1 1h8Zm-7.978-1A.261.261 0 0 1 7 12.996c.001-.264.167-1.03.76-1.72C8.312 10.629 9.282 10 11 10c1.717 0 2.687.63 3.24 1.276.593.69.758 1.457.76 1.72l-.008.002a.274.274 0 0 1-.014.002H7.022ZM11 7a2 2 0 1 0 0-4 2 2 0 0 0 0 4Zm3-2a3 3 0 1 1-6 0 3 3 0 0 1 6 0ZM6.936 9.28a5.88 5.88 0 0 0-1.23-.247A7.35 7.35 0 0 0 5 9c-4 0-5 3-5 4 0 .667.333 1 1 1h4.216A2.238 2.238 0 0 1 5 13c0-1.01.377-2.042 1.09-2.904.243-.294.526-.569.846-.816ZM4.92 10A5.493 5.493 0 0 0 4 13H1c0-.26.164-1.03.76-1.724.545-.636 1.492-1.256 3.16-1.275ZM1.5 5.5a3 3 0 1 1 6 0 3 3 0 0 1-6 0Zm3-2a2 2 0 1 0 0 4 2 2 0 0 0 0-4Z"/>
                       </svg>
                     </div>
                     <div className="w-100">
@@ -502,7 +628,8 @@ export default function ProviderProfile() {
                   <div>
                     {provider.posts && provider.posts.length > 0 ? (
                       <div className="posts-container">
-                        {provider.posts.map((post: Post) => (
+                        {/* Show only the first 2 posts */}
+                        {provider.posts.slice(0, 2).map((post: Post) => (
                           <div key={post.id} className="card mb-3 border-0 shadow-sm">
                             <div className="card-body">
                               <div className="d-flex align-items-center mb-3">
@@ -535,7 +662,7 @@ export default function ProviderProfile() {
                                 </button>
                                 <button className="btn btn-sm text-muted d-flex align-items-center">
                                   <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-chat me-1" viewBox="0 0 16 16">
-                                    <path d="M2.678 11.894a1 1 0 0 1 .287.801 10.97 10.97 0 0 1-.398 2c1.395-.323 2.247-.697 2.634-.893a1 1 0 0 1 .71-.074A8.06 8.06 0 0 0 8 14c3.996 0 7-2.807 7-6 0-3.192-3.004-6-7-6S1 4.808 1 8c0 1.468.617 2.83 1.678 3.894zm-.493 3.905a21.682 21.682 0 0 1-.713.129c-.2.032-.352-.176-.273-.362a9.68 9.68 0 0 0 .244-.637l.003-.01c.248-.72.45-1.548.524-2.319C.743 11.37 0 9.76 0 8c0-3.866 3.582-7 8-7s8 3.134 8 7-3.582 7-8 7a9.06 9.06 0 0 1-2.347-.306c-.52.263-1.639.742-3.468 1.105z"/>
+                                    <path d="M2.678 11.894a1 1 0 0 1 .287.801 10.97 10.97 0 0 1-.398 2c1.395-.323 2.247-.697 2.634-.893a1 1 0 0 1 .71-.074A8.06 8.06 0 0 0 8 14c3.996 0 7-2.807 7-6 0-3.192-3.004-6-7-6S1 4.808 1 8c0 1.468.617 2.83 1.678 3.894zm-.493 3.905a21.682 21.682 0 0 1-.713.129c-.2.032-.352-.176-.273-.362a9.68 9.68 0 0 0 .244-.637l.003-.01c.248-.72.45-1.548.524-2.319C.743 11.37 0 9.76 0 8c0-3.866 3.582-7 8-7s8 3.134 6 10c0 4.314-3.582 7-8 7a9.06 9.06 0 0 1-2.347-.306c-.52.263-1.639.742-3.468 1.105z"/>
                                   </svg>
                                   <span>{post.comments_count}</span>
                                 </button>
@@ -543,6 +670,16 @@ export default function ProviderProfile() {
                             </div>
                           </div>
                         ))}
+                        
+                        {/* View More Button - Show only if there are more than 2 posts */}
+                        {provider.posts.length > 2 && (
+                          <div className="text-center mt-3 mb-2">
+                            <Link to="/auth?mode=signup" className="start-now-btn">
+                              View More Posts ({provider.posts.length - 2} more)
+                            </Link>
+                            <div className="text-muted small mt-2">Sign up to see all posts from this provider</div>
+                          </div>
+                        )}
                       </div>
                     ) : (
                       <div className="text-center py-4">
@@ -559,32 +696,45 @@ export default function ProviderProfile() {
                 ) : (
                   <div>
                     {provider.gallery && provider.gallery.length > 0 ? (
-                      <div className="row row-cols-1 row-cols-md-3 g-3">
-                        {provider.gallery.map((item: GalleryItem) => (
-                          <div className="col" key={item.id}>
-                            <div className="card h-100 border-0 shadow-sm">
-                              <img 
-                                src={item.image_url} 
-                                className="card-img-top" 
-                                alt={item.caption || "Gallery image"}
-                                style={{ height: "160px", objectFit: "cover" }}
-                              />
-                              {item.caption && (
-                                <div className="card-body">
-                                  <p className="card-text small">{item.caption}</p>
-                                  <p className="card-text"><small className="text-muted">{formatDate(item.created_at)}</small></p>
-                                </div>
-                              )}
+                      <>
+                        <div className="row row-cols-1 row-cols-md-3 g-3">
+                          {/* Show only the first 3 gallery items */}
+                          {provider.gallery.slice(0, 3).map((item: GalleryItem) => (
+                            <div className="col" key={item.id}>
+                              <div className="card h-100 border-0 shadow-sm">
+                                <img 
+                                  src={item.image_url} 
+                                  className="card-img-top" 
+                                  alt={item.caption || "Gallery image"}
+                                  style={{ height: "160px", objectFit: "cover" }}
+                                />
+                                {item.caption && (
+                                  <div className="card-body">
+                                    <p className="card-text small">{item.caption}</p>
+                                    <p className="card-text"><small className="text-muted">{formatDate(item.created_at)}</small></p>
+                                  </div>
+                                )}
+                              </div>
                             </div>
+                          ))}
+                        </div>
+                        
+                        {/* View More Button - Show only if there are more than 3 gallery items */}
+                        {provider.gallery.length > 3 && (
+                          <div className="text-center mt-4">
+                            <Link to="/auth?mode=signup" className="start-now-btn">
+                              View More Photos ({provider.gallery.length - 3} more)
+                            </Link>
+                            <div className="text-muted small mt-2">Sign up to see the complete gallery</div>
                           </div>
-                        ))}
-                      </div>
+                        )}
+                      </>
                     ) : (
                       <div className="text-center py-4">
                         <div className="mb-3">
                           <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="#ccc" className="bi bi-images" viewBox="0 0 16 16">
                             <path d="M4.502 9a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3z"/>
-                            <path d="M14.002 13a2 2 0 0 1-2 2h-10a2 2 0 0 1-2-2V5A2 2 0 0 1 2 3a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v8a2 2 0 0 1-1.998 2zM14 2H4a1 1 0 0 0-1 1h9.002a2 2 0 0 1 2 2v7A1 1 0 0 0 15 11V3a1 1 0 0 0-1-1zM2.002 4a1 1 0 0 0-1 1v8l2.646-2.354a.5.5 0 0 1 .63-.062l2.66 1.773 3.71-3.71a.5.5 0 0 1 .577-.094l1.777 1.947V5a1 1 0 0 0-1-1h-10z"/>
+                            <path d="M14.002 13a2 2 0 0 1-2 2h-10a2 2 0 0 1-2-2V5A2 2 0 0 1 2 3a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v8a2 2 0 0 1-1.998 2zM14 2H4a1 1 0 0 0-1 1h9.002a2 2 0 0 1 2 2v7A1 1 0 0 0 15 11V3a1 1 0 0 0-1-1zM2.002 4a1 1 0 0 0-1 1v8l2.646-2.354a.5.5 0 0 1 .554 0L13 14.566V2a1 1 0 0 0-1-1H4.002z"/>
                           </svg>
                         </div>
                         <p className="text-muted">No gallery items available yet</p>
