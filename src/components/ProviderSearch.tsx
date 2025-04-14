@@ -309,9 +309,31 @@ export default function ProviderSearch() {
                           </h5>
                           <div className="d-flex align-items-center">
                             <div className="me-1" style={{ color: "#293040" }}>
-                              {'★'.repeat(Math.floor(provider.service_rating || 0))}
-                              {(provider.service_rating || 0) % 1 >= 0.5 ? '★' : ''}
-                              {'☆'.repeat(5 - Math.ceil(provider.service_rating || 0))}
+                              {Array.from({ length: 5 }, (_, i) => {
+                                const starValue = i + 1;
+                                const rating = provider.service_rating || 0;
+                                const decimal = rating % 1;
+                                
+                                if (starValue <= Math.floor(rating)) {
+                                  return <span key={i}>★</span>; 
+                                } else if (starValue === Math.floor(rating) + 1 && decimal > 0) {
+                                  return (
+                                    <span key={i} style={{ position: 'relative', display: 'inline-block' }}>
+                                      <span style={{ color: "#293040" }}>☆</span>
+                                      <span style={{ 
+                                        position: 'absolute', 
+                                        left: 0, 
+                                        top: 0, 
+                                        width: `${decimal * 100}%`, 
+                                        overflow: 'hidden', 
+                                        color: "#293040" 
+                                      }}>★</span>
+                                    </span>
+                                  ); 
+                                } else {
+                                  return <span key={i}>☆</span>;
+                                }
+                              })}
                             </div>
                             <span className="small text-muted">{(provider.service_rating || 0).toFixed(1)}</span>
                           </div>

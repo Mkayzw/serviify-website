@@ -1,4 +1,5 @@
 import { ApiConstants } from '../lib/api/apiConstants';
+import { ApiService } from '../lib/api/apiService';
 
 // Types
 export interface Provider {
@@ -11,12 +12,66 @@ export interface Provider {
   service_type?: string;
   location?: string;
   provider_location?: string;
-  rating?: number;
   service_rating?: number;
   avatar?: string;
   profile_image_url?: string;
   provider_bio?: string | null;
   is_service_provider?: boolean;
+  reviews?: Review[];
+  gallery?: GalleryItem[];
+  follows_count?: number;
+  following_count?: number;
+  posts_count?: number;
+  posts?: Post[];
+  refers_count?: number;
+  bookmarks_count?: number;
+  total_clients?: number;
+  total_bookmarks?: number;
+  total_referrals?: number;
+}
+
+// Analytics data interface
+export interface AnalyticsData {
+  rating: number;
+  refers_count: number;
+  bookmarks_count: number;
+}
+
+// Review interface
+export interface Review {
+  id: string;
+  user_id: string;
+  provider_id: string;
+  reviewer_name: string;
+  reviewer_image: string;
+  rating: number;
+  comment: string;
+  created_at: string;
+  client?: {
+    id: string;
+    first_name: string;
+    last_name: string;
+    profile_image_url: string;
+  };
+}
+
+// Gallery item interface
+export interface GalleryItem {
+  id: string;
+  user_id: string;
+  image_url: string;
+  caption: string | null;
+  created_at: string;
+}
+
+export interface Post {
+  id: string;
+  user_id: string;
+  content: string;
+  image_url: string | null;
+  likes_count: number;
+  comments_count: number;
+  created_at: string;
 }
 
 export interface DiscoverServicesParams {
@@ -34,12 +89,6 @@ export interface DiscoverServicesResponse {
   limit: number;
 }
 
-// Backend response format
-interface ApiResponse<T> {
-  message: string;
-  data: T;
-  success: boolean;
-}
 
 
 interface BackendUser {
@@ -54,6 +103,31 @@ interface BackendUser {
   provider_bio: string | null;
   provider_location: string | null;
   headline?: string | null;
+  followers_count?: number;
+  following_count?: number;
+  refers_count?: number;
+  bookmarks_count?: number;
+  total_clients?: number;
+  total_bookmarks?: number;
+  total_referrals?: number;
+  service_provider?: {
+    provider_id: string;
+    service_type: string;
+    headline: string;
+    bio: string;
+    location: string;
+    city: string;
+    skills: string[];
+    availability: string;
+    portfolio_images: string[];
+    average_rating: number;
+    total_clients?: number;
+    total_bookmarks?: number;
+    total_referrals?: number;
+    created_at?: string;
+  };
+  created_at?: string;
+  following_ids?: string[];
 }
 
 interface BackendService {
@@ -74,12 +148,72 @@ interface BackendService {
   headline?: string;
 }
 
+// Define interfaces for API responses
+interface UserResponse {
+  data: BackendUser;
+  message: string;
+  status: string;
+  error: string | null;
+  meta?: Record<string, unknown>;
+}
+
+interface ReviewsResponse {
+  data: Review[];
+  message: string;
+  status: string;
+  error: string | null;
+}
+
+interface GalleryResponse {
+  data: GalleryItem[];
+  message: string;
+  status: string;
+  error: string | null;
+}
+
+interface PostsResponse {
+  data: Post[];
+  message: string;
+  status: string;
+  error: string | null;
+}
+
+// For search users response
+interface SearchUsersResponse {
+  data: BackendUser[];
+  message: string;
+  status: string;
+  error: string | null;
+  meta?: Record<string, unknown>;
+}
+
+// Define the discover services response
+interface DiscoverServicesApiResponse {
+  data: {
+    services: BackendService[];
+    total?: number;
+  };
+  message: string;
+  status: string;
+  error: string | null;
+}
+
+// Define the nearby services response
+interface NearbyServicesResponse {
+  data: {
+    services: BackendService[];
+  };
+  message: string;
+  status: string;
+  error: string | null;
+}
+
 export class ProvidersService {
   private static instance: ProvidersService;
-  private baseUrl: string;
+  private apiService: ApiService;
 
   private constructor() {
-    this.baseUrl = ApiConstants.baseUrl;
+    this.apiService = ApiService.getInstance();
   }
 
   public static getInstance(): ProvidersService {
@@ -92,30 +226,10 @@ export class ProvidersService {
   // Search for users by name
   public async searchUsers(query: string): Promise<Provider[]> {
     try {
+      const endpoint = `${ApiConstants.users.search}/${encodeURIComponent(query)}`;
       
-      const endpoint = ApiConstants.users.search.replace(/^\/api/, '');
-  
-      const response = await fetch(`${this.baseUrl}${endpoint}/${encodeURIComponent(query)}`);
-      
-      if (!response.ok) {
-        throw new Error(`Search failed with status: ${response.status}`);
-      }
-      
-      
-      const responseText = await response.text();
-      console.log('Raw search response:', responseText);
-      
-      
-      let result;
-      try {
-        result = JSON.parse(responseText);
-      } catch (parseError) {
-        console.error('Error parsing JSON response:', parseError);
-        throw new Error('Invalid JSON response from server');
-      }
-      
+      const result = await this.apiService.get<SearchUsersResponse>(endpoint);
       console.log('Parsed search response:', result);
-      
       
       const userData = result.data || [];
       console.log('User data extracted:', userData);
@@ -137,42 +251,18 @@ export class ProvidersService {
   // Discover services with filters
   public async discoverServices(params: DiscoverServicesParams): Promise<DiscoverServicesResponse> {
     try {
-      // Build query parameters
-      const queryParams = new URLSearchParams();
-      if (params.query) queryParams.set('query', params.query);
-      if (params.location) queryParams.set('location', params.location);
-      if (params.sortBy) queryParams.set('sort_by', params.sortBy);
+      const queryParams: Record<string, string> = {};
+      if (params.query) queryParams.query = params.query;
+      if (params.location) queryParams.location = params.location;
+      if (params.sortBy) queryParams.sort_by = params.sortBy;
+      queryParams.page = (params.page || 1).toString();
+      queryParams.limit = (params.limit || 10).toString();
       
-  
-      queryParams.set('page', (params.page || 1).toString());
-      queryParams.set('limit', (params.limit || 10).toString());
-      
-      
-      const endpoint = ApiConstants.discover.services.replace(/^\/api/, '');
-      const url = `${this.baseUrl}${endpoint}?${queryParams.toString()}`;
-      console.log('Discover services URL:', url);
-      
-      const response = await fetch(url);
-      
-      if (!response.ok) {
-        throw new Error(`Discover services failed with status: ${response.status}`);
-      }
-      
-      
-      const responseText = await response.text();
-      console.log('Raw discover services response:', responseText);
-      
-      // Parse the JSON response
-      let result;
-      try {
-        result = JSON.parse(responseText);
-      } catch (parseError) {
-        console.error('Error parsing JSON response:', parseError);
-        throw new Error('Invalid JSON response from server');
-      }
+      const result = await this.apiService.get<DiscoverServicesApiResponse>(ApiConstants.discover.services, {
+        params: queryParams
+      });
       
       console.log('Parsed discover services response:', result);
-      
       
       const servicesData = result.data?.services || result.data || [];
       console.log('Services data extracted:', servicesData);
@@ -195,28 +285,13 @@ export class ProvidersService {
   // Get nearby services based on location
   public async getNearbyServices(latitude: number, longitude: number, radius = 25): Promise<Provider[]> {
     try {
-    
-      const endpoint = ApiConstants.locations.nearbyServices.replace(/^\/api/, '');
-      const response = await fetch(
-        `${this.baseUrl}${endpoint}?lat=${latitude}&lng=${longitude}&radius=${radius}`
-      );
-      
-      if (!response.ok) {
-        throw new Error(`Nearby services failed with status: ${response.status}`);
-      }
-      
-      
-      const responseText = await response.text();
-      console.log('Raw nearby services response:', responseText);
-      
-      // Parse the JSON response
-      let result: ApiResponse<{services: BackendService[]}>;
-      try {
-        result = JSON.parse(responseText);
-      } catch (parseError) {
-        console.error('Error parsing JSON response:', parseError);
-        throw new Error('Invalid JSON response from server');
-      }
+      const result = await this.apiService.get<NearbyServicesResponse>(ApiConstants.locations.nearbyServices, {
+        params: {
+          lat: latitude.toString(),
+          lng: longitude.toString(),
+          radius: radius.toString()
+        }
+      });
       
       console.log('Parsed nearby services response:', result);
       
@@ -231,45 +306,194 @@ export class ProvidersService {
     }
   }
 
+  // Get provider by ID
+  public async getProviderById(id: string): Promise<Provider | null> {
+    try {
+      const endpoint = `${ApiConstants.users.getDetails}/${encodeURIComponent(id)}`;
+      
+      const result = await this.apiService.get<UserResponse>(endpoint);
+      console.log('Parsed provider details response:', result);
+      
+      const userData = result.data || null;
+      if (!userData) {
+        console.error("No user data returned");
+        return null;
+      }
+      
+      // Set is_service_provider flag based on service_provider object presence
+      userData.is_service_provider = userData.service_provider !== undefined;
+      
+      if (!userData.is_service_provider) {
+        console.error("User is not a service provider");
+        return null;
+      }
+      
+      // Fetch additional data - reviews
+      let reviews: Review[] = [];
+      try {
+        const reviewsEndpoint = `${ApiConstants.reviews.get}/${encodeURIComponent(id)}`;
+        const reviewsResult = await this.apiService.get<ReviewsResponse>(reviewsEndpoint);
+        reviews = reviewsResult.data || [];
+        console.log('Provider reviews:', reviews);
+      } catch (error) {
+        console.error('Error getting provider reviews:', error);
+        // Continue execution even if reviews fetch fails
+      }
+      
+      // Fetch portfolio/gallery
+      let gallery: GalleryItem[] = [];
+      try {
+        // If we already have portfolio_images in the service_provider, use those
+        if (userData.service_provider && userData.service_provider.portfolio_images) {
+          gallery = userData.service_provider.portfolio_images.map((url: string, index: number) => ({
+            id: index.toString(),
+            user_id: id,
+            image_url: url,
+            caption: null,
+            created_at: new Date().toISOString()
+          }));
+          console.log('Provider gallery from portfolio_images:', gallery);
+        } else {
+          // Otherwise fetch from gallery endpoint
+          const galleryEndpoint = `${ApiConstants.users.getDetails}/${encodeURIComponent(id)}/gallery`;
+          const galleryResult = await this.apiService.get<GalleryResponse>(galleryEndpoint);
+          gallery = galleryResult.data || [];
+          console.log('Provider gallery from API:', gallery);
+        }
+      } catch (error) {
+        console.error('Error getting provider gallery:', error);
+        // Continue execution even if gallery fetch fails
+      }
+      
+      // Fetch posts
+      let posts: Post[] = [];
+      try {
+        const postsEndpoint = `${ApiConstants.posts.getUserPosts}/${encodeURIComponent(id)}`;
+        const postsResult = await this.apiService.get<PostsResponse>(postsEndpoint);
+        posts = postsResult.data || [];
+        console.log('Provider posts:', posts);
+      } catch (error) {
+        console.error('Error getting provider posts:', error);
+        // Continue execution even if posts fetch fails
+      }
+      
+      // Map the provider data initially (might be slightly incomplete before adding reviews/posts)
+      const mappedProvider = this.mapUsersToProviders([userData])[0];
+      console.log('Mapped provider data before final merge:', mappedProvider);
+
+      // Ensure the final object correctly uses data, especially from service_provider
+      const finalProvider: Provider = {
+        id: userData.id,
+        first_name: userData.first_name,
+        last_name: userData.last_name,
+        name: `${userData.first_name} ${userData.last_name}`.trim(),
+        profile_image_url: userData.profile_image_url,
+        avatar: userData.profile_image_url,
+        headline: userData.service_provider?.headline || userData.headline || undefined,
+        service_type: userData.service_provider?.service_type || userData.service_type || undefined,
+        serviceType: userData.service_provider?.service_type || userData.service_type || undefined,
+        provider_location: this.extractCityFromLocation(userData.service_provider?.location || userData.provider_location || null),
+        location: this.extractCityFromLocation(userData.service_provider?.location || userData.provider_location || null),
+        service_rating: userData.service_provider?.average_rating || userData.average_rating || userData.service_rating || 0,
+        provider_bio: userData.service_provider?.bio || userData.provider_bio || undefined,
+        is_service_provider: !!userData.service_provider,
+        reviews: reviews,
+        gallery: gallery.length > 0 ? gallery : mappedProvider.gallery || [],
+        posts: posts,
+        follows_count: userData.followers_count || 0,
+        following_count: userData.following_count || 0,
+        posts_count: posts.length,
+        total_clients: userData.service_provider?.total_clients || 0,
+        total_bookmarks: userData.service_provider?.total_bookmarks || 0,
+        total_referrals: userData.service_provider?.total_referrals || 0,
+        refers_count: userData.service_provider?.total_referrals || 0, 
+        bookmarks_count: userData.service_provider?.total_bookmarks || 0,
+      };
+
+      console.log('Final provider object being returned:', finalProvider);
+      return finalProvider;
+    } catch (error) {
+      console.error('Error getting provider details:', error);
+      throw error;
+    }
+  }
+
+
+  private extractCityFromLocation(location: string | null): string {
+    if (!location) return 'Location not specified';
+    
   
+    const parts = location.split(',').map(part => part.trim()).filter(part => part);
+    
+    if (parts.length > 0) {
+      return parts[parts.length - 1];
+    }
+    
+    return location;
+  }
+
   private mapUsersToProviders(users: BackendUser[]): Provider[] {
-    console.log('Raw users data for rating debug:', users);
+    console.log('Raw users data for mapping:', users);
     
     return users.map(user => {
+      const sp = user.service_provider; // Alias for easier access
       
-      console.log('User rating debug:', {
-        id: user.id,
-        name: `${user.first_name} ${user.last_name}`.trim(),
-        is_provider: user.is_service_provider,
-        service_type: user.service_type,
-        service_rating: user.service_rating,
-        average_rating: user.average_rating,
-        headline: user.headline,
-        allKeys: Object.keys(user)
-      });
+      // Determine appropriate service type, prioritizing service_provider
+      const serviceType = sp?.service_type || user.service_type || 'Service Provider';
       
-      // Determine appropriate service type
-      let serviceType = 'Service Provider';
-      if (user.service_type) {
-        serviceType = user.service_type;
-      }
+      // Check if user is a service provider based on the object
+      const isServiceProvider = !!sp;
+      
+      // Extract provider location, prioritizing service_provider
+      const cityOnly = this.extractCityFromLocation(sp?.location || user.provider_location || null);
+      
+      // Extract provider bio, prioritizing service_provider
+      const providerBio = sp?.bio || user.provider_bio || undefined; // Ensure undefined if null
+      
+      // Extract rating, prioritizing service_provider
+      const rating = sp?.average_rating || user.average_rating || user.service_rating || 0;
+      
+      // Extract follower counts                
+      const followsCount = user.followers_count || 0;
+      const followingCount = user.following_count || 0;
+      
+      // Extract analytics data from service_provider object
+      const totalClients = sp?.total_clients || 0;
+      const totalBookmarks = sp?.total_bookmarks || 0;
+      const totalReferrals = sp?.total_referrals || 0;
       
       return {
         id: user.id,
         name: `${user.first_name} ${user.last_name}`.trim(),
         first_name: user.first_name,
         last_name: user.last_name,
-        headline: user.headline || undefined,
+        headline: sp?.headline || user.headline || undefined,
         serviceType: serviceType,
-        service_type: user.service_type || serviceType,
-        location: user.provider_location || 'Location not specified',
-        provider_location: user.provider_location || 'Location not specified',
-        rating: user.average_rating || user.service_rating || 0,
-        service_rating: user.service_rating || user.average_rating || 0,
+        service_type: serviceType,
+        location: cityOnly,
+        provider_location: cityOnly,
+        rating: rating,
+        service_rating: rating,
         avatar: user.profile_image_url,
         profile_image_url: user.profile_image_url,
-        provider_bio: user.provider_bio,
-        is_service_provider: user.is_service_provider
+        provider_bio: providerBio,
+        is_service_provider: isServiceProvider,
+        follows_count: followsCount,
+        following_count: followingCount,
+        posts_count: 0, // Will be populated later in getProviderById
+        refers_count: totalReferrals,
+        bookmarks_count: totalBookmarks,
+        total_clients: totalClients,
+        total_bookmarks: totalBookmarks,
+        total_referrals: totalReferrals,
+        gallery: sp?.portfolio_images ? 
+          sp.portfolio_images.map((url, index) => ({
+            id: index.toString(),
+            user_id: user.id,
+            image_url: url,
+            caption: null,
+            created_at: new Date().toISOString()
+          })) : []
       };
     });
   }
@@ -291,6 +515,9 @@ export class ProvidersService {
         allKeys: Object.keys(service)
       });
       
+      // Extract only the city from the location
+      const location = this.extractCityFromLocation(service.location || null);
+      
       return {
         id: service.id || service._id || service.userId || '',
         name: service.name || service.providerName || `${service.firstName || ''} ${service.lastName || ''}`.trim(),
@@ -299,8 +526,8 @@ export class ProvidersService {
         headline: service.headline,
         serviceType: service.serviceType || service.service || 'Unknown service',
         service_type: service.serviceType || service.service || 'Unknown service',
-        location: service.location || 'Unknown location',
-        provider_location: service.location || 'Unknown location',
+        location: location,
+        provider_location: location,
         rating: service.average_rating || service.rating || 0,
         service_rating: service.rating || service.average_rating || 0,
         avatar: service.avatar || service.profileImage,
