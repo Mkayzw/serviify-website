@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react"
 import { useParams, Link } from "react-router-dom"
-import type { Provider, GalleryItem, Post, AnalyticsData } from "../services/providers.service"
+import type { Provider, GalleryItem, Post } from "../services/providers.service"
 import { ProvidersService } from "../services/providers.service"
 import { ApiConstants } from "../lib/api/apiConstants"
 import logo from "../assets/logo.png"
@@ -12,16 +12,11 @@ export default function ProviderProfile() {
   const [provider, setProvider] = useState<Provider | null>(null)
   const [isLoading, setIsLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
-  const [activeTab, setActiveTab] = useState<'posts' | 'gallery'>('posts')
+  const [activeTab, setActiveTab] = useState<'posts' | 'gallery' | 'reviews'>('posts')
   const [viewMode, setViewMode] = useState<'activity' | 'introduction' | 'contact'>('activity')
   const [isFollowing, setIsFollowing] = useState(false)
   const [isFollowLoading, setIsFollowLoading] = useState(false)
   const [isUserSignedIn, setIsUserSignedIn] = useState(false)
-  const [providerAnalytics, setProviderAnalytics] = useState<AnalyticsData>({
-    rating: 0,
-    refers_count: 0,
-    bookmarks_count: 0
-  })
 
   useEffect(() => {
     const fetchProviderData = async () => {
@@ -36,10 +31,6 @@ export default function ProviderProfile() {
       try {
         setIsLoading(true)
         const providerService = ProvidersService.getInstance()
-        
-      
-        const apiUrl = ApiConstants.baseUrl + ApiConstants.users.getDetails + "/" + id;
-        console.log("Requesting provider from:", apiUrl);
         
         const providerData = await providerService.getProviderById(id)
         console.log("Provider data received:", providerData);
@@ -63,52 +54,6 @@ export default function ProviderProfile() {
           });
           setProvider(providerData)
           
-          // Set analytics data using only what's available in the provider object
-          const rating = providerData.service_rating || 0;
-          // Get reviews count from the provider object if available
-          const reviewsCount = providerData.reviews?.length || 0;
-          
-          setProviderAnalytics({
-            rating: rating,
-            refers_count: reviewsCount, // Use reviews count as a placeholder for refers
-            bookmarks_count: 0 // Default to 0
-          });
-          
-          // If you still want to attempt the refers API call
-          try {
-            const refersUrl = `${ApiConstants.baseUrl}${ApiConstants.interactions.getRefers}/${id}`;
-            console.log("Requesting refers from:", refersUrl);
-            
-            fetch(refersUrl, {
-              method: 'GET',
-              headers: {
-                'Content-Type': 'application/json',
-              },
-            })
-            .then(response => {
-              if (response.ok) {
-                return response.json();
-              }
-              console.log("Refers endpoint not available");
-              return { data: [] };
-            })
-            .then(data => {
-              console.log("Refers API response:", data);
-              // If data is available and has the expected structure, update the refers count
-              if (data && data.data && Array.isArray(data.data)) {
-                setProviderAnalytics(prev => ({
-                  ...prev,
-                  refers_count: data.data.length
-                }));
-              }
-            })
-            .catch(error => {
-              console.error("Error fetching refers:", error);
-            });
-          } catch (error) {
-            console.error("Exception fetching refers:", error);
-          }
-          
           setIsFollowing(false)
         }
       } catch (err) {
@@ -123,7 +68,6 @@ export default function ProviderProfile() {
     
     // Check if user is signed in
     const checkUserSignedIn = () => {
-      // Check for auth token in localStorage or cookies
       const token = localStorage.getItem('auth_token') || getCookie('auth_token');
       setIsUserSignedIn(!!token);
     }
@@ -150,7 +94,6 @@ export default function ProviderProfile() {
     
     try {
       setIsFollowLoading(true)
-      
       
       const endpoint = `/interactions/toggle-follow`
       const response = await fetch(`${ApiConstants.baseUrl}${endpoint}`, {
@@ -394,7 +337,7 @@ export default function ProviderProfile() {
                       </svg>
                     </div>
                     <div>
-                      <div className="fw-bold">{providerAnalytics.rating.toFixed(1)}</div>
+                      <div className="fw-bold">{(provider.service_rating || 0).toFixed(1)}</div>
                       <div className="text-muted small">Rating</div>
                     </div>
                   </div>
@@ -406,7 +349,7 @@ export default function ProviderProfile() {
                       </svg>
                     </div>
                     <div>
-                      <div className="fw-bold">{providerAnalytics.refers_count}</div>
+                      <div className="fw-bold">{provider.total_referrals || 0}</div>
                       <div className="text-muted small">Refers</div>
                     </div>
                   </div>
@@ -419,46 +362,10 @@ export default function ProviderProfile() {
                       </svg>
                     </div>
                     <div>
-                      <div className="fw-bold">{providerAnalytics.bookmarks_count}</div>
+                      <div className="fw-bold">{provider.total_bookmarks || 0}</div>
                       <div className="text-muted small">Bookmarks</div>
                     </div>
                   </div>
-                </div>
-                
-                {/* Reviews Section */}
-                <div className="mt-4 border-top pt-4">
-                  <h5 className="card-title border-bottom pb-2 mb-3">Reviews</h5>
-                  {provider.reviews && provider.reviews.length > 0 ? (
-                    <div>
-                      {provider.reviews.map((review, index) => (
-                        <div key={review.id || index} className="card mb-3 shadow-sm">
-                          <div className="card-body">
-                            <div className="d-flex justify-content-between mb-2">
-                              <div className="fw-bold">
-                                {review.client?.first_name} {review.client?.last_name || review.reviewer_name}
-                              </div>
-                              <div>{renderRating(review.rating || 0)}</div>
-                            </div>
-                            <div className="text-muted small mb-2">
-                              {review.created_at ? formatDate(review.created_at) : 'Date not available'}
-                            </div>
-                            <p className="card-text">{review.comment}</p>
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-                  ) : (
-                    <div className="text-center py-3">
-                      <div className="mb-3">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="#ccc" className="bi bi-chat-square-text" viewBox="0 0 16 16">
-                          <path d="M14 1a1 1 0 0 1 1 1v8a1 1 0 0 1-1 1h-2.5a2 2 0 0 0-1.6.8L8 14.333 6.1 11.8a2 2 0 0 0-1.6-.8H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h12zM2 0a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h2.5a1 1 0 0 1 .8.4l1.9 2.533a1 1 0 0 0 1.6 0l1.9-2.533a1 1 0 0 1 .8-.4H14a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z"/>
-                          <path d="M3 3.5a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5zM3 6a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9A.5.5 0 0 1 3 6zm0 2.5a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5z"/>
-                        </svg>
-                      </div>
-                      <p className="text-muted">No Reviews Available</p>
-                      <p className="text-muted small">Be the first to leave a review for this provider</p>
-                    </div>
-                  )}
                 </div>
               </div>
             </div>
@@ -563,7 +470,7 @@ export default function ProviderProfile() {
                       <span className="me-2">
                         {provider.service_type || "Service Provider"}
                       </span>
-                      {renderRating(provider.service_rating || 0)}
+                    
                     </div>
                     <div className="d-flex align-items-center">
                       <button 
@@ -601,7 +508,7 @@ export default function ProviderProfile() {
               </div>
             </div>
             
-            {/* Posts/Gallery Card */}
+            {/* Posts/Gallery/Reviews Card */}
             <div className="card shadow-sm mb-4">
               <div className="card-header bg-white">
                 <ul className="nav nav-tabs card-header-tabs">
@@ -609,6 +516,14 @@ export default function ProviderProfile() {
                     <button 
                       className={`nav-link ${activeTab === 'posts' ? 'active' : ''}`}
                       onClick={() => setActiveTab('posts')}
+                      style={{
+                        cursor: 'pointer',
+                        ...(activeTab !== 'posts' && { 
+                          backgroundColor: 'transparent', 
+                          borderColor: 'transparent', 
+                          color: '#6c757d'
+                        })
+                      }} 
                     >
                       Posts
                     </button>
@@ -617,8 +532,32 @@ export default function ProviderProfile() {
                     <button 
                       className={`nav-link ${activeTab === 'gallery' ? 'active' : ''}`}
                       onClick={() => setActiveTab('gallery')}
+                      style={{
+                        cursor: 'pointer',
+                        ...(activeTab !== 'gallery' && { 
+                          backgroundColor: 'transparent', 
+                          borderColor: 'transparent', 
+                          color: '#6c757d'
+                        })
+                      }} 
                     >
                       Gallery
+                    </button>
+                  </li>
+                  <li className="nav-item">
+                    <button 
+                      className={`nav-link ${activeTab === 'reviews' ? 'active' : ''}`}
+                      onClick={() => setActiveTab('reviews')}
+                      style={{
+                        cursor: 'pointer',
+                        ...(activeTab !== 'reviews' && { 
+                          backgroundColor: 'transparent', 
+                          borderColor: 'transparent', 
+                          color: '#6c757d'
+                        })
+                      }} 
+                    >
+                      Reviews
                     </button>
                   </li>
                 </ul>
@@ -693,7 +632,7 @@ export default function ProviderProfile() {
                       </div>
                     )}
                   </div>
-                ) : (
+                ) : activeTab === 'gallery' ? (
                   <div>
                     {provider.gallery && provider.gallery.length > 0 ? (
                       <>
@@ -738,6 +677,40 @@ export default function ProviderProfile() {
                           </svg>
                         </div>
                         <p className="text-muted">No gallery items available yet</p>
+                      </div>
+                    )}
+                  </div>
+                ) : (
+                  <div>
+                    {provider.reviews && provider.reviews.length > 0 ? (
+                      <div>
+                        {provider.reviews.map((review, index) => (
+                          <div key={review.id || index} className="card mb-3 shadow-sm border-0">
+                            <div className="card-body">
+                              <div className="d-flex justify-content-between mb-2">
+                                <div className="fw-bold">
+                                  {review.client?.first_name} {review.client?.last_name || review.reviewer_name}
+                                </div>
+                                <div>{renderRating(review.rating || 0)}</div>
+                              </div>
+                              <div className="text-muted small mb-2">
+                                {review.created_at ? formatDate(review.created_at) : 'Date not available'}
+                              </div>
+                              <p className="card-text">{review.comment}</p>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    ) : (
+                      <div className="text-center py-3">
+                        <div className="mb-3">
+                          <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="#ccc" className="bi bi-chat-square-text" viewBox="0 0 16 16">
+                            <path d="M14 1a1 1 0 0 1 1 1v8a1 1 0 0 1-1 1h-2.5a2 2 0 0 0-1.6.8L8 14.333 6.1 11.8a2 2 0 0 0-1.6-.8H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h12zM2 0a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h2.5a1 1 0 0 1 .8.4l1.9 2.533a1 1 0 0 0 1.6 0l1.9-2.533a1 1 0 0 1 .8-.4H14a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z"/>
+                            <path d="M3 3.5a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5zM3 6a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9A.5.5 0 0 1 3 6zm0 2.5a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5z"/>
+                          </svg>
+                        </div>
+                        <p className="text-muted">No Reviews Available</p>
+                        <p className="text-muted small">Be the first to leave a review for this provider</p>
                       </div>
                     )}
                   </div>

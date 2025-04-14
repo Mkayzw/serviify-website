@@ -23,6 +23,11 @@ export interface Provider {
   following_count?: number;
   posts_count?: number;
   posts?: Post[];
+  refers_count?: number;
+  bookmarks_count?: number;
+  total_clients?: number;
+  total_bookmarks?: number;
+  total_referrals?: number;
 }
 
 // Analytics data interface
@@ -98,9 +103,13 @@ interface BackendUser {
   provider_bio: string | null;
   provider_location: string | null;
   headline?: string | null;
-  follows_count?: number;
   followers_count?: number;
   following_count?: number;
+  refers_count?: number;
+  bookmarks_count?: number;
+  total_clients?: number;
+  total_bookmarks?: number;
+  total_referrals?: number;
   service_provider?: {
     provider_id: string;
     service_type: string;
@@ -112,7 +121,13 @@ interface BackendUser {
     availability: string;
     portfolio_images: string[];
     average_rating: number;
+    total_clients?: number;
+    total_bookmarks?: number;
+    total_referrals?: number;
+    created_at?: string;
   };
+  created_at?: string;
+  following_ids?: string[];
 }
 
 interface BackendService {
@@ -362,20 +377,41 @@ export class ProvidersService {
         // Continue execution even if posts fetch fails
       }
       
-      // Map the provider data
+      // Map the provider data initially (might be slightly incomplete before adding reviews/posts)
       const mappedProvider = this.mapUsersToProviders([userData])[0];
-      console.log('Mapped provider data:', mappedProvider);
-      
-      // Add additional data to the provider object that might not be handled by the mapper
-      return {
-        ...mappedProvider,
+      console.log('Mapped provider data before final merge:', mappedProvider);
+
+      // Ensure the final object correctly uses data, especially from service_provider
+      const finalProvider: Provider = {
+        id: userData.id,
+        first_name: userData.first_name,
+        last_name: userData.last_name,
+        name: `${userData.first_name} ${userData.last_name}`.trim(),
+        profile_image_url: userData.profile_image_url,
+        avatar: userData.profile_image_url,
+        headline: userData.service_provider?.headline || userData.headline || undefined,
+        service_type: userData.service_provider?.service_type || userData.service_type || undefined,
+        serviceType: userData.service_provider?.service_type || userData.service_type || undefined,
+        provider_location: this.extractCityFromLocation(userData.service_provider?.location || userData.provider_location || null),
+        location: this.extractCityFromLocation(userData.service_provider?.location || userData.provider_location || null),
+        service_rating: userData.service_provider?.average_rating || userData.average_rating || userData.service_rating || 0,
+        provider_bio: userData.service_provider?.bio || userData.provider_bio || undefined,
+        is_service_provider: !!userData.service_provider,
         reviews: reviews,
         gallery: gallery.length > 0 ? gallery : mappedProvider.gallery || [],
         posts: posts,
-        follows_count: userData.followers_count || userData.follows_count || 0,
+        follows_count: userData.followers_count || 0,
         following_count: userData.following_count || 0,
-        posts_count: posts.length
+        posts_count: posts.length,
+        total_clients: userData.service_provider?.total_clients || 0,
+        total_bookmarks: userData.service_provider?.total_bookmarks || 0,
+        total_referrals: userData.service_provider?.total_referrals || 0,
+        refers_count: userData.service_provider?.total_referrals || 0, 
+        bookmarks_count: userData.service_provider?.total_bookmarks || 0,
       };
+
+      console.log('Final provider object being returned:', finalProvider);
+      return finalProvider;
     } catch (error) {
       console.error('Error getting provider details:', error);
       throw error;
@@ -397,67 +433,43 @@ export class ProvidersService {
   }
 
   private mapUsersToProviders(users: BackendUser[]): Provider[] {
-    console.log('Raw users data for rating debug:', users);
+    console.log('Raw users data for mapping:', users);
     
     return users.map(user => {
+      const sp = user.service_provider; // Alias for easier access
       
-      console.log('User rating debug:', {
-        id: user.id,
-        name: `${user.first_name} ${user.last_name}`.trim(),
-        is_provider: user.is_service_provider || user.service_provider !== undefined,
-        service_type: user.service_type || (user.service_provider?.service_type),
-        service_rating: user.service_rating || user.service_provider?.average_rating,
-        average_rating: user.average_rating || user.service_provider?.average_rating,
-        headline: user.headline || user.service_provider?.headline,
-        allKeys: Object.keys(user)
-      });
+      // Determine appropriate service type, prioritizing service_provider
+      const serviceType = sp?.service_type || user.service_type || 'Service Provider';
       
-      // Determine appropriate service type
-      let serviceType = 'Service Provider';
-      if (user.service_type) {
-        serviceType = user.service_type;
-      } else if (user.service_provider?.service_type) {
-        serviceType = user.service_provider.service_type;
-      }
+      // Check if user is a service provider based on the object
+      const isServiceProvider = !!sp;
       
-      // Check if user has service_provider property
-      const isServiceProvider = user.is_service_provider || user.service_provider !== undefined;
+      // Extract provider location, prioritizing service_provider
+      const cityOnly = this.extractCityFromLocation(sp?.location || user.provider_location || null);
       
-      // Extract provider location and process it to show only city
-      let fullProviderLocation = 'Location not specified';
-      if (user.provider_location) {
-        fullProviderLocation = user.provider_location;
-      } else if (user.service_provider?.location) {
-        fullProviderLocation = user.service_provider.location;
-      }
+      // Extract provider bio, prioritizing service_provider
+      const providerBio = sp?.bio || user.provider_bio || undefined; // Ensure undefined if null
       
-      // Extract only the city from the location
-      const cityOnly = this.extractCityFromLocation(fullProviderLocation);
-      
-      // Extract provider bio
-      let providerBio = null;
-      if (user.provider_bio) {
-        providerBio = user.provider_bio;
-      } else if (user.service_provider?.bio) {
-        providerBio = user.service_provider.bio;
-      }
-      
-      // Extract rating
-      const rating = user.service_rating || user.average_rating || 
-                    (user.service_provider ? user.service_provider.average_rating : 0);
+      // Extract rating, prioritizing service_provider
+      const rating = sp?.average_rating || user.average_rating || user.service_rating || 0;
       
       // Extract follower counts                
-      const followsCount = user.follows_count || user.followers_count || 0;
+      const followsCount = user.followers_count || 0;
       const followingCount = user.following_count || 0;
+      
+      // Extract analytics data from service_provider object
+      const totalClients = sp?.total_clients || 0;
+      const totalBookmarks = sp?.total_bookmarks || 0;
+      const totalReferrals = sp?.total_referrals || 0;
       
       return {
         id: user.id,
         name: `${user.first_name} ${user.last_name}`.trim(),
         first_name: user.first_name,
         last_name: user.last_name,
-        headline: user.headline || user.service_provider?.headline || undefined,
+        headline: sp?.headline || user.headline || undefined,
         serviceType: serviceType,
-        service_type: user.service_type || (user.service_provider?.service_type) || serviceType,
+        service_type: serviceType,
         location: cityOnly,
         provider_location: cityOnly,
         rating: rating,
@@ -468,9 +480,14 @@ export class ProvidersService {
         is_service_provider: isServiceProvider,
         follows_count: followsCount,
         following_count: followingCount,
-        posts_count: 0, // Will be populated later
-        gallery: user.service_provider?.portfolio_images ? 
-          user.service_provider.portfolio_images.map((url, index) => ({
+        posts_count: 0, // Will be populated later in getProviderById
+        refers_count: totalReferrals,
+        bookmarks_count: totalBookmarks,
+        total_clients: totalClients,
+        total_bookmarks: totalBookmarks,
+        total_referrals: totalReferrals,
+        gallery: sp?.portfolio_images ? 
+          sp.portfolio_images.map((url, index) => ({
             id: index.toString(),
             user_id: user.id,
             image_url: url,
