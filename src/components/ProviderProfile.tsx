@@ -6,6 +6,9 @@ import type { Provider, GalleryItem, Post } from "../services/providers.service"
 import { ProvidersService } from "../services/providers.service"
 import { ApiConstants } from "../lib/api/apiConstants"
 import logo from "../assets/logo.png"
+import emptyPostsImage from "../assets/posts/post.png";
+import emptyGalleryImage from "../assets/gallery/gallary.png"; 
+import emptyReviewsImage from "../assets/providers/provider_4.png";
 
 export default function ProviderProfile() {
   const { id } = useParams<{ id: string }>()
@@ -17,6 +20,7 @@ export default function ProviderProfile() {
   const [isFollowing, setIsFollowing] = useState(false)
   const [isFollowLoading, setIsFollowLoading] = useState(false)
   const [isUserSignedIn, setIsUserSignedIn] = useState(false)
+ 
 
   useEffect(() => {
     const fetchProviderData = async () => {
@@ -233,21 +237,39 @@ export default function ProviderProfile() {
       flexDirection: "column",
       backgroundColor: "#f8f9fa"
     }}>
-      <header className="py-3 border-bottom bg-white">
+      <header className="py-3 border-bottom bg-white shadow-sm">
         <div className="container">
           <div className="d-flex align-items-center">
             <Link to="/" className="d-flex align-items-center text-decoration-none me-auto">
               <div className="me-2">
-                <img src={logo} alt="Serviify Logo" width="36" height="36" />
+                <img src={logo} alt="Serviify Logo" width="40" height="40" className="rounded" />
               </div>
-              <span style={{ fontSize: "24px", fontWeight: 700, color: "#293040" }}>
+              <span style={{ fontSize: "26px", fontWeight: 700, color: "#293040", letterSpacing: "-0.5px" }}>
                 Serviify
               </span>
             </Link>
-            <Link to="/provider-search" className="btn me-2" style={{ borderColor: "#293040", color: "#293040" }}>
-              Back to Search
+            <Link to="/provider-search" className="btn me-3" style={{ 
+              borderColor: "#293040", 
+              color: "#293040", 
+              borderRadius: "8px", 
+              padding: "8px 16px",
+              fontWeight: 500,
+              transition: "all 0.2s ease"
+            }}>
+              <div className="d-flex align-items-center">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="me-2" viewBox="0 0 16 16">
+                  <path fillRule="evenodd" d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8z"/>
+                </svg>
+                <span>Search</span>
+              </div>
             </Link>
-            <Link to="/auth?mode=login" className="start-now-btn">
+            <Link to="/auth?mode=login" className="start-now-btn" style={{
+              padding: "8px 20px",
+              borderRadius: "8px",
+              fontWeight: 500,
+              transition: "all 0.2s ease",
+              boxShadow: "0 2px 4px rgba(41, 48, 64, 0.1)"
+            }}>
               Sign in
             </Link>
           </div>
@@ -258,42 +280,39 @@ export default function ProviderProfile() {
         <div className="row">
           {/* Left Sidebar - Vertical Profile Section */}
           <div className="col-md-4 mb-4">
-            <div className="card shadow-sm mb-4">
+            <div className="card border-0 rounded-3 shadow-sm mb-4" style={{ 
+              overflow: "hidden",
+              transition: "transform 0.3s ease, box-shadow 0.3s ease",
+            }}>
               <div className="card-body text-center">
                 <div style={{ 
                   display: "flex", 
                   justifyContent: "center", 
                   alignItems: "center", 
-                  marginBottom: "1.25rem" 
+                  marginBottom: "1.5rem" 
                 }}>
-                  {provider.profile_image_url ? (
+                  <div className="position-relative">
                     <img
-                      src={provider.profile_image_url}
+                      src={provider.profile_image_url || logo}
                       alt={`${provider.first_name} ${provider.last_name}`}
                       className="rounded-circle"
                       style={{ 
-                        width: "140px", 
-                        height: "140px", 
+                        width: "160px", 
+                        height: "160px", 
                         objectFit: "cover", 
-                        border: "4px solid white",
-                        display: "block",
-                        margin: "0 auto"
+                        border: "5px solid white",
+                        boxShadow: "0 5px 15px rgba(0,0,0,0.08)",
+                        transition: "transform 0.3s ease",
+                        backgroundColor: !provider.profile_image_url ? '#eee' : 'transparent'
+                      }}
+                      onError={(e) => {
+                        const target = e.target as HTMLImageElement;
+                        target.src = logo;
+                        target.style.objectFit = 'contain';
+                        target.alt = 'Placeholder image';
                       }}
                     />
-                  ) : (
-                    <div className="rounded-circle d-flex align-items-center justify-content-center"
-                      style={{
-                        width: "140px",
-                        height: "140px",
-                        backgroundColor: "#f0f2f5",
-                        border: "4px solid white",
-                        margin: "0 auto"
-                      }}>
-                      <span style={{ color: "#293040" }} className="fw-bold fs-1">
-                        {provider.first_name ? provider.first_name.charAt(0) : ''}
-                      </span>
-                    </div>
-                  )}
+                  </div>
                 </div>
                 
                 <h4 className="mb-4" style={{ color: "#293040" }}>
@@ -317,7 +336,7 @@ export default function ProviderProfile() {
                 </div>
                 
                 {/* About Section */}
-                <div className="mb-4 text-start">
+                <div className="text-start">
                   <h5 className="card-title border-bottom pb-2 mb-3">Bio</h5>
                   {provider.provider_bio ? (
                     <p className="card-text">{provider.provider_bio}</p>
@@ -325,53 +344,60 @@ export default function ProviderProfile() {
                     <p className="card-text text-muted">No bio information available.</p>
                   )}
                 </div>
-                
-                {/* Analytics Section */}
-                <div className="text-start">
-                  <h5 className="card-title border-bottom pb-2 mb-3">Analytics</h5>
-                  <div className="d-flex align-items-center mb-3">
-                    <div className="rounded-circle bg-light d-flex align-items-center justify-content-center me-3"
-                      style={{ width: "40px", height: "40px" }}>
-                      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="#293040" className="bi bi-star" viewBox="0 0 16 16">
-                        <path d="M2.866 14.85c-.078.444.36.791.746.593l4.39-2.256 4.389 2.256c.386.198.824-.149.746-.592l-.83-4.73 3.522-3.356c.33-.314.16-.888-.282-.95l-4.898-.696L8.465.792a.513.513 0 0 0-.927 0L5.354 5.12l-4.898.696c-.441.062-.612.636-.283.95l3.523 3.356-.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"/>
-                      </svg>
-                    </div>
-                    <div>
-                      <div className="fw-bold">{(provider.service_rating || 0).toFixed(1)}</div>
-                      <div className="text-muted small">Rating</div>
-                    </div>
+              </div>
+            </div>
+
+            {/* Analytics Card */}
+            <div className="card border-0 rounded-3 shadow-sm mb-4" style={{ 
+              overflow: "hidden",
+              transition: "transform 0.3s ease, box-shadow 0.3s ease",
+            }}>
+              <div className="card-body">
+                <h5 className="card-title border-bottom pb-2 mb-3">Analytics</h5>
+                <div className="d-flex align-items-center mb-3">
+                  <div className="rounded-circle bg-light d-flex align-items-center justify-content-center me-3"
+                    style={{ width: "40px", height: "40px" }}>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="#293040" className="bi bi-star" viewBox="0 0 16 16">
+                      <path d="M2.866 14.85c-.078.444.36.791.746.593l4.39-2.256 4.389 2.256c.386.198.824-.149.746-.592l-.83-4.73 3.522-3.356c.33-.314.16-.888-.282-.95l-4.898-.696L8.465.792a.513.513 0 0 0-.927 0L5.354 5.12l-4.898.696c-.441.062-.612.636-.283.95l3.523 3.356-.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"/>
+                    </svg>
                   </div>
-                  <div className="d-flex align-items-center mb-3">
-                    <div className="rounded-circle bg-light d-flex align-items-center justify-content-center me-3"
-                      style={{ width: "40px", height: "40px" }}>
-                      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="#293040" className="bi bi-person" viewBox="0 0 16 16">
-                        <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6Zm2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0Zm4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4Zm-1-.004c0-.001-.001-.044-.03-.089C13.538 10.023 12.236 9 8 9s-5.538 1.023-5.97 1.907c-.03.045-.03.088-.03.089V12h12v-.004Z"/>
-                      </svg>
-                    </div>
-                    <div>
-                      <div className="fw-bold">{provider.total_referrals || 0}</div>
-                      <div className="text-muted small">Refers</div>
-                    </div>
+                  <div>
+                    <div className="fw-bold">{(provider.service_rating || 0).toFixed(1)}</div>
+                    <div className="text-muted small">Rating</div>
                   </div>
-                  <div className="d-flex align-items-center">
-                    <div className="rounded-circle bg-light d-flex align-items-center justify-content-center me-3"
-                      style={{ width: "40px", height: "40px" }}>
-                      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="#293040" className="bi bi-bookmark-heart" viewBox="0 0 16 16">
-                        <path fillRule="evenodd" d="M8 4.41c1.387-1.425 4.854 1.07 0 4.277C3.146 5.48 6.613 2.986 8 4.412z"/>
-                        <path d="M2 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v13.5a.5.5 0 0 1-.777.416L8 13.101l-5.223 2.815A.5.5 0 0 1 2 15.5V2zm2-1a1 1 0 0 0-1 1v12.566l4.723-2.482a.5.5 0 0 1 .554 0L13 14.566V2a1 1 0 0 0-1-1H4z"/>
-                      </svg>
-                    </div>
-                    <div>
-                      <div className="fw-bold">{provider.total_bookmarks || 0}</div>
-                      <div className="text-muted small">Bookmarks</div>
-                    </div>
+                </div>
+                <div className="d-flex align-items-center mb-3">
+                  <div className="rounded-circle bg-light d-flex align-items-center justify-content-center me-3"
+                    style={{ width: "40px", height: "40px" }}>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="#293040" className="bi bi-person" viewBox="0 0 16 16">
+                      <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6Zm2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0Zm4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4Zm-1-.004c0-.001-.001-.044-.03-.089C13.538 10.023 12.236 9 8 9s-5.538 1.023-5.97 1.907c-.03.045-.03.088-.03.089V12h12v-.004Z"/>
+                    </svg>
+                  </div>
+                  <div>
+                    <div className="fw-bold">{provider.total_referrals || 0}</div>
+                    <div className="text-muted small">Refers</div>
+                  </div>
+                </div>
+                <div className="d-flex align-items-center">
+                  <div className="rounded-circle bg-light d-flex align-items-center justify-content-center me-3"
+                    style={{ width: "40px", height: "40px" }}>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="#293040" className="bi bi-bookmark-heart" viewBox="0 0 16 16">
+                      <path fillRule="evenodd" d="M8 4.41c1.387-1.425 4.854 1.07 0 4.277C3.146 5.48 6.613 2.986 8 4.412z"/>
+                      <path d="M2 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v13.5a.5.5 0 0 1-.777.416L8 13.101l-5.223 2.815A.5.5 0 0 1 2 15.5V2zm2-1a1 1 0 0 0-1 1v12.566l4.723-2.482a.5.5 0 0 1 .554 0L13 14.566V2a1 1 0 0 0-1-1H4z"/>
+                    </svg>
+                  </div>
+                  <div>
+                    <div className="fw-bold">{provider.total_bookmarks || 0}</div>
+                    <div className="text-muted small">Bookmarks</div>
                   </div>
                 </div>
               </div>
             </div>
 
-      
-            <div className="card shadow-sm mb-4">
+            <div className="card border-0 rounded-3 shadow-sm mb-4" style={{ 
+              overflow: "hidden",
+              transition: "transform 0.3s ease, box-shadow 0.3s ease",
+            }}>
               <div className="card-body">
                 <h5 className="card-title mb-3">View Full Profile</h5>
                 <div className="mb-3">
@@ -406,7 +432,7 @@ export default function ProviderProfile() {
                     <div className="rounded-circle bg-light d-flex align-items-center justify-content-center me-2"
                       style={{ width: "32px", height: "32px", flexShrink: 0 }}>
                       <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#293040" viewBox="0 0 16 16">
-                        <path d="M15 14s1 0 1-1-1-4-5-4-5 3-5 4 1 1 1h8Zm-7.978-1A.261.261 0 0 1 7 12.996c.001-.264.167-1.03.76-1.72C8.312 10.629 9.282 10 11 10c1.717 0 2.687.63 3.24 1.276.593.69.758 1.457.76 1.72l-.008.002a.274.274 0 0 1-.014.002H7.022ZM11 7a2 2 0 1 0 0-4 2 2 0 0 0 0 4Zm3-2a3 3 0 1 1-6 0 3 3 0 0 1 6 0ZM6.936 9.28a5.88 5.88 0 0 0-1.23-.247A7.35 7.35 0 0 0 5 9c-4 0-5 3-5 4 0 .667.333 1 1 1h4.216A2.238 2.238 0 0 1 5 13c0-1.01.377-2.042 1.09-2.904.243-.294.526-.569.846-.816ZM4.92 10A5.493 5.493 0 0 0 4 13H1c0-.26.164-1.03.76-1.724.545-.636 1.492-1.256 3.16-1.275ZM1.5 5.5a3 3 0 1 1 6 0 3 3 0 0 1-6 0Zm3-2a2 2 0 1 0 0 4 2 2 0 0 0 0-4Z"/>
+                        <path d="M15 14s1 0 1-1-1-4-5-4-5 3-5 4 1 1 1h8Zm-7.978-1A.261.261 0 0 1 7 12.996c.001-.264.167-1.03.76-1.72C8.312 10.629 9.282 10 11 10c1.717 0 2.687.63 3.24 1.276.593.69.758 1.457.76 1.72l-.008.002a.274.274 0 0 1-.014.002H7.022ZM11 7a2 2 0 1 1-4 0 2 2 0 0 1 4 0Zm3-2a3 3 0 1 1-6 0 3 3 0 0 1 6 0ZM6.936 9.28a5.88 5.88 0 0 0-1.23-.247A7.35 7.35 0 0 0 5 9c-4 0-5 3-5 4 0 .667.333 1 1 1h4.216A2.238 2.238 0 0 1 5 13c0-1.01.377-2.042 1.09-2.904.243-.294.526-.569.846-.816ZM4.92 10A5.493 5.493 0 0 0 4 13H1c0-.26.164-1.03.76-1.724.545-.636 1.492-1.256 3.16-1.275ZM1.5 5.5a3 3 0 1 1 6 0 3 3 0 0 1-6 0Zm3-2a2 2 0 1 0 0 4 2 2 0 0 0 0-4Z"/>
                       </svg>
                     </div>
                     <div className="w-100">
@@ -456,7 +482,10 @@ export default function ProviderProfile() {
           
           {/* Right Content Area */}
           <div className="col-md-8">
-            <div className="card shadow-sm mb-4">
+            <div className="card border-0 rounded-3 shadow-sm mb-4" style={{ 
+              overflow: "hidden",
+              transition: "transform 0.3s ease, box-shadow 0.3s ease",
+            }}>
               <div className="card-body">
                 <div className="d-flex justify-content-between align-items-start">
                   <div>
@@ -474,8 +503,18 @@ export default function ProviderProfile() {
                     </div>
                     <div className="d-flex align-items-center">
                       <button 
-                        className="start-now-btn me-2" 
-                        style={{ minWidth: "120px", padding: "8px 16px" }} 
+                        className="btn me-2" 
+                        style={{ 
+                          minWidth: "130px", 
+                          padding: "10px 16px",
+                          backgroundColor: "#293040",
+                          color: "white",
+                          fontWeight: "500",
+                          borderRadius: "8px",
+                          border: "none",
+                          boxShadow: "0 2px 5px rgba(41, 48, 64, 0.2)",
+                          transition: "all 0.2s ease"
+                        }} 
                         onClick={handleFollowToggle}
                         disabled={isFollowLoading}
                       >
@@ -485,13 +524,30 @@ export default function ProviderProfile() {
                           ) : (
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="me-2" viewBox="0 0 16 16">
                               <path d="M1 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H1zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/>
-                              <path fill-rule="evenodd" d="M13.5 5a.5.5 0 0 1 .5.5V7h1.5a.5.5 0 0 1 0 1H14v1.5a.5.5 0 0 1-1 0V8h-1.5a.5.5 0 0 1 0-1H13V5.5a.5.5 0 0 1 .5-.5z"/>
+                              <path fillRule="evenodd" d="M13.5 5a.5.5 0 0 1 .5.5V7h1.5a.5.5 0 0 1 0 1H14v1.5a.5.5 0 0 1-1 0V8h-1.5a.5.5 0 0 1 0-1H13V5.5a.5.5 0 0 1 .5-.5z"/>
                             </svg>
                           )}
                           <span>{isFollowing ? "Unfollow" : "Follow"}</span>
                         </div>
                       </button>
-                      <button className="btn" style={{ borderColor: "#293040", color: "#293040", minWidth: "120px", padding: "8px 16px" }}>Contact</button>
+                      <button className="btn" style={{ 
+                        minWidth: "130px", 
+                        padding: "10px 16px",
+                        borderColor: "#293040",
+                        color: "#293040",
+                        fontWeight: "500",
+                        borderRadius: "8px",
+                        transition: "all 0.2s ease",
+                        boxShadow: "0 2px 5px rgba(41, 48, 64, 0.1)" 
+                      }}>
+                        <div className="d-flex align-items-center justify-content-center">
+                          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="me-2" viewBox="0 0 16 16">
+                            <path d="M5 8a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm4 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm3 1a1 1 0 1 0 0-2 1 1 0 0 0 0 2z"/>
+                            <path d="m2.165 15.803.02-.004c1.83-.363 2.948-.842 3.468-1.105A9.06 9.06 0 0 0 8 15c4.418 0 8-3.134 8-7s-3.582-7-8-7-8 3.134-8 7c0 1.76.743 3.37 1.97 4.6a10.437 10.437 0 0 1-.524 2.318l-.003.011a10.722 10.722 0 0 1-.244.637c-.079.186.074.394.273.362a21.673 21.673 0 0 0 .693-.125zm.8-3.108a1 1 0 0 0-.287-.801C1.618 10.83 1 9.468 1 8c0-3.192 3.004-6 7-6s7 2.808 7 6c0 3.193-3.004 6-7 6a8.06 8.06 0 0 1-2.088-.272 1 1 0 0 0-.711.074c-.387.196-1.24.57-2.634.893a10.97 10.97 0 0 0 .398-2z"/>
+                          </svg>
+                          <span>Contact</span>
+                        </div>
+                      </button>
                     </div>
                   </div>
                   
@@ -509,8 +565,11 @@ export default function ProviderProfile() {
             </div>
             
             {/* Posts/Gallery/Reviews Card */}
-            <div className="card shadow-sm mb-4">
-              <div className="card-header bg-white">
+            <div className="card border-0 rounded-3 shadow-sm mb-4" style={{ 
+              overflow: "hidden", 
+              transition: "transform 0.3s ease, box-shadow 0.3s ease",
+            }}>
+              <div className="card-header bg-white border-bottom-0 pb-0">
                 <ul className="nav nav-tabs card-header-tabs">
                   <li className="nav-item">
                     <button 
@@ -518,14 +577,29 @@ export default function ProviderProfile() {
                       onClick={() => setActiveTab('posts')}
                       style={{
                         cursor: 'pointer',
+                        fontWeight: 500,
+                        padding: '12px 20px',
+                        borderRadius: activeTab === 'posts' ? '0' : '8px 8px 0 0',
                         ...(activeTab !== 'posts' && { 
                           backgroundColor: 'transparent', 
                           borderColor: 'transparent', 
                           color: '#6c757d'
+                        }),
+                        ...(activeTab === 'posts' && {
+                          borderBottom: '3px solid #293040',
+                          borderTop: 'none',
+                          borderLeft: 'none',
+                          borderRight: 'none',
                         })
                       }} 
                     >
-                      Posts
+                      <div className="d-flex align-items-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="me-2" viewBox="0 0 16 16">
+                          <path d="M0 2.5A1.5 1.5 0 0 1 1.5 1h11A1.5 1.5 0 0 1 14 2.5v10.5a1.5 1.5 0 0 1-1.5 1.5h-11A1.5 1.5 0 0 1 0 13V2.5zM1.5 2a.5.5 0 0 0-.5.5v10.5a.5.5 0 0 0 .5.5h11a.5.5 0 0 0 .5-.5V2.5a.5.5 0 0 0-.5-.5h-11z"/>
+                          <path d="M2 4.5A.5.5 0 0 1 2.5 4h10a.5.5 0 0 1 0 1h-10a.5.5 0 0 1-.5-.5zm0 3a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1h-10a.5.5 0 0 1-.5-.5zm0 3a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1h-10a.5.5 0 0 1-.5-.5z"/>
+                        </svg>
+                        Posts
+                      </div>
                     </button>
                   </li>
                   <li className="nav-item">
@@ -534,14 +608,29 @@ export default function ProviderProfile() {
                       onClick={() => setActiveTab('gallery')}
                       style={{
                         cursor: 'pointer',
+                        fontWeight: 500,
+                        padding: '12px 20px',
+                        borderRadius: activeTab === 'gallery' ? '0' : '8px 8px 0 0',
                         ...(activeTab !== 'gallery' && { 
                           backgroundColor: 'transparent', 
                           borderColor: 'transparent', 
                           color: '#6c757d'
+                        }),
+                        ...(activeTab === 'gallery' && {
+                          borderBottom: '3px solid #293040',
+                          borderTop: 'none',
+                          borderLeft: 'none',
+                          borderRight: 'none',
                         })
                       }} 
                     >
-                      Gallery
+                      <div className="d-flex align-items-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="me-2" viewBox="0 0 16 16">
+                          <path d="M4.502 9a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3z"/>
+                          <path d="M14.002 13a2 2 0 0 1-2 2h-10a2 2 0 0 1-2-2V5A2 2 0 0 1 2 3a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v8a2 2 0 0 1-1.998 2zM14 2H4a1 1 0 0 0-1 1h9.002a2 2 0 0 1 2 2v7A1 1 0 0 0 15 11V3a1 1 0 0 0-1-1zM2.002 4a1 1 0 0 0-1 1v8l2.646-2.354a.5.5 0 0 1 .554 0L13 14.566V2a1 1 0 0 0-1-1H4.002z"/>
+                        </svg>
+                        Gallery
+                      </div>
                     </button>
                   </li>
                   <li className="nav-item">
@@ -550,14 +639,28 @@ export default function ProviderProfile() {
                       onClick={() => setActiveTab('reviews')}
                       style={{
                         cursor: 'pointer',
+                        fontWeight: 500,
+                        padding: '12px 20px',
+                        borderRadius: activeTab === 'reviews' ? '0' : '8px 8px 0 0',
                         ...(activeTab !== 'reviews' && { 
                           backgroundColor: 'transparent', 
                           borderColor: 'transparent', 
                           color: '#6c757d'
+                        }),
+                        ...(activeTab === 'reviews' && {
+                          borderBottom: '3px solid #293040',
+                          borderTop: 'none',
+                          borderLeft: 'none',
+                          borderRight: 'none',
                         })
                       }} 
                     >
-                      Reviews
+                      <div className="d-flex align-items-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="me-2" viewBox="0 0 16 16">
+                          <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"/>
+                        </svg>
+                        Reviews
+                      </div>
                     </button>
                   </li>
                 </ul>
@@ -567,31 +670,52 @@ export default function ProviderProfile() {
                   <div>
                     {provider.posts && provider.posts.length > 0 ? (
                       <div className="posts-container">
-                        {/* Show only the first 2 posts */}
                         {provider.posts.slice(0, 2).map((post: Post) => (
                           <div key={post.id} className="card mb-3 border-0 shadow-sm">
                             <div className="card-body">
                               <div className="d-flex align-items-center mb-3">
                                 <img 
-                                  src={provider.profile_image_url} 
+                                  src={provider.profile_image_url || logo} 
                                   alt={`${provider.first_name} ${provider.last_name}`}
                                   className="rounded-circle me-2"
-                                  style={{ width: "40px", height: "40px", objectFit: "cover" }}
+                                  style={{ 
+                                    width: "40px", 
+                                    height: "40px", 
+                                    objectFit: "cover",
+                                    backgroundColor: !provider.profile_image_url ? '#eee' : 'transparent'
+                                  }}
+                                  onError={(e) => {
+                                    const target = e.target as HTMLImageElement;
+                                    target.src = logo;
+                                    target.style.objectFit = 'contain';
+                                    target.alt = 'Placeholder image';
+                                  }}
                                 />
                                 <div>
                                   <div className="fw-bold">{provider.first_name} {provider.last_name}</div>
                                   <div className="text-muted small">{formatDate(post.created_at)}</div>
                                 </div>
                               </div>
-                              <p className="card-text">{post.content}</p>
-                              {post.image_url && (
+                              <p className="card-text">{post.caption}</p>
+                              {post.image_url ? (
                                 <img 
-                                  src={post.image_url} 
-                                  alt="Post" 
+                                  src={post.image_url}
+                                  alt="Post image" 
                                   className="img-fluid rounded mb-3"
-                                  style={{ maxHeight: "300px", width: "100%", objectFit: "cover" }}
+                                  style={{ 
+                                    maxHeight: "300px", 
+                                    width: "100%", 
+                                    objectFit: "cover",
+                                    backgroundColor: '#eee'
+                                  }}
+                                  onError={(e) => { 
+                                    const target = e.target as HTMLImageElement;
+                                    target.src = logo; 
+                                    target.style.objectFit = 'contain';
+                                    target.alt = 'Placeholder image';
+                                  }} 
                                 />
-                              )}
+                              ) : null}
                               <div className="d-flex align-items-center">
                                 <button className="btn btn-sm text-muted me-3 d-flex align-items-center">
                                   <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-hand-thumbs-up me-1" viewBox="0 0 16 16">
@@ -601,7 +725,7 @@ export default function ProviderProfile() {
                                 </button>
                                 <button className="btn btn-sm text-muted d-flex align-items-center">
                                   <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-chat me-1" viewBox="0 0 16 16">
-                                    <path d="M2.678 11.894a1 1 0 0 1 .287.801 10.97 10.97 0 0 1-.398 2c1.395-.323 2.247-.697 2.634-.893a1 1 0 0 1 .71-.074A8.06 8.06 0 0 0 8 14c3.996 0 7-2.807 7-6 0-3.192-3.004-6-7-6S1 4.808 1 8c0 1.468.617 2.83 1.678 3.894zm-.493 3.905a21.682 21.682 0 0 1-.713.129c-.2.032-.352-.176-.273-.362a9.68 9.68 0 0 0 .244-.637l.003-.01c.248-.72.45-1.548.524-2.319C.743 11.37 0 9.76 0 8c0-3.866 3.582-7 8-7s8 3.134 6 10c0 4.314-3.582 7-8 7a9.06 9.06 0 0 1-2.347-.306c-.52.263-1.639.742-3.468 1.105z"/>
+                                    <path d="M2.678 11.894a1 1 0 0 1 .287.801 10.97 10.97 0 0 1-.398 2c1.395-.323 2.247-.697 2.634-.893a1 1 0 0 1 .71-.074A8.06 8.06 0 0 0 8 14c3.996 0 7-2.807 7-6 0-3.192-3.004-6-7-6S1 4.808 1 8c0 1.468.617 2.83 1.678 3.894zm-.493 3.905a21.682 21.682 0 0 1-.713.129c-.2.032-.352-.176-.273-.362a9.68 9.68 0 0 0 .244-.637l.003-.01c.248-.72.45-1.548.524-2.319C.743 11.37 0 9.76 0 8c0-3.866 3.582-7 8-7s8 3.134 8 7c0 4.314-3.582 7-8 7a9.06 9.06 0 0 1-2.347-.306c-.52.263-1.639.742-3.468 1.105z"/>
                                   </svg>
                                   <span>{post.comments_count}</span>
                                 </button>
@@ -610,7 +734,6 @@ export default function ProviderProfile() {
                           </div>
                         ))}
                         
-                        {/* View More Button - Show only if there are more than 2 posts */}
                         {provider.posts.length > 2 && (
                           <div className="text-center mt-3 mb-2">
                             <Link to="/auth?mode=signup" className="start-now-btn">
@@ -621,14 +744,13 @@ export default function ProviderProfile() {
                         )}
                       </div>
                     ) : (
-                      <div className="text-center py-4">
-                        <div className="mb-3">
-                          <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="#ccc" className="bi bi-file-earmark-text" viewBox="0 0 16 16">
-                            <path d="M5.5 7a.5.5 0 0 0 0 1h5a.5.5 0 0 0 0-1h-5zM5 9.5a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5zm0 2a.5.5 0 0 1 .5-.5h2a.5.5 0 0 1 0 1h-2a.5.5 0 0 1-.5-.5z"/>
-                            <path d="M9.5 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V4.5L9.5 0zm0 1v2A1.5 1.5 0 0 0 11 4.5h2V14a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h5.5z"/>
-                          </svg>
-                        </div>
-                        <p className="text-muted">No posts available yet</p>
+                      <div className="text-center py-4 d-flex flex-column align-items-center">
+                        <img 
+                          src={emptyPostsImage} 
+                          alt="No posts available" 
+                          style={{ width: '150px', height: 'auto', marginBottom: '1rem' }} 
+                        />
+                        <p className="text-muted mb-0">No posts available yet</p>
                       </div>
                     )}
                   </div>
@@ -637,15 +759,24 @@ export default function ProviderProfile() {
                     {provider.gallery && provider.gallery.length > 0 ? (
                       <>
                         <div className="row row-cols-1 row-cols-md-3 g-3">
-                          {/* Show only the first 3 gallery items */}
                           {provider.gallery.slice(0, 3).map((item: GalleryItem) => (
                             <div className="col" key={item.id}>
                               <div className="card h-100 border-0 shadow-sm">
                                 <img 
-                                  src={item.image_url} 
+                                  src={item.image_url || logo} 
                                   className="card-img-top" 
                                   alt={item.caption || "Gallery image"}
-                                  style={{ height: "160px", objectFit: "cover" }}
+                                  style={{ 
+                                    height: "160px", 
+                                    objectFit: "cover",
+                                    backgroundColor: !item.image_url ? '#eee' : 'transparent'
+                                  }}
+                                  onError={(e) => {
+                                    const target = e.target as HTMLImageElement;
+                                    target.src = logo;
+                                    target.style.objectFit = 'contain';
+                                    target.alt = 'Placeholder image';
+                                  }}
                                 />
                                 {item.caption && (
                                   <div className="card-body">
@@ -658,7 +789,6 @@ export default function ProviderProfile() {
                           ))}
                         </div>
                         
-                        {/* View More Button - Show only if there are more than 3 gallery items */}
                         {provider.gallery.length > 3 && (
                           <div className="text-center mt-4">
                             <Link to="/auth?mode=signup" className="start-now-btn">
@@ -669,14 +799,13 @@ export default function ProviderProfile() {
                         )}
                       </>
                     ) : (
-                      <div className="text-center py-4">
-                        <div className="mb-3">
-                          <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="#ccc" className="bi bi-images" viewBox="0 0 16 16">
-                            <path d="M4.502 9a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3z"/>
-                            <path d="M14.002 13a2 2 0 0 1-2 2h-10a2 2 0 0 1-2-2V5A2 2 0 0 1 2 3a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v8a2 2 0 0 1-1.998 2zM14 2H4a1 1 0 0 0-1 1h9.002a2 2 0 0 1 2 2v7A1 1 0 0 0 15 11V3a1 1 0 0 0-1-1zM2.002 4a1 1 0 0 0-1 1v8l2.646-2.354a.5.5 0 0 1 .554 0L13 14.566V2a1 1 0 0 0-1-1H4.002z"/>
-                          </svg>
-                        </div>
-                        <p className="text-muted">No gallery items available yet</p>
+                      <div className="text-center py-4 d-flex flex-column align-items-center">
+                        <img 
+                          src={emptyGalleryImage} 
+                          alt="No gallery items available" 
+                          style={{ width: '150px', height: 'auto', marginBottom: '1rem' }} 
+                        />
+                        <p className="text-muted mb-0">No gallery items available yet</p>
                       </div>
                     )}
                   </div>
@@ -702,15 +831,14 @@ export default function ProviderProfile() {
                         ))}
                       </div>
                     ) : (
-                      <div className="text-center py-3">
-                        <div className="mb-3">
-                          <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="#ccc" className="bi bi-chat-square-text" viewBox="0 0 16 16">
-                            <path d="M14 1a1 1 0 0 1 1 1v8a1 1 0 0 1-1 1h-2.5a2 2 0 0 0-1.6.8L8 14.333 6.1 11.8a2 2 0 0 0-1.6-.8H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h12zM2 0a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h2.5a1 1 0 0 1 .8.4l1.9 2.533a1 1 0 0 0 1.6 0l1.9-2.533a1 1 0 0 1 .8-.4H14a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z"/>
-                            <path d="M3 3.5a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5zM3 6a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9A.5.5 0 0 1 3 6zm0 2.5a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5z"/>
-                          </svg>
-                        </div>
-                        <p className="text-muted">No Reviews Available</p>
-                        <p className="text-muted small">Be the first to leave a review for this provider</p>
+                      <div className="text-center py-3 d-flex flex-column align-items-center">
+                        <img 
+                          src={emptyReviewsImage} 
+                          alt="No reviews available" 
+                          style={{ width: '150px', height: 'auto', marginBottom: '1rem' }} 
+                        />
+                        <p className="text-muted mb-0">No Reviews Available</p>
+                        <p className="text-muted small mt-1">Be the first to leave a review for this provider</p>
                       </div>
                     )}
                   </div>
@@ -724,18 +852,47 @@ export default function ProviderProfile() {
       <footer style={{
         backgroundColor: "white",
         borderTop: "1px solid #dee2e6",
-        padding: "1rem 0",
-        flex: "0 0 auto"
+        padding: "1.5rem 0",
+        flex: "0 0 auto",
+        boxShadow: "0 -2px 10px rgba(0,0,0,0.03)"
       }}>
         <div className="container">
-          <div className="d-flex justify-content-between align-items-center">
-            <div className="text-muted small">© {new Date().getFullYear()} Serviify. All rights reserved.</div>
-            <div>
-              <a href="/about" className="text-decoration-none small me-3" style={{ color: "#293040" }}>About Us</a>
-              <a href="/privacy-policy" className="text-decoration-none small me-3" style={{ color: "#293040" }}>Privacy and Policy</a>
-              <a href="/terms-of-service" className="text-decoration-none small me-3" style={{ color: "#293040" }}>Terms of Service</a>
-              <a href="/support" className="text-decoration-none small me-3" style={{ color: "#293040" }}>Support</a>
-              <a href="/help-centre" className="text-decoration-none small me-3" style={{ color: "#293040" }}>Help Centre</a>
+          <div className="row">
+            <div className="col-lg-4 mb-3 mb-lg-0">
+              <div className="d-flex align-items-center mb-3">
+                <img src={logo} alt="Serviify Logo" width="32" height="32" className="me-2" />
+                <span style={{ fontSize: "20px", fontWeight: 700, color: "#293040" }}>Serviify</span>
+              </div>
+              <p className="text-muted small mb-0">Connecting professionals with those who need their services.</p>
+              <p className="text-muted small">© {new Date().getFullYear()} Serviify. All rights reserved.</p>
+            </div>
+            <div className="col-lg-8">
+              <div className="row">
+                <div className="col-sm-4 mb-3 mb-sm-0">
+                  <h6 className="mb-3 text-dark">Company</h6>
+                  <ul className="list-unstyled mb-0">
+                    <li className="mb-2"><a href="/about" className="text-decoration-none small" style={{ color: "#566074" }}>About Us</a></li>
+                    <li className="mb-2"><a href="/careers" className="text-decoration-none small" style={{ color: "#566074" }}>Careers</a></li>
+                    <li><a href="/press" className="text-decoration-none small" style={{ color: "#566074" }}>Press</a></li>
+                  </ul>
+                </div>
+                <div className="col-sm-4 mb-3 mb-sm-0">
+                  <h6 className="mb-3 text-dark">Legal</h6>
+                  <ul className="list-unstyled mb-0">
+                    <li className="mb-2"><a href="/privacy-policy" className="text-decoration-none small" style={{ color: "#566074" }}>Privacy Policy</a></li>
+                    <li className="mb-2"><a href="/terms-of-service" className="text-decoration-none small" style={{ color: "#566074" }}>Terms of Service</a></li>
+                    <li><a href="/cookie-policy" className="text-decoration-none small" style={{ color: "#566074" }}>Cookie Policy</a></li>
+                  </ul>
+                </div>
+                <div className="col-sm-4">
+                  <h6 className="mb-3 text-dark">Support</h6>
+                  <ul className="list-unstyled mb-0">
+                    <li className="mb-2"><a href="/help-centre" className="text-decoration-none small" style={{ color: "#566074" }}>Help Centre</a></li>
+                    <li className="mb-2"><a href="/support" className="text-decoration-none small" style={{ color: "#566074" }}>Contact Support</a></li>
+                    <li><a href="/faq" className="text-decoration-none small" style={{ color: "#566074" }}>FAQ</a></li>
+                  </ul>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -743,3 +900,4 @@ export default function ProviderProfile() {
     </div>
   )
 } 
+

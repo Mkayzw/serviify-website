@@ -66,8 +66,8 @@ export interface GalleryItem {
 
 export interface Post {
   id: string;
-  user_id: string;
-  content: string;
+  profile_id: string;
+  caption: string;
   image_url: string | null;
   likes_count: number;
   comments_count: number;
@@ -172,7 +172,11 @@ interface GalleryResponse {
 }
 
 interface PostsResponse {
-  data: Post[];
+  data: {
+    posts: Post[];
+    hasMore?: boolean;
+    total?: number;
+  };
   message: string;
   status: string;
   error: string | null;
@@ -370,8 +374,9 @@ export class ProvidersService {
       try {
         const postsEndpoint = `${ApiConstants.posts.getUserPosts}/${encodeURIComponent(id)}`;
         const postsResult = await this.apiService.get<PostsResponse>(postsEndpoint);
-        posts = postsResult.data || [];
-        console.log('Provider posts:', posts);
+        // Extract the nested posts array, defaulting to an empty array if not found
+        posts = postsResult.data?.posts || []; 
+        console.log('Provider posts:', postsResult.data); // Log the whole data object for context
       } catch (error) {
         console.error('Error getting provider posts:', error);
         // Continue execution even if posts fetch fails
