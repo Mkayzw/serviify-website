@@ -16,6 +16,8 @@ export interface Provider {
   avatar?: string;
   profile_image_url?: string;
   provider_bio?: string | null;
+  provider_skills?: string[];
+  provider_availability?: string;
   is_service_provider?: boolean;
   reviews?: Review[];
   gallery?: GalleryItem[];
@@ -401,6 +403,8 @@ export class ProvidersService {
         location: this.extractCityFromLocation(userData.service_provider?.location || userData.provider_location || null),
         service_rating: userData.service_provider?.average_rating || userData.average_rating || userData.service_rating || 0,
         provider_bio: userData.service_provider?.bio || userData.provider_bio || undefined,
+        provider_skills: userData.service_provider?.skills,
+        provider_availability: userData.service_provider?.availability,
         is_service_provider: !!userData.service_provider,
         reviews: reviews,
         gallery: gallery.length > 0 ? gallery : mappedProvider.gallery || [],
@@ -482,6 +486,8 @@ export class ProvidersService {
         avatar: user.profile_image_url,
         profile_image_url: user.profile_image_url,
         provider_bio: providerBio,
+        provider_skills: sp?.skills,
+        provider_availability: sp?.availability,
         is_service_provider: isServiceProvider,
         follows_count: followsCount,
         following_count: followingCount,
