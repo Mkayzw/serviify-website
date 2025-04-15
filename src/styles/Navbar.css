@@ -159,6 +159,11 @@
   }
 }
 
+/* Hide mobile-only links by default */
+.mobile-only-link {
+  display: none;
+}
+
 @media (max-width: 1024px) {
   .navbar-links {
     position: fixed;
@@ -185,6 +190,37 @@
   .navbar-links a {
     margin: 15px 0;
     font-size: 18px;
+  }
+
+  .navbar-links.active .mobile-only-link {
+    display: block; /* Show mobile-only links when menu is active */
+    margin: 15px 0;
+    font-size: 18px;
+    text-decoration: none;
+    color: #444;
+    font-weight: 500;
+    transition: color 0.3s ease;
+    position: relative;
+    white-space: nowrap;
+  }
+
+  .navbar-links.active .mobile-only-link:hover {
+    color: #293040;
+  }
+  
+  .navbar-links.active .mobile-only-link:after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 2px;
+    background: #293040;
+    bottom: -5px;
+    left: 0;
+    transition: width 0.3s ease;
+  }
+  
+  .navbar-links.active .mobile-only-link:hover:after {
+    width: 100%;
   }
 
   .mobile-menu-btn {
