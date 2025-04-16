@@ -574,10 +574,10 @@ export default function ProviderProfile() {
                   
                   <div className="text-end">
                     {provider.provider_location && (
-                      <>
+                      <div className="d-flex align-items-center justify-content-end">
                         <Location size="16" className="me-1" />
                         <span>{provider.provider_location || "Location not specified"}</span>
-                      </>
+                      </div>
                     )}
                   </div>
                 </div>
