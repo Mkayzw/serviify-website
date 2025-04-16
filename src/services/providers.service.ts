@@ -16,6 +16,8 @@ export interface Provider {
   avatar?: string;
   profile_image_url?: string;
   provider_bio?: string | null;
+  provider_skills?: string[];
+  provider_availability?: string;
   is_service_provider?: boolean;
   reviews?: Review[];
   gallery?: GalleryItem[];
@@ -66,8 +68,8 @@ export interface GalleryItem {
 
 export interface Post {
   id: string;
-  user_id: string;
-  content: string;
+  profile_id: string;
+  caption: string;
   image_url: string | null;
   likes_count: number;
   comments_count: number;
@@ -172,7 +174,11 @@ interface GalleryResponse {
 }
 
 interface PostsResponse {
-  data: Post[];
+  data: {
+    posts: Post[];
+    hasMore?: boolean;
+    total?: number;
+  };
   message: string;
   status: string;
   error: string | null;
@@ -370,8 +376,9 @@ export class ProvidersService {
       try {
         const postsEndpoint = `${ApiConstants.posts.getUserPosts}/${encodeURIComponent(id)}`;
         const postsResult = await this.apiService.get<PostsResponse>(postsEndpoint);
-        posts = postsResult.data || [];
-        console.log('Provider posts:', posts);
+        // Extract the nested posts array, defaulting to an empty array if not found
+        posts = postsResult.data?.posts || []; 
+        console.log('Provider posts:', postsResult.data); // Log the whole data object for context
       } catch (error) {
         console.error('Error getting provider posts:', error);
         // Continue execution even if posts fetch fails
@@ -396,6 +403,8 @@ export class ProvidersService {
         location: this.extractCityFromLocation(userData.service_provider?.location || userData.provider_location || null),
         service_rating: userData.service_provider?.average_rating || userData.average_rating || userData.service_rating || 0,
         provider_bio: userData.service_provider?.bio || userData.provider_bio || undefined,
+        provider_skills: userData.service_provider?.skills,
+        provider_availability: userData.service_provider?.availability,
         is_service_provider: !!userData.service_provider,
         reviews: reviews,
         gallery: gallery.length > 0 ? gallery : mappedProvider.gallery || [],
@@ -477,6 +486,8 @@ export class ProvidersService {
         avatar: user.profile_image_url,
         profile_image_url: user.profile_image_url,
         provider_bio: providerBio,
+        provider_skills: sp?.skills,
+        provider_availability: sp?.availability,
         is_service_provider: isServiceProvider,
         follows_count: followsCount,
         following_count: followingCount,

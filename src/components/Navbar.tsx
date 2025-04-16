@@ -73,6 +73,8 @@ const Navbar: React.FC<NavbarProps> = ({
             handleNavLinkClick();
             setShowHelpCentre();
           }}>Help Centre</Link>
+          <Link to="/auth" onClick={handleNavLinkClick} className="mobile-only-link">Sign Up</Link>
+          <Link to="/provider-search" onClick={handleNavLinkClick} className="mobile-only-link">Find Providers</Link>
         </div>
         
         <div className="navbar-buttons">
