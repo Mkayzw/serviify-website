@@ -322,7 +322,6 @@ export default function ProviderProfile() {
                         width: "160px", 
                         height: "160px", 
                         objectFit: "cover", 
-                        border: "5px solid white",
                         boxShadow: "0 5px 15px rgba(0,0,0,0.08)",
                         transition: "transform 0.3s ease",
                         backgroundColor: !provider.profile_image_url ? '#eee' : 'transparent'
@@ -366,7 +365,7 @@ export default function ProviderProfile() {
                     <p className="card-text text-muted">No bio information available.</p>
                   )}
 
-                  {/* Skills Section - ADDED */}
+                  {/* Skills Section*/}
                   {provider.provider_skills && provider.provider_skills.length > 0 && (
                     <div className="mt-4">
                       <h5 className="card-title border-bottom pb-2 mb-3">Skills</h5>
@@ -388,12 +387,7 @@ export default function ProviderProfile() {
                         </p>
                       </div>
                      )}
-                     {provider.provider_location && (
-                       <div className="text-end">
-                        <h5 className="card-title mb-2">Location</h5>
-                        <p className="card-text">{provider.provider_location.split(',').map((part: string, i: number) => <span key={i} className="d-block">{part.trim()}</span>)}</p>
-                      </div>
-                     )}
+                    
                   </div>
 
                 </div>
