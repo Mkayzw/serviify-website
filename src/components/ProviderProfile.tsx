@@ -16,8 +16,6 @@ import {
   DocumentText,
   Profile2User,
   Location,
-  MessageText1,
-  Like1,
   Bookmark,
   InfoCircle,
   CloseCircle,
@@ -687,50 +685,58 @@ export default function ProviderProfile() {
                         {provider.posts.slice(0, 2).map((post: Post) => (
                           <div key={post.id} className="card mb-3 border-0 shadow-sm">
                             <div className="card-body">
-                              <div className="d-flex align-items-center mb-3">
-                                <img 
-                                  src={provider.profile_image_url || logo} 
-                                  alt={`${provider.first_name} ${provider.last_name}`}
-                                  className="rounded-circle me-2"
-                                  style={{ 
-                                    width: "40px", 
-                                    height: "40px", 
-                                    objectFit: "cover",
-                                    backgroundColor: !provider.profile_image_url ? '#eee' : 'transparent'
-                                  }}
-                                  onError={(e) => {
-                                    const target = e.target as HTMLImageElement;
-                                    target.src = logo;
-                                    target.style.objectFit = 'contain';
-                                    target.alt = 'Placeholder image';
-                                  }}
-                                />
+                              <div className="d-flex justify-content-between align-items-center mb-3">
+                                <div className="d-flex align-items-center">
+                                  <img 
+                                    src={provider.profile_image_url || logo} 
+                                    alt={`${provider.first_name} ${provider.last_name}`}
+                                    className="rounded-circle me-2"
+                                    style={{ 
+                                      width: "40px", 
+                                      height: "40px", 
+                                      objectFit: "cover",
+                                      backgroundColor: !provider.profile_image_url ? '#eee' : 'transparent'
+                                    }}
+                                    onError={(e) => {
+                                      const target = e.target as HTMLImageElement;
+                                      target.src = logo;
+                                      target.style.objectFit = 'contain';
+                                      target.alt = 'Placeholder image';
+                                    }}
+                                  />
+                                  <div>
+                                    <div className="fw-bold">{provider.first_name} {provider.last_name} | SP</div>
+                                    {provider.provider_location && (
+                                      <div className="text-muted small">{provider.provider_location} • {formatDate(post.created_at)}</div>
+                                    )}
+                                  </div>
+                                </div>
                                 <div>
-                                  <div className="fw-bold">{provider.first_name} {provider.last_name}</div>
-                                  <div className="text-muted small">{formatDate(post.created_at)}</div>
+                                  <button className="btn btn-link text-dark p-0" onClick={handleButtonClick}>
+                                    <i className="bi bi-three-dots-vertical"></i>
+                                  </button>
                                 </div>
                               </div>
-                              <p className="card-text">{post.caption}</p>
+                              <p className="card-text mb-3">{post.caption}</p>
                               {post.image_url ? (
                                 <img 
                                   src={post.image_url}
                                   alt="Post image"
-                                  className="img-fluid rounded mb-3"
+                                  className="img-fluid rounded mb-3 w-100"
                                   style={{ 
-                                    maxHeight: "300px", 
+                                    maxHeight: "400px", 
                                     objectFit: "cover"
                                   }}
                                 />
                               ) : null}
-                              <div className="d-flex align-items-center">
-                                <button className="btn btn-sm text-muted me-3 d-flex align-items-center" onClick={handleButtonClick}>
-                                  <Like1 size="16" className="me-1" />
-                                  <span>{post.likes_count}</span>
-                                </button>
-                                <button className="btn btn-sm text-muted d-flex align-items-center" onClick={handleButtonClick}>
-                                  <MessageText1 size="16" className="me-1" />
-                                  <span>{post.comments_count}</span>
-                                </button>
+                              <div className="d-flex justify-content-between align-items-center">
+                                <div className="d-flex align-items-center">
+                                  <button className="btn p-0 me-3" onClick={handleButtonClick}>
+                                    <i className="bi bi-heart text-danger"></i>
+                                  </button>
+                                  <span className="text-muted small">{post.likes_count || 0} Likes • {post.comments_count || 0} Comments</span>
+                                </div>
+                              
                               </div>
                             </div>
                           </div>
