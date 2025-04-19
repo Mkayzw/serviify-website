@@ -103,7 +103,8 @@ export const ApiConstants = {
   
   // Discover endpoints
   discover: {
-    services: '/discover/services'
+    services: '/discover/services',
+    featured: '/discover/featured'
   },
   
   // Version endpoints
