@@ -178,12 +178,12 @@ body {
 
 .my-masonry-grid_column {
   padding-left: 16px; /* gutter size */
-  background-clip: padding-box; 
+  background-clip: padding-box;
+}
 
 .my-masonry-grid_column > div {
   margin-bottom: 16px;
 }
-
 
 @media (max-width: 1100px) {
   .my-masonry-grid {
@@ -210,7 +210,7 @@ body {
   grid-auto-rows: 200px;
   grid-gap: 10px;
   padding: 10px;
-  min-height: 600px; /* Add minimum height */
+  min-height: 600px;
 }
 
 .tile-grid-item {
@@ -320,5 +320,4 @@ body {
     grid-column: 1;
     grid-row: auto;
   }
-}
 }
