@@ -13,6 +13,7 @@ import ScrollToTop from './components/ScrollToTop';
 import Support from './components/Support';
 import ProviderSearch from './components/ProviderSearch';
 import ProviderProfile from './components/ProviderProfile';
+import ServicesPage from './components/ServicesPage';
 
 
 function App() {
@@ -81,6 +82,9 @@ function App() {
           <ProviderProfile />
         } />
         
+        <Route path="/services" element={
+          <ServicesPage />
+        } />
         
       
       </Routes>

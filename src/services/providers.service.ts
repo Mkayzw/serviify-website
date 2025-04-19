@@ -13,6 +13,7 @@ export interface Provider {
   location?: string;
   provider_location?: string;
   service_rating?: number;
+  rating?: number;
   avatar?: string;
   profile_image_url?: string;
   provider_bio?: string | null;
@@ -57,6 +58,7 @@ export interface Review {
   };
 }
 
+
 // Gallery item interface
 export interface GalleryItem {
   id: string;
@@ -90,8 +92,6 @@ export interface DiscoverServicesResponse {
   page: number;
   limit: number;
 }
-
-
 
 interface BackendUser {
   id: string;
@@ -136,18 +136,45 @@ interface BackendService {
   id?: string;
   _id?: string;
   userId?: string;
+  auth_id?: string;
   name?: string;
   providerName?: string;
   firstName?: string;
   lastName?: string;
+  first_name?: string;
+  last_name?: string;
   serviceType?: string;
   service?: string;
   location?: string;
+  location_coordinates?: string;
   rating?: number;
   average_rating?: number;
   avatar?: string;
   profileImage?: string;
+  profile_image_url?: string;
   headline?: string;
+  phone_number?: string;
+  email?: string;
+  interests?: string[];
+  followers_count?: number;
+  following_count?: number;
+  service_provider?: {
+    provider_id: string;
+    service_type: string;
+    headline?: string;
+    bio?: string;
+    location?: string;
+    city?: string;
+    skills?: string[];
+    availability?: string;
+    portfolio_images?: string[];
+    average_rating?: number;
+    total_clients?: number;
+    total_bookmarks?: number;
+    total_referrals?: number;
+    created_at?: string;
+  };
+  created_at?: string;
 }
 
 // Define interfaces for API responses
@@ -193,15 +220,20 @@ interface SearchUsersResponse {
   meta?: Record<string, unknown>;
 }
 
+// Define the services API response for provider search
+export interface ServicesApiResponse {
+  providers: Provider[];
+  total?: number;
+  page?: number;
+}
+
 // Define the discover services response
 interface DiscoverServicesApiResponse {
-  data: {
-    services: BackendService[];
-    total?: number;
-  };
-  message: string;
-  status: string;
-  error: string | null;
+  providers: BackendService[];
+  total: number;
+  page: number;
+  pages: number;
+  from_cache?: boolean;
 }
 
 // Define the nearby services response
@@ -258,19 +290,21 @@ export class ProvidersService {
   public async discoverServices(params: DiscoverServicesParams): Promise<DiscoverServicesResponse> {
     try {
       const queryParams: Record<string, string> = {};
-      if (params.query) queryParams.query = params.query;
       if (params.location) queryParams.location = params.location;
       if (params.sortBy) queryParams.sort_by = params.sortBy;
       queryParams.page = (params.page || 1).toString();
       queryParams.limit = (params.limit || 10).toString();
       
-      const result = await this.apiService.get<DiscoverServicesApiResponse>(ApiConstants.discover.services, {
+      // Construct the endpoint with the service type as a path parameter
+      const endpoint = `${ApiConstants.discover.services}/${encodeURIComponent(params.query || '')}`;
+      
+      const result = await this.apiService.get<DiscoverServicesApiResponse>(endpoint, {
         params: queryParams
       });
       
       console.log('Parsed discover services response:', result);
       
-      const servicesData = result.data?.services || result.data || [];
+      const servicesData = result.providers || [];
       console.log('Services data extracted:', servicesData);
       
       const mappedProviders = this.mapServicesToProviders(servicesData);
@@ -278,12 +312,31 @@ export class ProvidersService {
       
       return {
         providers: mappedProviders,
-        total: result.data?.total || servicesData.length || 0,
-        page: parseInt(params.page?.toString() || '1', 10),
+        total: result.total || servicesData.length || 0,
+        page: result.page || parseInt(params.page?.toString() || '1', 10),
         limit: parseInt(params.limit?.toString() || '10', 10)
       };
     } catch (error) {
       console.error('Error discovering services:', error);
+      throw error;
+    }
+  }
+
+  // Get featured providers
+  public async getFeaturedProviders(limit = 3): Promise<Provider[]> { // Default limit to 3 as in original static data
+    try {
+      const result = await this.apiService.get<DiscoverServicesApiResponse>(ApiConstants.discover.featured, {
+        params: { limit: limit.toString() } // Assuming API supports a limit parameter
+      });
+      
+      console.log('Parsed featured providers response:', result);
+      
+      const servicesData = result.providers || [];
+      console.log('Featured services data extracted:', servicesData);
+      
+      return this.mapServicesToProviders(servicesData);
+    } catch (error) {
+      console.error('Error getting featured providers:', error);
       throw error;
     }
   }
@@ -427,7 +480,6 @@ export class ProvidersService {
     }
   }
 
-
   private extractCityFromLocation(location: string | null): string {
     if (!location) return 'Location not specified';
     
@@ -517,7 +569,7 @@ export class ProvidersService {
       // Debug log for each service's rating
       console.log('Service rating debug:', {
         id: service.id || service._id,
-        name: service.name || service.providerName || `${service.firstName || ''} ${service.lastName || ''}`.trim(), 
+        name: service.name || service.providerName || `${service.firstName || service.first_name || ''} ${service.lastName || service.last_name || ''}`.trim(), 
         rating: service.rating,
         average_rating: service.average_rating,
         ratingType: typeof service.average_rating,
@@ -527,22 +579,47 @@ export class ProvidersService {
       });
       
       // Extract only the city from the location
-      const location = this.extractCityFromLocation(service.location || null);
+      const location = this.extractCityFromLocation(service.location || service.location_coordinates || null);
+      
+      // Get service provider details if available
+      const serviceProviderDetails: Required<NonNullable<BackendService['service_provider']>> = {
+        provider_id: '',
+        service_type: 'Unknown service',
+        headline: '',
+        bio: '',
+        location: '',
+        city: '',
+        skills: [],
+        availability: '',
+        portfolio_images: [],
+        average_rating: 0,
+        total_clients: 0,
+        total_bookmarks: 0,
+        total_referrals: 0,
+        created_at: '',
+        ...service.service_provider
+      };
       
       return {
         id: service.id || service._id || service.userId || '',
-        name: service.name || service.providerName || `${service.firstName || ''} ${service.lastName || ''}`.trim(),
-        first_name: service.firstName || '',
-        last_name: service.lastName || '',
-        headline: service.headline,
-        serviceType: service.serviceType || service.service || 'Unknown service',
-        service_type: service.serviceType || service.service || 'Unknown service',
+        name: service.name || service.providerName || `${service.first_name || service.firstName || ''} ${service.last_name || service.lastName || ''}`.trim(),
+        first_name: service.first_name || service.firstName || '',
+        last_name: service.last_name || service.lastName || '',
+        headline: service.headline || serviceProviderDetails.headline,
+        serviceType: serviceProviderDetails.service_type || service.serviceType || service.service || 'Unknown service',
+        service_type: serviceProviderDetails.service_type || service.serviceType || service.service || 'Unknown service',
         location: location,
         provider_location: location,
-        rating: service.average_rating || service.rating || 0,
-        service_rating: service.rating || service.average_rating || 0,
-        avatar: service.avatar || service.profileImage,
-        profile_image_url: service.profileImage || service.avatar
+        rating: serviceProviderDetails.average_rating || service.average_rating || service.rating || 0,
+        service_rating: serviceProviderDetails.average_rating || service.rating || service.average_rating || 0,
+        avatar: service.avatar || service.profileImage || service.profile_image_url,
+        profile_image_url: service.profile_image_url || service.profileImage || service.avatar,
+        provider_bio: serviceProviderDetails.bio,
+        provider_skills: serviceProviderDetails.skills,
+        provider_availability: serviceProviderDetails.availability,
+        is_service_provider: true,
+        follows_count: service.followers_count || 0,
+        following_count: service.following_count || 0
       };
     });
   }
