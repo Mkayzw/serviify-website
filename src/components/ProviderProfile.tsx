@@ -2,13 +2,11 @@
 
 import { useState, useEffect } from "react"
 import { useParams, Link } from "react-router-dom"
-import Masonry from 'react-masonry-css';
 import { 
   ArrowLeft2, 
   Star1, 
   User, 
-  HeartAdd, 
-  Messages1, 
+  Whatsapp,
   ToggleOn, 
   Call, 
   TickCircle,
@@ -19,6 +17,8 @@ import {
   Bookmark,
   InfoCircle,
   CloseCircle,
+  Star,
+  TagUser,
 } from 'iconsax-react';
 import type { Provider, GalleryItem, Post } from "../services/providers.service"
 import { ProvidersService } from "../services/providers.service"
@@ -38,13 +38,6 @@ export default function ProviderProfile() {
   const [isFollowLoading] = useState(false)
   const [isModalOpen, setIsModalOpen] = useState(false)
  
-  // Breakpoints for Masonry layout
-  const breakpointColumnsObj = {
-    default: 3,
-    1100: 2,
-    700: 1
-  };
-
   useEffect(() => {
     const fetchProviderData = async () => {
       if (!id) {
@@ -368,8 +361,8 @@ export default function ProviderProfile() {
                     <div className="mt-4">
                       <h5 className="card-title border-bottom pb-2 mb-3">Skills</h5>
                       <div>
-                        {provider.provider_skills.map((skill: string, index: number) => (
-                          <span key={index} className="skill-tag me-1 mb-1">{skill}</span>
+                        {provider.provider_skills.map((skill: string) => (
+                          <span key={skill} className="skill-tag me-1 mb-1">{skill}</span>
                         ))}
                       </div>
                     </div>
@@ -402,7 +395,7 @@ export default function ProviderProfile() {
                 <div className="d-flex align-items-center mb-3">
                   <div className="rounded-circle bg-light d-flex align-items-center justify-content-center me-3"
                     style={{ width: "40px", height: "40px" }}>
-                    <Star1 size="20" color="#293040" />
+                    <Star size="20" color="#293040" />
                   </div>
                   <div>
                     <div className="fw-bold">{(provider.service_rating || 0).toFixed(1)}</div>
@@ -412,7 +405,7 @@ export default function ProviderProfile() {
                 <div className="d-flex align-items-center mb-3">
                   <div className="rounded-circle bg-light d-flex align-items-center justify-content-center me-3"
                     style={{ width: "40px", height: "40px" }}>
-                    <User size="20" color="#293040" />
+                    <TagUser size="20" color="#293040" />
                   </div>
                   <div>
                     <div className="fw-bold">{provider.total_referrals || 0}</div>
@@ -545,7 +538,7 @@ export default function ProviderProfile() {
                           {isFollowLoading ? (
                             <span className="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
                           ) : (
-                            <HeartAdd size="16" className="me-2" />
+                            <User size="16" className="me-2" />
                           )}
                           <span>{isFollowing ? "Unfollow" : "Follow"}</span>
                         </div>
@@ -565,7 +558,7 @@ export default function ProviderProfile() {
                         onClick={handleButtonClick}
                       >
                         <div className="d-flex align-items-center justify-content-center">
-                          <Messages1 size="16" className="me-2" />
+                          <Whatsapp size="16" className="me-2" />
                           <span>Contact</span>
                         </div>
                       </button>
@@ -751,17 +744,13 @@ export default function ProviderProfile() {
                         )}
                       </div>
                     ) : (
-                      <div className="text-center py-4 d-flex flex-column align-items-center">
+                      <div className="empty-state-container">
                         <img 
                           src={placeholderPost} 
                           alt="No posts available" 
-                          style={{ 
-                            maxWidth: '150px', 
-                            marginBottom: '1rem', 
-                            opacity: 0.6 
-                          }} 
+                          className="empty-state-image"
                         />
-                        <p className="text-muted mb-0">No posts available yet</p>
+                        <p className="empty-state-text">No posts available yet</p>
                       </div>
                     )}
                   </div>
@@ -769,61 +758,39 @@ export default function ProviderProfile() {
                   <div>
                     {provider.gallery && provider.gallery.length > 0 ? (
                       <>
-                        <Masonry
-                          breakpointCols={breakpointColumnsObj}
-                          className="my-masonry-grid"
-                          columnClassName="my-masonry-grid_column"
-                        >
-                          {provider.gallery.slice(0, 3).map((item: GalleryItem) => (
-                            <div key={item.id} className="mb-3">
-                              <div className="card h-100 border-0 shadow-sm overflow-hidden">
-                                <img 
-                                  src={item.image_url || logo} 
-                                  className="card-img-top" 
-                                  alt={item.caption || "Gallery image"}
-                                  style={{ 
-                                    height: "160px", 
-                                    objectFit: "cover",
-                                    backgroundColor: !item.image_url ? '#eee' : 'transparent'
-                                  }}
-                                  onError={(e) => {
-                                    const target = e.target as HTMLImageElement;
-                                    target.src = logo;
-                                    target.style.objectFit = 'contain';
-                                    target.alt = 'Placeholder image';
-                                  }}
-                                />
-                                {item.caption && (
-                                  <div className="card-body">
-                                    <p className="card-text small">{item.caption}</p>
-                                    <p className="card-text"><small className="text-muted">{formatDate(item.created_at)}</small></p>
-                                  </div>
-                                )}
-                              </div>
+                        <div className="tile-grid">
+                          {provider.gallery.slice(0, 6).map((item: GalleryItem) => (
+                            <div key={item.id} className="tile-grid-item">
+                              <img 
+                                src={item.image_url || logo} 
+                                alt={item.caption || "Gallery image"}
+                                onError={(e) => {
+                                  const target = e.target as HTMLImageElement;
+                                  target.src = logo;
+                                  target.style.objectFit = 'contain';
+                                  target.alt = 'Placeholder image';
+                                }}
+                              />
                             </div>
                           ))}
-                        </Masonry>
+                        </div>
                         
-                        {provider.gallery.length > 3 && (
+                        {provider.gallery.length > 6 && (
                           <div className="text-center mt-4">
                             <button className="start-now-btn" onClick={handleButtonClick}>
-                              View More Photos ({provider.gallery.length - 3} more)
+                              View More Photos ({provider.gallery.length - 6} more)
                             </button>
                           </div>
                         )}
                       </>
                     ) : (
-                      <div className="text-center py-4 d-flex flex-column align-items-center">
+                      <div className="empty-state-container">
                         <img 
                           src={placeholderGallery} 
                           alt="No gallery items available" 
-                          style={{ 
-                            maxWidth: '150px', 
-                            marginBottom: '1rem', 
-                            opacity: 0.6 
-                          }} 
+                          className="empty-state-image"
                         />
-                        <p className="text-muted mb-0">No gallery items available yet</p>
+                        <p className="empty-state-text">No gallery items available yet</p>
                       </div>
                     )}
                   </div>
@@ -858,18 +825,14 @@ export default function ProviderProfile() {
                         )}
                       </div>
                     ) : (
-                       <div className="text-center py-3 d-flex flex-column align-items-center">
-                         <img 
+                      <div className="empty-state-container">
+                        <img 
                           src={placeholderReview} 
                           alt="No reviews available" 
-                          style={{ 
-                            maxWidth: '150px', 
-                            marginBottom: '1rem', 
-                            opacity: 0.6 
-                          }} 
+                          className="empty-state-image"
                         />
-                        <p className="text-muted mb-0">No Reviews Available</p>
-                        <p className="text-muted small mt-1">Be the first to leave a review for this provider</p>
+                        <p className="empty-state-text">No Reviews Available</p>
+                        <p className="empty-state-text" style={{ fontSize: "0.9rem", marginTop: "0.5rem" }}>Be the first to leave a review for this provider</p>
                       </div>
                     )}
                   </div>
