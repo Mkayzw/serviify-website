@@ -76,6 +76,15 @@ export interface Post {
   likes_count: number;
   comments_count: number;
   created_at: string;
+  post_type: 'General' | 'Service Request';
+  status: 'Open' | 'Closed';
+  refer_ids: string[];
+  comment_ids: string[];
+  like_ids: string[];
+  accepted_ids: string[];
+  service_type?: string;
+  location?: string;
+  location_coordinates?: string;
 }
 
 export interface DiscoverServicesParams {
@@ -569,7 +578,7 @@ export class ProvidersService {
       // Debug log for each service's rating
       console.log('Service rating debug:', {
         id: service.id || service._id,
-        name: service.name || service.providerName || `${service.firstName || service.first_name || ''} ${service.lastName || service.last_name || ''}`.trim(), 
+        name: service.name || service.providerName || `${service.firstName || service.first_name || ''} ${service.lastName || service.lastName || ''}`.trim(), 
         rating: service.rating,
         average_rating: service.average_rating,
         ratingType: typeof service.average_rating,
