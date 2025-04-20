@@ -781,15 +781,24 @@ export default function ProviderProfile() {
                               </div>
                               <p className="card-text mb-3">{post.caption}</p>
                               {post.image_url ? (
-                                <img 
-                                  src={post.image_url}
-                                  alt="Post image"
-                                  className="img-fluid rounded mb-3 w-100"
-                                  style={{ 
-                                    maxHeight: "400px", 
-                                    objectFit: "cover"
-                                  }}
-                                />
+                                <div className="position-relative" style={{ 
+                                  width: "100%",
+                                  height: "400px",
+                                  overflow: "hidden",
+                                  borderRadius: "8px",
+                                  marginBottom: "1rem"
+                                }}>
+                                  <img 
+                                    src={post.image_url}
+                                    alt="Post image"
+                                    style={{ 
+                                      width: "100%",
+                                      height: "100%",
+                                      objectFit: "contain",
+                                      backgroundColor: "#f8f9fa"
+                                    }}
+                                  />
+                                </div>
                               ) : null}
                               <div className="d-flex justify-content-between align-items-center">
                                 <div className="d-flex align-items-center">
