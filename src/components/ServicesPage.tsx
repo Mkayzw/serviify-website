@@ -2,8 +2,8 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { ApiException } from "@/lib/api/apiException";
 import Footer from "./Footer";
+import Navbar from "./Navbar";
 import { Provider as ProviderData, ProvidersService, ServicesApiResponse } from "@/services/providers.service";
-import logo from '@/assets/logo.png';
 import { User } from 'iconsax-react';
 
 // Color categories for services
@@ -158,8 +158,15 @@ const ServicesPage: React.FC = () => {
   const [providers, setProviders] = useState<ProviderData[]>([]);
   const [loadingSearch, setLoadingSearch] = useState<boolean>(false);
   const [errorSearch, setErrorSearch] = useState<string | null>(null);
-  const [searchPerformed, setSearchPerformed] = useState<boolean>(false); // Track if a search has been run
-  const [showAllServices, setShowAllServices] = useState<boolean>(false); // Toggle for showing all services
+  const [searchPerformed, setSearchPerformed] = useState<boolean>(false);
+  const [showAllServices, setShowAllServices] = useState<boolean>(false);
+  const [showSignup, setShowSignup] = useState<boolean>(false);
+
+
+  
+  const setShowHelpCentre = () => {
+    
+  };
 
   // API Service Instance
   const providersService = ProvidersService.getInstance();
@@ -253,25 +260,11 @@ const ServicesPage: React.FC = () => {
 
   return (
     <div className="flex flex-col min-h-screen bg-white">
-      <header className="py-3 border-b bg-white sticky top-0 z-10">
-        <div className="container mx-auto px-4">
-          <div className="flex items-center justify-between">
-            <Link
-              to="/"
-              className="flex items-center no-underline"
-            >
-              <img src={logo} alt="Serviify Logo" className="h-8" />
-              <span
-                className="text-2xl font-bold text-[#293040] ml-2"
-              >
-                Services
-              </span>
-            </Link>
-
-            <Link to="/auth?mode=login" className="px-4 py-2 rounded-md bg-[#293040] text-white no-underline hover:bg-opacity-90 whitespace-nowrap">Sign in</Link>
-          </div>
-        </div>
-      </header>
+      <Navbar 
+        title="Services"
+        setShowSignup={setShowSignup}
+        setShowHelpCentre={setShowHelpCentre}
+      />
 
       <main className="container mx-auto mt-4 px-4 flex-grow">
 
@@ -283,20 +276,20 @@ const ServicesPage: React.FC = () => {
             </p>
             <div className="mt-8">
               <h3 className="text-xl font-semibold mb-4 text-gray-700">Popular Services</h3>
-              <div className="flex flex-wrap justify-center gap-4 max-w-5xl mx-auto">
-                {(showAllServices ? popularServices : popularServices.slice(0, 12)).map((service, index) => (
+              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-2 max-w-7xl mx-auto">
+                {(showAllServices ? popularServices : popularServices.slice(0, 18)).map((service, index) => (
                   <button
                     key={index}
                     onClick={() => handleServiceSelect(service)}
                     disabled={loadingSearch}
                     style={{ backgroundColor: getServiceColor(service) }}
-                    className="px-6 py-3 rounded-full text-sm font-medium border-none text-white transition-all hover:shadow-md hover:opacity-90 disabled:opacity-50 disabled:cursor-not-allowed"
+                    className="px-3 py-2 rounded-lg text-xs font-medium border-none text-white transition-all hover:shadow-md hover:opacity-90 disabled:opacity-50 disabled:cursor-not-allowed min-h-[48px] flex items-center justify-center text-center"
                   >
                     {service}
                   </button>
                 ))}
               </div>
-              {!showAllServices && popularServices.length > 12 && (
+              {!showAllServices && popularServices.length > 18 && (
                 <button 
                   onClick={() => setShowAllServices(true)}
                   className="mt-6 text-sm text-[#293040] hover:underline"
