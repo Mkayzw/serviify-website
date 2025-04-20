@@ -8,27 +8,62 @@ import { User } from 'iconsax-react';
 
 // Color categories for services
 const serviceCategories: Record<string, string> = {
-  'Technology': '#1A237E',
-  'Home': '#311B92', 
-  'Health': '#1B5E20', 
-  'Business': '#E65100', 
-  'Education': '#01579B', 
-  'Personal': '#880E4F',
-  'Automotive': '#3E2723',
-  'Creative': '#F57F17', 
-  'Professional': '#004D40', 
+  'Technology': '#2962FF',
+  'Home': '#6D4C41',       
+  'Health': '#00C853',    
+  'Business': '#FF6D00',   
+  'Education': '#1565C0',  
+  'Personal': '#C2185B',   
+  'Automotive': '#37474F', 
+  'Creative': '#F9A825',   
+  'Professional': '#00695C', 
 };
 
 // Map services to categories
 const getServiceCategory = (service: string): string => {
-  if (service.match(/computer|software|website|app|network|it|seo|online/i)) return 'Technology';
-  if (service.match(/home|cleaning|plumbing|electrical|furniture|yard|pest|painting/i)) return 'Home';
-  if (service.match(/medical|health|dental|massage|fitness|spa/i)) return 'Health';
-  if (service.match(/accounting|consulting|financial|legal|business|marketing/i)) return 'Business';
-  if (service.match(/education|tutoring|training|teaching|coaching/i)) return 'Education';
-  if (service.match(/personal|shopping|styling|chef|catering/i)) return 'Personal';
-  if (service.match(/auto|car|vehicle|driving/i)) return 'Automotive';
-  if (service.match(/design|photo|video|art|music|content|creative/i)) return 'Creative';
+  const s = service.toLowerCase();
+  
+  // Technology services
+  if (s.match(/\b(computer|software|website|app|network|it|seo|online|digital|cloud|cyber|data|programming|tech|web|mobile|software|hardware|hosting)\b/)) {
+    return 'Technology';
+  }
+  
+  // Home services
+  if (s.match(/\b(home|house|cleaning|plumbing|electrical|furniture|yard|pest|painting|renovation|repair|maintenance|garden|lawn|construction|carpentry|handyman|installation|decor|interior)\b/)) {
+    return 'Home';
+  }
+  
+  // Health services
+  if (s.match(/\b(medical|health|dental|massage|fitness|spa|wellness|therapy|healthcare|nutrition|physical|mental|counseling|treatment|healing|care|nursing)\b/)) {
+    return 'Health';
+  }
+  
+  // Business services
+  if (s.match(/\b(accounting|consulting|financial|legal|business|marketing|management|strategy|advisory|corporate|commercial|investment|planning|analysis|market|sales|professional)\b/)) {
+    return 'Business';
+  }
+  
+  // Education services
+  if (s.match(/\b(education|tutoring|training|teaching|coaching|learning|instructor|school|academic|course|class|lesson|study|skill|development|workshop)\b/)) {
+    return 'Education';
+  }
+  
+  // Personal services
+  if (s.match(/\b(personal|shopping|styling|chef|catering|concierge|lifestyle|fashion|grooming|beauty|assistance|organizing|event|planning|coordination)\b/)) {
+    return 'Personal';
+  }
+  
+  // Automotive services
+  if (s.match(/\b(auto|car|vehicle|driving|automotive|mechanic|repair|maintenance|garage|motor|transmission|engine|body|paint|service|transport)\b/)) {
+    return 'Automotive';
+  }
+  
+  // Creative services
+  if (s.match(/\b(design|photo|video|art|music|content|creative|media|production|graphic|animation|visual|audio|editing|studio|entertainment|performance)\b/)) {
+    return 'Creative';
+  }
+  
+  // Default to Professional for any other services
   return 'Professional';
 };
 
