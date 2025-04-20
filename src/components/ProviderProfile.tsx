@@ -19,6 +19,8 @@ import {
   CloseCircle,
   Star,
   TagUser,
+  Heart,
+  Send2,
 } from 'iconsax-react';
 import type { Provider, GalleryItem, Post } from "../services/providers.service"
 import { ProvidersService } from "../services/providers.service"
@@ -37,6 +39,8 @@ export default function ProviderProfile() {
   const [isFollowing, setIsFollowing] = useState(false)
   const [isFollowLoading] = useState(false)
   const [isModalOpen, setIsModalOpen] = useState(false)
+  const [isReferModalOpen, setIsReferModalOpen] = useState(false);
+  const [selectedPost, setSelectedPost] = useState<Post | null>(null);
  
   useEffect(() => {
     const fetchProviderData = async () => {
@@ -99,6 +103,11 @@ export default function ProviderProfile() {
     e.preventDefault()
     setIsModalOpen(true)
   }
+
+  const handleReferClick = (post: Post) => {
+    setSelectedPost(post);
+    setIsReferModalOpen(true);
+  };
 
   // Format date string to a more readable format
   const formatDate = (dateString: string) => {
@@ -198,7 +207,7 @@ export default function ProviderProfile() {
       display: "flex",
       flexDirection: "column",
       backgroundColor: "#f8f9fa",
-      position: isModalOpen ? "relative" : "static"
+      position: isModalOpen || isReferModalOpen ? "relative" : "static"
     }}>
       {/* Sign Up Modal */}
       {isModalOpen && (
@@ -244,6 +253,58 @@ export default function ProviderProfile() {
               <button 
                 className="btn btn-link text-muted" 
                 onClick={(e) => { e.preventDefault(); setIsModalOpen(false); }}
+              >
+                Continue as Guest
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Refer Modal */}
+      {isReferModalOpen && selectedPost && (
+        <div className="position-fixed top-0 start-0 w-100 h-100 d-flex align-items-center justify-content-center" 
+             style={{ 
+               backgroundColor: "rgba(0,0,0,0.5)", 
+               zIndex: 1050,
+             }}>
+          <div className="bg-white p-4 rounded-3 shadow" style={{ maxWidth: "400px", width: "90%" }}>
+            <div className="d-flex justify-content-between align-items-center mb-3">
+              <h5 className="m-0">Refer Service Request</h5>
+              <button 
+                className="btn btn-sm" 
+                onClick={() => setIsReferModalOpen(false)}
+                style={{ color: "#293040" }}
+              >
+                <CloseCircle size="24" />
+              </button>
+            </div>
+            <p>Sign up to refer this service request to other providers in your network!</p>
+            <div className="d-flex flex-column gap-2 mt-4">
+              <Link 
+                to="/auth?mode=signup" 
+                className="start-now-btn" 
+                style={{ 
+                  textAlign: "center",
+                  padding: "10px 0"
+                }}
+              >
+                Create Account
+              </Link>
+              <Link 
+                to="/auth?mode=login" 
+                className="btn" 
+                style={{ 
+                  borderColor: "#293040",
+                  color: "#293040",
+                  textAlign: "center" 
+                }}
+              >
+                Log In
+              </Link>
+              <button 
+                className="btn btn-link text-muted" 
+                onClick={() => setIsReferModalOpen(false)}
               >
                 Continue as Guest
               </button>
@@ -698,7 +759,15 @@ export default function ProviderProfile() {
                                     }}
                                   />
                                   <div>
-                                    <div className="fw-bold">{provider.first_name} {provider.last_name} | SP</div>
+                                    <div className="d-flex align-items-center">
+                                      <span className="fw-bold me-2">{provider.first_name} {provider.last_name} | SP</span>
+                                      {post.post_type === 'Service Request' && (
+                                        <span className={`badge ${post.status === 'Open' ? 'bg-success' : 'bg-secondary'}`} 
+                                              style={{ fontSize: '0.7rem', padding: '0.35em 0.65em' }}>
+                                          {post.status}
+                                        </span>
+                                      )}
+                                    </div>
                                     {provider.provider_location && (
                                       <div className="text-muted small">{provider.provider_location} • {formatDate(post.created_at)}</div>
                                     )}
@@ -725,11 +794,23 @@ export default function ProviderProfile() {
                               <div className="d-flex justify-content-between align-items-center">
                                 <div className="d-flex align-items-center">
                                   <button className="btn p-0 me-3" onClick={handleButtonClick}>
-                                    <i className="bi bi-heart text-danger"></i>
+                                    <Heart size="16" className="me-2" />
                                   </button>
-                                  <span className="text-muted small">{post.likes_count || 0} Likes • {post.comments_count || 0} Comments</span>
+                                  {post.post_type === 'Service Request' && (
+                                    <button 
+                                      className="btn p-0" 
+                                      onClick={() => handleReferClick(post)}
+                                      style={{ color: '#293040' }}
+                                    >
+                                      <Send2 size="16" className="me-2" />
+                                    </button>
+                                  )}
                                 </div>
-                              
+                                <span className="text-muted small text-center">
+                                  {post.likes_count || 0} Likes • {post.comments_count || 0} Comments
+                                  {post.post_type === 'Service Request' && ` • ${post.refer_ids?.length || 0} Refers`}
+                                </span>
+                                <div style={{ width: "24px" }}></div>
                               </div>
                             </div>
                           </div>

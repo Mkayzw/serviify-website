@@ -2,11 +2,41 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { ApiException } from "@/lib/api/apiException";
 import Footer from "./Footer";
+import Navbar from "./Navbar";
 import { Provider as ProviderData, ProvidersService, ServicesApiResponse } from "@/services/providers.service";
-import logo from '@/assets/logo.png';
-import discoverImage from '@/assets/discover/discover_1.png';
 import { User } from 'iconsax-react';
 
+// Color categories for services
+const serviceCategories: Record<string, string> = {
+  'Technology': '#1A237E',
+  'Home': '#311B92', 
+  'Health': '#1B5E20', 
+  'Business': '#E65100', 
+  'Education': '#01579B', 
+  'Personal': '#880E4F',
+  'Automotive': '#3E2723',
+  'Creative': '#F57F17', 
+  'Professional': '#004D40', 
+};
+
+// Map services to categories
+const getServiceCategory = (service: string): string => {
+  if (service.match(/computer|software|website|app|network|it|seo|online/i)) return 'Technology';
+  if (service.match(/home|cleaning|plumbing|electrical|furniture|yard|pest|painting/i)) return 'Home';
+  if (service.match(/medical|health|dental|massage|fitness|spa/i)) return 'Health';
+  if (service.match(/accounting|consulting|financial|legal|business|marketing/i)) return 'Business';
+  if (service.match(/education|tutoring|training|teaching|coaching/i)) return 'Education';
+  if (service.match(/personal|shopping|styling|chef|catering/i)) return 'Personal';
+  if (service.match(/auto|car|vehicle|driving/i)) return 'Automotive';
+  if (service.match(/design|photo|video|art|music|content|creative/i)) return 'Creative';
+  return 'Professional';
+};
+
+// Get background color for a service
+const getServiceColor = (service: string): string => {
+  const category = getServiceCategory(service);
+  return serviceCategories[category] || '#F5F5F5';
+};
 
 // Hardcoded list of popular services (from Dart code)
 const popularServices = [
@@ -88,13 +118,21 @@ const popularServices = [
 ];
 
 const ServicesPage: React.FC = () => {
-  // State for selected service
-  const [selectedService, setSelectedService] = useState<string>("");
   const [providers, setProviders] = useState<ProviderData[]>([]);
   const [loadingSearch, setLoadingSearch] = useState<boolean>(false);
   const [errorSearch, setErrorSearch] = useState<string | null>(null);
-  const [searchPerformed, setSearchPerformed] = useState<boolean>(false); // Track if a search has been run
-  const [showAllServices, setShowAllServices] = useState<boolean>(false); // Toggle for showing all services
+  const [searchPerformed, setSearchPerformed] = useState<boolean>(false);
+  const [showAllServices, setShowAllServices] = useState<boolean>(false);
+  const [selectedService, setSelectedService] = useState<string>("");
+
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const setShowSignup = (show: boolean) => {
+    // Handle signup visibility if needed
+  };
+
+  const setShowHelpCentre = () => {
+    // Handle help centre visibility if needed
+  };
 
   // API Service Instance
   const providersService = ProvidersService.getInstance();
@@ -188,63 +226,41 @@ const ServicesPage: React.FC = () => {
 
   return (
     <div className="flex flex-col min-h-screen bg-white">
-      <header className="py-3 border-b bg-white sticky top-0 z-10">
-        <div className="container mx-auto px-4">
-          <div className="flex items-center justify-between">
-            <Link
-              to="/"
-              className="flex items-center no-underline"
-            >
-              <img src={logo} alt="Serviify Logo" className="h-8" />
-              <span
-                className="text-2xl font-bold text-[#293040] ml-2"
-              >
-                Services
-              </span>
-            </Link>
-
-            <Link to="/auth?mode=login" className="px-4 py-2 rounded-md bg-[#293040] text-white no-underline hover:bg-opacity-90 whitespace-nowrap">Sign in</Link>
-          </div>
-        </div>
-      </header>
+      <Navbar 
+        setShowSignup={setShowSignup}
+        setShowHelpCentre={setShowHelpCentre}
+      />
 
       <main className="container mx-auto mt-4 px-4 flex-grow">
-
         {!searchPerformed && !loadingSearch && (
           <div className="text-center my-8 md:my-16">
-             <div className="mb-6">
-              <img
-                src={discoverImage}
-                alt="Illustration of people"
-                className="max-w-xs md:max-w-sm mx-auto"
-              />
-            </div>
             <h2 className="text-2xl md:text-3xl font-semibold mb-3 text-gray-800">Find Local Service Providers</h2>
             <p className="mb-6 text-gray-600 max-w-xl mx-auto">
               Choose from the popular services below to find providers near you.
             </p>
             <div className="mt-8">
               <h3 className="text-xl font-semibold mb-4 text-gray-700">Popular Services</h3>
-              <div className="flex flex-wrap justify-center gap-2 max-w-3xl mx-auto">
+              <div className="flex flex-wrap justify-center gap-4 max-w-5xl mx-auto">
                 {(showAllServices ? popularServices : popularServices.slice(0, 12)).map((service, index) => (
                   <button
                     key={index}
                     onClick={() => handleServiceSelect(service)}
                     disabled={loadingSearch}
-                    className="px-4 py-2 rounded-full text-sm font-medium bg-gray-100 border border-gray-300 text-gray-700 transition-colors hover:bg-gray-200 disabled:opacity-50 disabled:cursor-not-allowed"
+                    style={{ backgroundColor: getServiceColor(service) }}
+                    className="px-6 py-3 rounded-full text-sm font-medium border-none text-white transition-all hover:shadow-md hover:opacity-90 disabled:opacity-50 disabled:cursor-not-allowed"
                   >
                     {service}
                   </button>
                 ))}
               </div>
-               {!showAllServices && popularServices.length > 12 && (
-                  <button 
-                     onClick={() => setShowAllServices(true)}
-                     className="mt-4 text-sm text-[#293040] hover:underline"
-                  >
-                     View all services...
-                  </button>
-               )}
+              {!showAllServices && popularServices.length > 12 && (
+                <button 
+                  onClick={() => setShowAllServices(true)}
+                  className="mt-6 text-sm text-[#293040] hover:underline"
+                >
+                  View all services...
+                </button>
+              )}
             </div>
           </div>
         )}
@@ -394,8 +410,6 @@ const ServicesPage: React.FC = () => {
               )}
            </div>
         )}
-
-        
       </main>
 
       <Footer />
