@@ -160,6 +160,8 @@ const ServicesPage: React.FC = () => {
   const [errorSearch, setErrorSearch] = useState<string | null>(null);
   const [searchPerformed, setSearchPerformed] = useState<boolean>(false);
   const [showAllServices, setShowAllServices] = useState<boolean>(false);
+  // @ts-expect-error - Used only for Navbar prop
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [showSignup, setShowSignup] = useState<boolean>(false);
 
 
