@@ -2,8 +2,8 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { ApiException } from "@/lib/api/apiException";
 import Footer from "./Footer";
-import Navbar from "./Navbar";
 import { Provider as ProviderData, ProvidersService, ServicesApiResponse } from "@/services/providers.service";
+import logo from '@/assets/logo.png';
 import { User } from 'iconsax-react';
 
 // Color categories for services
@@ -38,7 +38,7 @@ const getServiceColor = (service: string): string => {
   return serviceCategories[category] || '#F5F5F5';
 };
 
-// Hardcoded list of popular services (from Dart code)
+
 const popularServices = [
   'Accounting & Bookkeeping Services',
   'Agricultural & Consultation Services',
@@ -118,21 +118,13 @@ const popularServices = [
 ];
 
 const ServicesPage: React.FC = () => {
+  // State for selected service
+  const [selectedService, setSelectedService] = useState<string>("");
   const [providers, setProviders] = useState<ProviderData[]>([]);
   const [loadingSearch, setLoadingSearch] = useState<boolean>(false);
   const [errorSearch, setErrorSearch] = useState<string | null>(null);
-  const [searchPerformed, setSearchPerformed] = useState<boolean>(false);
-  const [showAllServices, setShowAllServices] = useState<boolean>(false);
-  const [selectedService, setSelectedService] = useState<string>("");
-
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const setShowSignup = (show: boolean) => {
-    // Handle signup visibility if needed
-  };
-
-  const setShowHelpCentre = () => {
-    // Handle help centre visibility if needed
-  };
+  const [searchPerformed, setSearchPerformed] = useState<boolean>(false); // Track if a search has been run
+  const [showAllServices, setShowAllServices] = useState<boolean>(false); // Toggle for showing all services
 
   // API Service Instance
   const providersService = ProvidersService.getInstance();
@@ -226,12 +218,28 @@ const ServicesPage: React.FC = () => {
 
   return (
     <div className="flex flex-col min-h-screen bg-white">
-      <Navbar 
-        setShowSignup={setShowSignup}
-        setShowHelpCentre={setShowHelpCentre}
-      />
+      <header className="py-3 border-b bg-white sticky top-0 z-10">
+        <div className="container mx-auto px-4">
+          <div className="flex items-center justify-between">
+            <Link
+              to="/"
+              className="flex items-center no-underline"
+            >
+              <img src={logo} alt="Serviify Logo" className="h-8" />
+              <span
+                className="text-2xl font-bold text-[#293040] ml-2"
+              >
+                Services
+              </span>
+            </Link>
+
+            <Link to="/auth?mode=login" className="px-4 py-2 rounded-md bg-[#293040] text-white no-underline hover:bg-opacity-90 whitespace-nowrap">Sign in</Link>
+          </div>
+        </div>
+      </header>
 
       <main className="container mx-auto mt-4 px-4 flex-grow">
+
         {!searchPerformed && !loadingSearch && (
           <div className="text-center my-8 md:my-16">
             <h2 className="text-2xl md:text-3xl font-semibold mb-3 text-gray-800">Find Local Service Providers</h2>
@@ -410,6 +418,8 @@ const ServicesPage: React.FC = () => {
               )}
            </div>
         )}
+
+        
       </main>
 
       <Footer />
