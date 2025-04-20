@@ -26,7 +26,7 @@ export default function ProviderSearch() {
         try {
           console.log("Searching by name:", fullName)
           const providers = await providersService.searchUsers(fullName.trim())
-          console.log("Name search results:", providers)
+        
 
           if (providers && providers.length > 0) {
             setSearchResults(providers)
@@ -48,7 +48,7 @@ export default function ProviderSearch() {
         sortBy: 'rating'
       }
 
-      console.log("Discovering services with params:", params)
+      
 
       try {
         const response = await providersService.discoverServices(params)
@@ -60,7 +60,7 @@ export default function ProviderSearch() {
 
           // If no results found
           if (response.providers.length === 0) {
-            console.log("No providers found in discover services")
+          
             setError("No service providers match your search. Try broadening your search criteria or check for typos.")
           }
         } else {
@@ -92,23 +92,23 @@ export default function ProviderSearch() {
         async (position) => {
           try {
             const { latitude, longitude } = position.coords
-            console.log("Got user location:", latitude, longitude)
+           
 
             try {
               console.log("Fetching nearby services...")
               const providers = await providersService.getNearbyServices(latitude, longitude, 25)
-              console.log("Nearby services response:", providers)
+              
 
               if (providers && Array.isArray(providers)) {
                 setSearchResults(providers)
-                console.log("Set search results to nearby providers:", providers.length, "results")
+         
 
                 if (providers.length === 0) {
                   console.log("No nearby providers found")
                   setError("We couldn't find any service providers in your area. Try searching by name or service type instead.")
                 }
               } else {
-                console.log("Invalid providers response:", providers)
+               
                 setError("We couldn't load the list of nearby services. Please try again in a moment.")
               }
             } catch (err) {
@@ -167,8 +167,7 @@ export default function ProviderSearch() {
       <header className="py-3 border-bottom bg-white">
         <div className="container">
           <div className="d-flex align-items-center">
-            {/* Logo */}
-            {/* Logo with Providers text using inline CSS */}
+         
             <Link
               to="/"
               style={{

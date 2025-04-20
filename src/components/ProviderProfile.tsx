@@ -786,7 +786,8 @@ export default function ProviderProfile() {
                                   height: "400px",
                                   overflow: "hidden",
                                   borderRadius: "8px",
-                                  marginBottom: "1rem"
+                                  marginBottom: "1rem",
+                                  backgroundColor: "#f8f9fa"
                                 }}>
                                   <img 
                                     src={post.image_url}
@@ -794,8 +795,7 @@ export default function ProviderProfile() {
                                     style={{ 
                                       width: "100%",
                                       height: "100%",
-                                      objectFit: "contain",
-                                      backgroundColor: "#f8f9fa"
+                                      objectFit: "cover"
                                     }}
                                   />
                                 </div>
