@@ -48,8 +48,6 @@ export default function ProviderSearch() {
         sortBy: 'rating'
       }
 
-      
-
       try {
         const response = await providersService.discoverServices(params)
         console.log("Discover services response:", response)
@@ -60,7 +58,6 @@ export default function ProviderSearch() {
 
           // If no results found
           if (response.providers.length === 0) {
-          
             setError("No service providers match your search. Try broadening your search criteria or check for typos.")
           }
         } else {
@@ -78,81 +75,6 @@ export default function ProviderSearch() {
       setSearchResults([])
     } finally {
       setIsLoading(false)
-    }
-  }
-
-  // Load nearby services using geolocation
-  const handleLoadNearbyServices = () => {
-    if (navigator.geolocation) {
-      setIsLoading(true)
-      setError(null)
-      console.log("Getting user location...")
-
-      navigator.geolocation.getCurrentPosition(
-        async (position) => {
-          try {
-            const { latitude, longitude } = position.coords
-           
-
-            try {
-              console.log("Fetching nearby services...")
-              const providers = await providersService.getNearbyServices(latitude, longitude, 25)
-              
-
-              if (providers && Array.isArray(providers)) {
-                setSearchResults(providers)
-         
-
-                if (providers.length === 0) {
-                  console.log("No nearby providers found")
-                  setError("We couldn't find any service providers in your area. Try searching by name or service type instead.")
-                }
-              } else {
-               
-                setError("We couldn't load the list of nearby services. Please try again in a moment.")
-              }
-            } catch (err) {
-              console.error("Error loading nearby services:", err)
-              setError("We couldn't find services near you right now. Try searching by name or service type instead.")
-              setSearchResults([])
-            }
-          } catch (err) {
-            console.error("Error processing geolocation data:", err)
-            setError("We couldn't determine your exact location. Try refreshing the page or search by name instead.")
-            setSearchResults([])
-          } finally {
-            setIsLoading(false)
-          }
-        },
-        (err) => {
-          console.error("Geolocation error:", err, "Code:", err.code)
-          let errorMessage = "Unable to access your location."
-
-          // More helpful error message based on error code
-          switch (err.code) {
-            case 1: // PERMISSION_DENIED
-              errorMessage = "Location access was denied. Please allow location access in your browser settings to find nearby services."
-              break
-            case 2: // POSITION_UNAVAILABLE
-              errorMessage = "We couldn't determine your current location. Try searching by name or service type instead."
-              break
-            case 3: // TIMEOUT
-              errorMessage = "Finding your location is taking too long. Please try again or search by name instead."
-              break
-          }
-
-          setError(errorMessage)
-          setIsLoading(false)
-        },
-        {
-          enableHighAccuracy: true,
-          timeout: 10000,
-          maximumAge: 0
-        }
-      )
-    } else {
-      console.log("Geolocation not supported by browser")
-      setError("Your browser doesn't support location services. Try searching by name or service type instead.")
     }
   }
 
@@ -225,7 +147,7 @@ export default function ProviderSearch() {
 
       {/* Results Area */}
       <div className="container mt-4" style={{ flex: "1 0 auto" }}>
-        {/* Call to action for nearby services */}
+        {/* Call to action for search */}
         {searchResults.length === 0 && !error && !isLoading && (
           <div className="text-center my-5">
             <div className="illustration-container mb-4">
@@ -237,14 +159,7 @@ export default function ProviderSearch() {
               />
             </div>
             <h2 className="mb-4">Looking for service providers?</h2>
-            <p className="mb-4 text-muted">Enter a full name to search or browse service providers near you.</p>
-            <button
-              onClick={handleLoadNearbyServices}
-              className="start-now-btn"
-              disabled={isLoading}
-            >
-              Find Nearby Services
-            </button>
+            <p className="mb-4 text-muted">Enter a full name to search for service providers.</p>
           </div>
         )}
 
