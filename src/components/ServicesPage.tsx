@@ -6,73 +6,81 @@ import Navbar from "./Navbar";
 import { Provider as ProviderData, ProvidersService, ServicesApiResponse } from "@/services/providers.service";
 import { User } from 'iconsax-react';
 
-// Color categories for services
-const serviceCategories: Record<string, string> = {
-  'Technology': '#2962FF',
-  'Home': '#6D4C41',       
-  'Health': '#00C853',    
-  'Business': '#FF6D00',   
-  'Education': '#1565C0',  
-  'Personal': '#C2185B',   
-  'Automotive': '#37474F', 
-  'Creative': '#F9A825',   
-  'Professional': '#00695C', 
-};
 
-// Map services to categories
-const getServiceCategory = (service: string): string => {
-  const s = service.toLowerCase();
-  
-  // Technology services
-  if (s.match(/\b(computer|software|website|app|network|it|seo|online|digital|cloud|cyber|data|programming|tech|web|mobile|software|hardware|hosting)\b/)) {
-    return 'Technology';
-  }
-  
-  // Home services
-  if (s.match(/\b(home|house|cleaning|plumbing|electrical|furniture|yard|pest|painting|renovation|repair|maintenance|garden|lawn|construction|carpentry|handyman|installation|decor|interior)\b/)) {
-    return 'Home';
-  }
-  
-  // Health services
-  if (s.match(/\b(medical|health|dental|massage|fitness|spa|wellness|therapy|healthcare|nutrition|physical|mental|counseling|treatment|healing|care|nursing)\b/)) {
-    return 'Health';
-  }
-  
-  // Business services
-  if (s.match(/\b(accounting|consulting|financial|legal|business|marketing|management|strategy|advisory|corporate|commercial|investment|planning|analysis|market|sales|professional)\b/)) {
-    return 'Business';
-  }
-  
-  // Education services
-  if (s.match(/\b(education|tutoring|training|teaching|coaching|learning|instructor|school|academic|course|class|lesson|study|skill|development|workshop)\b/)) {
-    return 'Education';
-  }
-  
-  // Personal services
-  if (s.match(/\b(personal|shopping|styling|chef|catering|concierge|lifestyle|fashion|grooming|beauty|assistance|organizing|event|planning|coordination)\b/)) {
-    return 'Personal';
-  }
-  
-  // Automotive services
-  if (s.match(/\b(auto|car|vehicle|driving|automotive|mechanic|repair|maintenance|garage|motor|transmission|engine|body|paint|service|transport)\b/)) {
-    return 'Automotive';
-  }
-  
-  // Creative services
-  if (s.match(/\b(design|photo|video|art|music|content|creative|media|production|graphic|animation|visual|audio|editing|studio|entertainment|performance)\b/)) {
-    return 'Creative';
-  }
-  
-  // Default to Professional for any other services
-  return 'Professional';
+// Service color mapping
+const serviceColors: { [key: string]: string } = {
+  'Accounting & Bookkeeping Services': 'rgba(155, 79, 83, 1)',
+  'Agricultural & Consultation Services': 'rgba(233, 131, 77, 1)',
+  'Appliance Repair & Installation': 'rgba(84, 189, 212, 1)',
+  'App Development & Mobile Optimization': 'rgba(64, 55, 80, 1)',
+  'Auto Repair & Maintenance': 'rgba(111, 74, 48, 1)',
+  'Blacksmith & Welding Services': 'rgba(196, 132, 76, 1)',
+  'Building Repair & Maintenance Services': 'rgba(76, 140, 196, 1)',
+  'Carpentry & Handyman Services': 'rgba(48, 85, 111, 1)',
+  'Catering & Food Services': 'rgba(168, 163, 157, 1)',
+  'Childcare & Babysitting': 'rgba(50, 39, 64, 1)',
+  'Cleaning Services': 'rgba(195, 161, 67, 1)',
+  'Cloud Computing & IT Consulting': 'rgba(101, 114, 190, 1)',
+  'Clothing Rentals & Sewing': 'rgba(93, 82, 51, 1)',
+  'Computer Repair & Troubleshooting': 'rgba(140, 71, 71, 1)',
+  'Construction & Home Improvement Services': 'rgba(133, 99, 164, 1)',
+  'Consulting & Advisory Services': 'rgba(208, 197, 218, 1)',
+  'Content Creation & Copy-writing': 'rgba(235, 193, 83, 1)',
+  'Data Analysis & Business Intelligence': 'rgba(230, 150, 52, 1)',
+  'Dog Training & Behavioral Modification': 'rgba(22, 28, 51, 1)',
+  'Driving School and Provisional Lessons': 'rgba(141, 93, 3, 1)',
+  'Dry Cleaning & Laundry Delivery': 'rgba(13, 125, 109, 1)',
+  'E-commerce & Online Shopping Platforms': 'rgba(173, 61, 126, 1)',
+  'Educational & Training Services': 'rgba(37, 136, 151, 1)',
+  'Electrical Services & Repairs': 'rgba(81, 59, 109, 1)',
+  'Entertainment & Recreation Services': 'rgba(255, 104, 151, 1)',
+  'Errand & Concierge Services': 'rgba(255, 156, 187, 1)',
+  'Event Planning & Management': 'rgba(130, 167, 118, 1)',
+  'Farming & Livestock Management': 'rgba(46, 179, 177, 1)',
+  'Financial Planning & Wealth Management': 'rgba(110, 160, 255, 1)',
+  'Furniture Assembly & Moving': 'rgba(129, 158, 162, 1)',
+  'Gift Wrapping & Delivery Services': 'rgba(135, 58, 57, 1)',
+  'Graphic Design & Branding': 'rgba(128, 76, 72, 1)',
+  'Grocery Delivery & Meal Preparation': 'rgba(195, 165, 159, 1)',
+  'Hair-styling & Barbering': 'rgba(199, 186, 206, 1)',
+  'Hatchery & Incubation Services': 'rgba(177, 155, 104, 1)',
+  'Home Office Organization & Decor': 'rgba(191, 144, 0, 1)',
+  'Hotel & Accommodation Services': 'rgba(167, 64, 64, 1)',
+  'Housekeeping Services': 'rgba(95, 137, 76, 1)',
+  'Insurance Brokerage & Risk Management': 'rgba(45, 100, 151, 1)',
+  'Interior Design & Home Furniture Rental': 'rgba(138, 181, 140, 1)',
+  'Legal Services & Consultations': 'rgba(135, 206, 235, 1)',
+  'Life Coaching & Career Counseling': 'rgba(200, 162, 200, 1)',
+  'Massage & Spa Treatment': 'rgba(107, 63, 63, 1)',
+  'Medical & Healthcare Services': 'rgba(16, 44, 84, 1)',
+  'Moving & Packing Services': 'rgba(19, 69, 176, 1)',
+  'Music, Art & Dance Lessons': 'rgba(72, 120, 156, 1)',
+  'Network & Hardware Support': 'rgba(82, 139, 139, 1)',
+  'Online Customer Support & Chatbots': 'rgba(47, 79, 79, 1)',
+  'Online Marketing & Advertising Services': 'rgba(124, 205, 124, 1)',
+  'Painting & Home Improvement': 'rgba(95, 94, 4, 1)',
+  'Panel Beating & Spray Painting': 'rgba(163, 109, 45, 1)',
+  'Personal Chef & Catering Services': 'rgba(212, 176, 128, 1)',
+  'Personal Fitness Training': 'rgba(255, 120, 69, 1)',
+  'Personal Shopping & Styling': 'rgba(0, 113, 181, 1)',
+  'Pest Control & Lawn Care': 'rgba(255, 98, 101, 1)',
+  'Pet Grooming & Pet Sitting': 'rgba(229, 184, 11, 1)',
+  'Photography & Videography': 'rgba(200, 63, 73, 1)',
+  'Plumbing & Drain Cleaning': 'rgba(11, 53, 94, 1)',
+  'Podcast Production & Editing': 'rgba(133, 117, 77, 1)',
+  'Printing & Photocopy Services': 'rgba(159, 208, 199, 1)',
+  'Property Security & Alarm Services': 'rgba(234, 166, 244, 1)',
+  'Real Estate Services & Property Management': 'rgba(107, 85, 139, 1)',
+  'Search Engine Optimization (SEO)': 'rgba(0, 110, 81, 1)',
+  'Social Media Management & Marketing': 'rgba(173, 93, 93, 1)',
+  'Software Installation & Configuration': 'rgba(175, 148, 131, 1)',
+  'Translation & Interpretation': 'rgba(0, 44, 32, 1)',
+  'Tutoring & Educational Resources': 'rgba(127, 63, 112, 1)',
+  'Vehicle & Auto Rental Services': 'rgba(187, 162, 145, 1)',
+  'Virtual Assistant & Remote Workers': 'rgba(194, 68, 88, 1)',
+  'Website Design & Development': 'rgba(158, 71, 67, 1)',
+  'Yard Maintenance & Landscaping': 'rgba(183, 146, 53, 1)',
 };
-
-// Get background color for a service
-const getServiceColor = (service: string): string => {
-  const category = getServiceCategory(service);
-  return serviceCategories[category] || '#F5F5F5';
-};
-
 
 const popularServices = [
   'Accounting & Bookkeeping Services',
@@ -160,14 +168,11 @@ const ServicesPage: React.FC = () => {
   const [errorSearch, setErrorSearch] = useState<string | null>(null);
   const [searchPerformed, setSearchPerformed] = useState<boolean>(false);
   const [showAllServices, setShowAllServices] = useState<boolean>(false);
-  // @ts-expect-error - Used only for Navbar prop
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [showSignup, setShowSignup] = useState<boolean>(false);
 
-
-  
+  // Function to handle help centre
   const setShowHelpCentre = () => {
-    
+    // Implementation can be added later if needed
   };
 
   // API Service Instance
@@ -267,7 +272,6 @@ const ServicesPage: React.FC = () => {
         setShowSignup={setShowSignup}
         setShowHelpCentre={setShowHelpCentre}
       />
-
       <main className="container mx-auto mt-4 px-4 flex-grow">
 
         {!searchPerformed && !loadingSearch && (
@@ -278,27 +282,35 @@ const ServicesPage: React.FC = () => {
             </p>
             <div className="mt-8">
               <h3 className="text-xl font-semibold mb-4 text-gray-700">Popular Services</h3>
-              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-2 max-w-7xl mx-auto">
-                {(showAllServices ? popularServices : popularServices.slice(0, 18)).map((service, index) => (
-                  <button
-                    key={index}
-                    onClick={() => handleServiceSelect(service)}
-                    disabled={loadingSearch}
-                    style={{ backgroundColor: getServiceColor(service) }}
-                    className="px-3 py-2 rounded-lg text-xs font-medium border-none text-white transition-all hover:shadow-md hover:opacity-90 disabled:opacity-50 disabled:cursor-not-allowed min-h-[48px] flex items-center justify-center text-center"
-                  >
-                    {service}
-                  </button>
-                ))}
+              <div className="flex flex-wrap justify-center gap-4 max-w-5xl mx-auto">
+                {(showAllServices ? popularServices : popularServices.slice(0, 24)).map((service, index) => {
+                  const bgColor = serviceColors[service] || 'rgba(209, 213, 219, 1)'; // fallback to gray-200
+                  
+                  
+                  return (
+                    <button
+                      key={index}
+                      onClick={() => handleServiceSelect(service)}
+                      disabled={loadingSearch}
+                      style={{
+                        backgroundColor: bgColor,
+                        borderColor: 'transparent',
+                      }}
+                      className="px-4 py-2 rounded-full text-sm font-medium text-white transition-colors hover:opacity-90 disabled:opacity-50 disabled:cursor-not-allowed"
+                    >
+                      {service}
+                    </button>
+                  );
+                })}
               </div>
-              {!showAllServices && popularServices.length > 18 && (
-                <button 
-                  onClick={() => setShowAllServices(true)}
-                  className="mt-6 text-sm text-[#293040] hover:underline"
-                >
-                  View all services...
-                </button>
-              )}
+               {!showAllServices && popularServices.length > 24 && (
+                  <button 
+                     onClick={() => setShowAllServices(true)}
+                     className="mt-4 text-sm text-[#293040] hover:underline"
+                  >
+                     View all services...
+                  </button>
+               )}
             </div>
           </div>
         )}
