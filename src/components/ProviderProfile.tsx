@@ -1,7 +1,7 @@
 "use client"
 
 import { useState, useEffect } from "react"
-import { useParams, Link } from "react-router-dom"
+import { useParams, Link, useLocation } from "react-router-dom"
 import { 
   ArrowLeft2, 
   Star1, 
@@ -20,7 +20,9 @@ import {
   Star,
   TagUser,
   Heart,
-  Send2,
+
+  Messages2,
+  Like1,
 } from 'iconsax-react';
 import type { Provider, GalleryItem, Post } from "../services/providers.service"
 import { ProvidersService } from "../services/providers.service"
@@ -41,7 +43,10 @@ export default function ProviderProfile() {
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [isReferModalOpen, setIsReferModalOpen] = useState(false);
   const [selectedPost, setSelectedPost] = useState<Post | null>(null);
- 
+  const location = useLocation();
+  const from = new URLSearchParams(location.search).get('from');
+  const backLink = from === 'services' ? '/services' : '/provider-search';
+
   useEffect(() => {
     const fetchProviderData = async () => {
       if (!id) {
@@ -181,7 +186,7 @@ export default function ProviderProfile() {
           </div>
         </div>
         <div className="text-center mt-4">
-          <Link to="/provider-search" className="start-now-btn">
+          <Link to={backLink} className="start-now-btn">
             Back to Search
           </Link>
         </div>
@@ -194,7 +199,7 @@ export default function ProviderProfile() {
       <div className="container mt-5 text-center">
         <h3>Provider not found</h3>
         <p>The provider you're looking for doesn't exist or has been removed.</p>
-        <Link to="/provider-search" className="start-now-btn mt-3">
+        <Link to={backLink} className="start-now-btn mt-3">
           Back to Search
         </Link>
       </div>
@@ -324,7 +329,7 @@ export default function ProviderProfile() {
                 Serviify
               </span>
             </Link>
-            <Link to="/provider-search" className="btn me-3" style={{ 
+            <Link to={backLink} className="btn me-3" style={{ 
               borderColor: "#293040", 
               color: "#293040", 
               borderRadius: "8px", 
@@ -761,12 +766,7 @@ export default function ProviderProfile() {
                                   <div>
                                     <div className="d-flex align-items-center">
                                       <span className="fw-bold me-2">{provider.first_name} {provider.last_name} | SP</span>
-                                      {post.post_type === 'Service Request' && (
-                                        <span className={`badge ${post.status === 'Open' ? 'bg-success' : 'bg-secondary'}`} 
-                                              style={{ fontSize: '0.7rem', padding: '0.35em 0.65em' }}>
-                                          {post.status}
-                                        </span>
-                                      )}
+                                    
                                     </div>
                                     {provider.provider_location && (
                                       <div className="text-muted small">{provider.provider_location} • {formatDate(post.created_at)}</div>
@@ -785,7 +785,7 @@ export default function ProviderProfile() {
                                   width: "100%",
                                   height: "400px",
                                   overflow: "hidden",
-                                  borderRadius: "8px",
+                                  borderRadius: "16px",
                                   marginBottom: "1rem",
                                   backgroundColor: "#f8f9fa"
                                 }}>
@@ -800,26 +800,60 @@ export default function ProviderProfile() {
                                   />
                                 </div>
                               ) : null}
-                              <div className="d-flex justify-content-between align-items-center">
-                                <div className="d-flex align-items-center">
-                                  <button className="btn p-0 me-3" onClick={handleButtonClick}>
-                                    <Heart size="16" className="me-2" />
-                                  </button>
-                                  {post.post_type === 'Service Request' && (
-                                    <button 
-                                      className="btn p-0" 
-                                      onClick={() => handleReferClick(post)}
-                                      style={{ color: '#293040' }}
-                                    >
-                                      <Send2 size="16" className="me-2" />
+                      
+                              <div className="d-flex justify-content-between align-items-center mb-2" style={{ width: "100%" }}>
+                                {post.post_type === 'Service Request' ? (
+      
+                                  <div className="d-flex justify-content-between w-100">
+                                    <button className="btn p-0" onClick={handleButtonClick}>
+                                      <Heart size="20" color="#293040" />
                                     </button>
-                                  )}
-                                </div>
-                                <span className="text-muted small text-center">
-                                  {post.likes_count || 0} Likes • {post.comments_count || 0} Comments
-                                  {post.post_type === 'Service Request' && ` • ${post.refer_ids?.length || 0} Refers`}
-                                </span>
-                                <div style={{ width: "24px" }}></div>
+                                    <button className="btn p-0" onClick={handleButtonClick}>
+                                      <Messages2 size="20" color="#293040" />
+                                    </button>
+
+
+                                    <button className="btn p-0" onClick={() => handleReferClick(post)}>
+                                      <TagUser size="20" color="#293040" />
+                                    </button>
+                                        
+                                    <button className="btn p-0" onClick={handleButtonClick}>
+                                      <Like1 size="20" color="#293040" />
+                                    </button>
+                        
+                                  </div>
+                                ) : (
+                                
+                                  <div className="d-flex justify-content-between w-100">
+                                    <button className="btn p-0" onClick={handleButtonClick}>
+                                      <Heart size="20" color="#293040" />
+                                    </button>
+                                    <button className="btn p-100 ml-auto" onClick={handleButtonClick}>
+                                      <Messages2 size="20" color="#293040" />
+                                    </button>
+                                    <div></div>
+                                  </div>
+                                )}
+                              </div>
+                              
+                          
+                              <div className="d-flex justify-content-between align-items-center">
+                                {post.post_type === 'Service Request' ? (
+                            
+                                  <div className="d-flex justify-content-between w-100">
+                                    <span className="text-muted small">
+                                      {post.likes_count || 0} Likes • {post.comments_count || 0} Comments
+                                    </span>
+                                    <span className="text-muted small">
+                                      Request: {post.status || 'Open'}
+                                    </span>
+                                  </div>
+                                ) : (
+                            
+                                  <span className="text-muted small">
+                                    {post.likes_count || 0} Likes • {post.comments_count || 0} Comments
+                                  </span>
+                                )}
                               </div>
                             </div>
                           </div>
@@ -948,7 +982,7 @@ export default function ProviderProfile() {
                 <span style={{ fontSize: "20px", fontWeight: 700, color: "#293040" }}>Serviify</span>
               </div>
               <p className="text-muted small mb-0">Connecting professionals with those who need their services.</p>
-              <p className="text-muted small">© {new Date().getFullYear()} Serviify. All rights reserved.</p>
+              <p className="text-muted small"> {new Date().getFullYear()} Serviify. All rights reserved.</p>
             </div>
             <div className="col-lg-8">
               <div className="row">
