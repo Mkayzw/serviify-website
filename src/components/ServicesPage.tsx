@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { ApiException } from "@/lib/api/apiException";
 import Footer from "./Footer";
@@ -178,6 +178,18 @@ const ServicesPage: React.FC = () => {
   // API Service Instance
   const providersService = ProvidersService.getInstance();
 
+
+  useEffect(() => {
+    const savedSearch = sessionStorage.getItem('servicesPageState');
+    if (savedSearch) {
+      const state = JSON.parse(savedSearch);
+      setSelectedService(state.selectedService || '');
+      setProviders(state.providers || []);
+      setSearchPerformed(state.searchPerformed || false);
+      setErrorSearch(state.errorSearch || null);
+    }
+  }, []);
+
   // Handle Service Selection
   const handleServiceSelect = async (serviceName: string) => {
     if (!serviceName) {
@@ -206,11 +218,18 @@ const ServicesPage: React.FC = () => {
          if(response.providers.length === 0) {
             setErrorSearch(`No providers found for "${serviceName}". Try a different service.`);
          }
-      } else {
-         console.error("Invalid response structure:", response);
-         setErrorSearch("Received an unexpected response from the server.");
-         setProviders([]); // Ensure providers is empty on error
-      }
+         // Save search state to session storage
+         sessionStorage.setItem('servicesPageState', JSON.stringify({
+           selectedService: serviceName,
+           providers: response.providers,
+           searchPerformed: true,
+           errorSearch: response.providers.length === 0 ? `No providers found for "${serviceName}". Try a different service.` : null
+         }));
+       } else {
+          console.error("Invalid response structure:", response);
+          setErrorSearch("Received an unexpected response from the server.");
+          setProviders([]); // Ensure providers is empty on error
+       }
 
     } catch (err) {
       console.error(`Failed to fetch providers for "${serviceName}":`, err);
@@ -236,6 +255,8 @@ const ServicesPage: React.FC = () => {
     setProviders([]);
     setErrorSearch(null);
     setShowAllServices(false);
+    // Clear saved search state
+    sessionStorage.removeItem('servicesPageState');
   };
 
   // We're now using the profile card implementation from ProviderSearch.tsx
@@ -407,7 +428,7 @@ const ServicesPage: React.FC = () => {
                           <div>
                             <button className="start-now-btn">Contact</button>
                             <Link
-                              to={`/provider/${provider.id}`}
+                              to={`/provider/${provider.id}?from=services`}
                               className="btn ms-2"
                               style={{ borderColor: "#293040", color: "#293040" }}
                             >
