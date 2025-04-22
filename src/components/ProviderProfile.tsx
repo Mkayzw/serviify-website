@@ -398,16 +398,16 @@ export default function ProviderProfile() {
                 </h4>
                 
                 {/* Stats Row */}
-                <div className="d-flex justify-content-around mb-4 border-top border-bottom py-3" style={{ margin: "0 -20px" }}>
-                  <div className="text-center px-2">
+                <div className="d-flex justify-content-center align-items-center mb-4 border-top border-bottom py-3" style={{ margin: "0 -20px" }}>
+                  <div className="text-center px-4 mx-2">
                     <div className="fw-bold fs-5">{provider.posts_count || 0}</div>
                     <div className="text-muted small">Posts</div>
                   </div>
-                  <div className="text-center px-2">
+                  <div className="text-center px-4 mx-2">
                     <div className="fw-bold fs-5">{provider.follows_count || 0}</div>
                     <div className="text-muted small">Followers</div>
                   </div>
-                  <div className="text-center px-2">
+                  <div className="text-center px-4 mx-2">
                     <div className="fw-bold fs-5">{provider.following_count || 0}</div>
                     <div className="text-muted small">Following</div>
                   </div>
@@ -837,13 +837,15 @@ export default function ProviderProfile() {
                               </div>
                               
                           
-                              <div className="d-flex justify-content-between align-items-center">
+                              <div className="text-center w-100">
                                 {post.post_type === 'Service Request' ? (
                             
                                   <div className="d-flex justify-content-between w-100">
-                                    <span className="text-muted small">
-                                      {post.likes_count || 0} Likes • {post.comments_count || 0} Comments
-                                    </span>
+                                    <div className="text-start" style={{width: '70%'}}>
+                                      <span className="text-muted small">
+                                        {post.likes_count || 0} Likes • {post.comments_count || 0} Comments
+                                      </span>
+                                    </div>
                                     <span className="text-muted small">
                                       Request: {post.status || 'Open'}
                                     </span>
