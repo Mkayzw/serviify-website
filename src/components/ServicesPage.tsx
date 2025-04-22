@@ -4,7 +4,7 @@ import { ApiException } from "@/lib/api/apiException";
 import Footer from "./Footer";
 import Navbar from "./Navbar";
 import { Provider as ProviderData, ProvidersService, ServicesApiResponse } from "@/services/providers.service";
-// User import removed as we're now using the profile card from ProviderSearch
+
 
 
 // Service color mapping
