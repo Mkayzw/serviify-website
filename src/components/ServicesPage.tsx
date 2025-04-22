@@ -259,7 +259,7 @@ const ServicesPage: React.FC = () => {
     sessionStorage.removeItem('servicesPageState');
   };
 
-  // We're now using the profile card implementation from ProviderSearch.tsx
+
 
   return (
     <div className="flex flex-col min-h-screen bg-white">
