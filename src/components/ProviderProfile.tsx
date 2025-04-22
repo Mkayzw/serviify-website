@@ -768,7 +768,7 @@ export default function ProviderProfile() {
                                       <span className="fw-bold me-2">{provider.first_name} {provider.last_name} | SP</span>
                                     
                                     </div>
-                                    {provider.provider_location && (
+                                    {provider.provider_location && post.post_type !== 'Service Request' && (
                                       <div className="text-muted small">{provider.provider_location} • {formatDate(post.created_at)}</div>
                                     )}
                                   </div>
@@ -837,7 +837,7 @@ export default function ProviderProfile() {
                               </div>
                               
                           
-                              <div className="text-center w-100">
+                              <div className="w-100 border-top pt-2 mt-2">
                                 {post.post_type === 'Service Request' ? (
                             
                                   <div className="d-flex justify-content-between w-100">
@@ -852,9 +852,11 @@ export default function ProviderProfile() {
                                   </div>
                                 ) : (
                             
-                                  <span className="text-muted small">
-                                    {post.likes_count || 0} Likes • {post.comments_count || 0} Comments
-                                  </span>
+                                  <div className="text-center">
+                                    <span className="text-muted small">
+                                      {post.likes_count || 0} Likes • {post.comments_count || 0} Comments
+                                    </span>
+                                  </div>
                                 )}
                               </div>
                             </div>
