@@ -1,10 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { ApiException } from "@/lib/api/apiException";
 import Footer from "./Footer";
 import Navbar from "./Navbar";
 import { Provider as ProviderData, ProvidersService, ServicesApiResponse } from "@/services/providers.service";
-import { User } from 'iconsax-react';
+
 
 
 // Service color mapping
@@ -178,6 +178,18 @@ const ServicesPage: React.FC = () => {
   // API Service Instance
   const providersService = ProvidersService.getInstance();
 
+
+  useEffect(() => {
+    const savedSearch = sessionStorage.getItem('servicesPageState');
+    if (savedSearch) {
+      const state = JSON.parse(savedSearch);
+      setSelectedService(state.selectedService || '');
+      setProviders(state.providers || []);
+      setSearchPerformed(state.searchPerformed || false);
+      setErrorSearch(state.errorSearch || null);
+    }
+  }, []);
+
   // Handle Service Selection
   const handleServiceSelect = async (serviceName: string) => {
     if (!serviceName) {
@@ -206,11 +218,18 @@ const ServicesPage: React.FC = () => {
          if(response.providers.length === 0) {
             setErrorSearch(`No providers found for "${serviceName}". Try a different service.`);
          }
-      } else {
-         console.error("Invalid response structure:", response);
-         setErrorSearch("Received an unexpected response from the server.");
-         setProviders([]); // Ensure providers is empty on error
-      }
+         // Save search state to session storage
+         sessionStorage.setItem('servicesPageState', JSON.stringify({
+           selectedService: serviceName,
+           providers: response.providers,
+           searchPerformed: true,
+           errorSearch: response.providers.length === 0 ? `No providers found for "${serviceName}". Try a different service.` : null
+         }));
+       } else {
+          console.error("Invalid response structure:", response);
+          setErrorSearch("Received an unexpected response from the server.");
+          setProviders([]); // Ensure providers is empty on error
+       }
 
     } catch (err) {
       console.error(`Failed to fetch providers for "${serviceName}":`, err);
@@ -236,34 +255,11 @@ const ServicesPage: React.FC = () => {
     setProviders([]);
     setErrorSearch(null);
     setShowAllServices(false);
+    // Clear saved search state
+    sessionStorage.removeItem('servicesPageState');
   };
 
-  // Helper component for rendering provider avatar with fallback
-  const ProviderAvatar = ({ provider }: { provider: ProviderData }) => {
-    const [imgError, setImgError] = useState(false);
-    const photoUrl = provider.profile_image_url || provider.avatar;
-    const providerName = provider.name || `${provider.first_name || ''} ${provider.last_name || ''}`.trim() || 'Provider';
 
-    const handleImageError = () => {
-      setImgError(true);
-    };
-
-    return (
-      <div className="w-16 h-16 rounded-full flex items-center justify-center bg-gray-100 border border-gray-200 overflow-hidden">
-        {photoUrl && !imgError ? (
-          <img
-            src={photoUrl}
-            alt={`${providerName} avatar`}
-            className="w-full h-full object-cover"
-            onError={handleImageError}
-          />
-        ) : (
-          // Fallback icon or initials
-          <User size="32" color="#6b7280" /> // Using User icon as fallback
-        )}
-      </div>
-    );
-  };
 
   return (
     <div className="flex flex-col min-h-screen bg-white">
@@ -359,83 +355,98 @@ const ServicesPage: React.FC = () => {
                   </div>
                   <div className="space-y-4">
                     {providers.map(provider => (
-                       <div key={provider.id} className="bg-white border border-gray-200 rounded-lg p-4 mb-4 hover:shadow-md transition-shadow">
-                         <div className="flex">
-                           <div className="flex-shrink-0">
-                             <ProviderAvatar provider={provider} />
-                           </div>
-                           
-                           <div className="ml-4 flex-grow min-w-0">
-                             <div className="flex justify-between items-center mb-1">
-                               <h3 className="font-semibold text-gray-800 truncate">
-                                 {provider.name || `${provider.first_name || ''} ${provider.last_name || ''}`.trim() || 'Unnamed Provider'}
-                               </h3>
-                               
-                               <div className="flex items-center">
-                                 <div className="text-blue-999 mr-1">
-                                   {Array.from({ length: 5 }, (_, i) => {
-                                     const starValue = i + 1;
-                                     const rating = provider.service_rating || provider.rating || 0;
-                                     const decimal = rating % 1;
-                                     
-                                     if (starValue <= Math.floor(rating)) {
-                                       return <span key={i}>★</span>; 
-                                     } else if (starValue === Math.floor(rating) + 1 && decimal > 0) {
-                                       return (
-                                         <span key={i} className="relative inline-block">
-                                           <span className="text-gray-300">☆</span>
-                                           <span className="absolute left-0 top-0 overflow-hidden text-blue-999" 
-                                                 style={{ width: `${decimal * 100}%` }}>
-                                             ★
-                                           </span>
-                                         </span>
-                                       ); 
-                                     } else {
-                                       return <span key={i} className="text-gray-300">☆</span>;
-                                     }
-                                   })}
-                                 </div>
-                                 <span className="text-sm text-gray-500">
-                                   {((provider.service_rating || provider.rating || 0)).toFixed(1)}
-                                 </span>
-                               </div>
-                             </div>
- 
-                            {provider.headline && (
-                               <p className="text-sm text-gray-500 mb-1 truncate">{provider.headline}</p>
-                            )}
- 
-                            {(provider.service_type || provider.serviceType) && (
-                               <div className="mb-2">
-                                 <span className="text-sm font-medium text-gray-700">
-                                   {provider.service_type || provider.serviceType}
-                                 </span>
-                               </div>
-                            )}
- 
-                             <div className="flex mt-2 justify-between items-center">
-                               <div>
-                                 <Link 
-                                   to={`/provider/${provider.id}`}
-                                   className="px-4 py-2 rounded-md bg-[#293040] text-white no-underline hover:bg-opacity-90 text-sm"
-                                 >
-                                   View Profile
-                                 </Link>
-                               </div>
-                               <span className="text-sm text-gray-500">
-                                 {(provider.provider_location || provider.location)
-                                   ? (function() {
-                                       const loc = provider.provider_location || provider.location || '';
-                                       return loc.includes(',') 
-                                         ? loc.split(',')[loc.split(',').length - 1].trim()
-                                         : loc;
-                                     })()
-                                   : 'Location unknown'}
-                               </span>
-                              </div>
+                <div key={provider.id} className="card mb-3 shadow-sm">
+                  <div className="card-body">
+                    <div className="d-flex">
+                      <div className="flex-shrink-0">
+                        {provider.profile_image_url ? (
+                          <img
+                            src={provider.profile_image_url}
+                            alt={`${provider.first_name} ${provider.last_name}`}
+                            className="rounded-circle"
+                            style={{ width: "70px", height: "70px", objectFit: "cover" }}
+                          />
+                        ) : (
+                          <div className="rounded-circle d-flex align-items-center justify-content-center"
+                            style={{
+                              width: "70px",
+                              height: "70px",
+                              backgroundColor: "rgba(41, 48, 64, 0.1)"
+                            }}>
+                            <span style={{ color: "#293040" }} className="fw-bold fs-4">{provider.first_name ? provider.first_name.charAt(0) : ''}</span>
+                          </div>
+                        )}
+                      </div>
+                      <div className="ms-3 flex-grow-1">
+                        <div className="d-flex justify-content-between align-items-center mb-1">
+                          <h5 className="card-title mb-0" style={{ color: "#293040" }}>
+                            {provider.first_name} {provider.last_name}
+                          </h5>
+                          <div className="d-flex align-items-center">
+                            <div className="me-1" style={{ color: "#293040" }}>
+                              {Array.from({ length: 5 }, (_, i) => {
+                                const starValue = i + 1;
+                                const rating = provider.service_rating || 0;
+                                const decimal = rating % 1;
+                                
+                                if (starValue <= Math.floor(rating)) {
+                                  return <span key={i}>★</span>; 
+                                } else if (starValue === Math.floor(rating) + 1 && decimal > 0) {
+                                  return (
+                                    <span key={i} style={{ position: 'relative', display: 'inline-block' }}>
+                                      <span style={{ color: "#293040" }}>☆</span>
+                                      <span style={{ 
+                                        position: 'absolute', 
+                                        left: 0, 
+                                        top: 0, 
+                                        width: `${decimal * 100}%`, 
+                                        overflow: 'hidden', 
+                                        color: "#293040" 
+                                      }}>★</span>
+                                    </span>
+                                  ); 
+                                } else {
+                                  return <span key={i}>☆</span>;
+                                }
+                              })}
                             </div>
-                         </div>
-                       </div>
+                            <span className="small text-muted">{(provider.service_rating || 0).toFixed(1)}</span>
+                          </div>
+                        </div>
+
+                        {provider.headline && (
+                          <p className="card-text text-muted mb-1">{provider.headline}</p>
+                        )}
+
+                        <div className="mb-3">
+                          <span>
+                            {provider.service_type}
+                          </span>
+                        </div>
+
+                        <div className="d-flex mt-2 justify-content-between align-items-center">
+                          <div>
+                            <button className="start-now-btn">Contact</button>
+                            <Link
+                              to={`/provider/${provider.id}?from=services`}
+                              className="btn ms-2"
+                              style={{ borderColor: "#293040", color: "#293040" }}
+                            >
+                              View Profile
+                            </Link>
+                          </div>
+                          <span>
+                            {provider.provider_location
+                              ? (provider.provider_location.split(',').length > 1
+                                ? provider.provider_location.split(',')[provider.provider_location.split(',').length - 1].trim()
+                                : provider.provider_location)
+                              : 'Location unknown'}
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
                     ))}
                   </div>
                 </div>
