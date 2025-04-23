@@ -168,6 +168,7 @@ const ServicesPage: React.FC = () => {
   const [errorSearch, setErrorSearch] = useState<string | null>(null);
   const [searchPerformed, setSearchPerformed] = useState<boolean>(false);
   const [showAllServices, setShowAllServices] = useState<boolean>(false);
+  const [showSignup, setShowSignup] = useState<boolean>(false);
 
   // Function to handle help centre
   const setShowHelpCentre = () => {
@@ -225,13 +226,13 @@ const ServicesPage: React.FC = () => {
            errorSearch: response.providers.length === 0 ? `No providers found for "${serviceName}". Try a different service.` : null
          }));
        } else {
-          
+          console.error("Invalid response structure:", response);
           setErrorSearch("Received an unexpected response from the server.");
           setProviders([]); // Ensure providers is empty on error
        }
 
     } catch (err) {
-      
+      console.error(`Failed to fetch providers for "${serviceName}":`, err);
       if (err instanceof ApiException) {
         if (err.status === 404) {
            setErrorSearch(`Service "${serviceName}" not found or no providers available.`);
@@ -264,6 +265,7 @@ const ServicesPage: React.FC = () => {
     <div className="flex flex-col min-h-screen bg-white">
       <Navbar 
         title="Services"
+        setShowSignup={setShowSignup}
         setShowHelpCentre={setShowHelpCentre}
       />
       <main className="container mx-auto mt-4 px-4 flex-grow">

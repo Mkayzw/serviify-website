@@ -4,7 +4,7 @@ import '../styles/Navbar.css';
 
 interface NavbarProps {
   title?: string;
-  setShowSignup?: (show: boolean) => void;
+  setShowSignup: (show: boolean) => void;
   setShowHelpCentre: () => void;
 }
 
@@ -78,11 +78,7 @@ const Navbar: React.FC<NavbarProps> = ({
         </div>
         
         <div className="navbar-buttons">
-          <Link 
-            to="/auth?mode=login" 
-            className="sign-in-btn" 
-            onClick={() => setShowSignup && setShowSignup(false)}
-          >
+          <Link to="/auth?mode=login" className="sign-in-btn" onClick={() => setShowSignup(false)}>
             Sign in
           </Link>
           <Link to="/provider-search" className="try-free-btn text-decoration-none" onClick={() => {
