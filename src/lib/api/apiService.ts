@@ -53,10 +53,6 @@ export class ApiService {
       url += `?${queryParams.toString()}`;
     }
     
-    console.log('➡️ API GET CALL START ➡️');
-    console.log(`📍 Endpoint: ${url}`);
-    console.log(`🎯 Headers: ${JSON.stringify(headers)}`);
-    
     const { controller, timeoutId } = this.createAbortController();
     
     try {
@@ -98,11 +94,6 @@ export class ApiService {
   ): Promise<T> {
     const { body, headers } = options;
     const url = `${ApiConstants.baseUrl}${endpoint}`;
-    
-    console.log('➡️ API POST CALL START ➡️');
-    console.log(`📍 Endpoint: ${url}`);
-    console.log(`📦 Body: ${JSON.stringify(body)}`);
-    console.log(`🎯 Headers: ${JSON.stringify(headers)}`);
     
     const { controller, timeoutId } = this.createAbortController();
     
@@ -147,11 +138,6 @@ export class ApiService {
     const { body, headers } = options;
     const url = `${ApiConstants.baseUrl}${endpoint}`;
     
-    console.log('➡️ API PATCH CALL START ➡️');
-    console.log(`📍 Endpoint: ${url}`);
-    console.log(`📦 Body: ${JSON.stringify(body)}`);
-    console.log(`🎯 Headers: ${JSON.stringify(headers)}`);
-    
     const { controller, timeoutId } = this.createAbortController();
     
     try {
@@ -193,10 +179,6 @@ export class ApiService {
   ): Promise<T> {
     const { headers } = options;
     const url = `${ApiConstants.baseUrl}${endpoint}`;
-    
-    console.log('➡️ API DELETE CALL START ➡️');
-    console.log(`📍 Endpoint: ${url}`);
-    console.log(`🎯 Headers: ${JSON.stringify(headers)}`);
     
     const { controller, timeoutId } = this.createAbortController();
     

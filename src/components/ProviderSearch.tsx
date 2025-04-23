@@ -24,7 +24,6 @@ export default function ProviderSearch() {
       // First try searching by name if provided
       if (fullName.trim()) {
         try {
-          console.log("Searching by name:", fullName)
           const providers = await providersService.searchUsers(fullName.trim())
         
 
@@ -32,12 +31,10 @@ export default function ProviderSearch() {
             setSearchResults(providers)
             setIsLoading(false)
             return
-          } else {
-            console.log("No results from name search, will try discover services")
           }
         } catch (err) {
-          console.log("Name search failed with error:", err)
-          console.log("Falling back to discover services")
+          
+          
           // Continue to discover method if name search fails
         }
       }
@@ -50,27 +47,25 @@ export default function ProviderSearch() {
 
       try {
         const response = await providersService.discoverServices(params)
-        console.log("Discover services response:", response)
+        
 
         if (response && response.providers) {
           setSearchResults(response.providers)
-          console.log("Search results set to:", response.providers)
+          
 
           // If no results found
           if (response.providers.length === 0) {
             setError("No service providers match your search. Try broadening your search criteria or check for typos.")
           }
         } else {
-          console.log("Invalid response format:", response)
+          
           setError("We couldn't process the search results. Please try again in a moment.")
         }
       } catch (err) {
-        console.error("Error discovering services:", err)
         setError("We're having trouble finding service providers right now. Please try again in a few minutes.")
         setSearchResults([])
       }
     } catch (err) {
-      console.error("Error searching for providers:", err)
       setError("Something went wrong with your search. Please try again or check your internet connection.")
       setSearchResults([])
     } finally {
