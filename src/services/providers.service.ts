@@ -276,21 +276,17 @@ export class ProvidersService {
       const endpoint = `${ApiConstants.users.search}/${encodeURIComponent(query)}`;
       
       const result = await this.apiService.get<SearchUsersResponse>(endpoint);
-      console.log('Parsed search response:', result);
       
       const userData = result.data || [];
-      console.log('User data extracted:', userData);
       
       // Filter the users to include only service providers
       const serviceProviders = userData.filter((user: BackendUser) => user.is_service_provider === true);
-      console.log('Filtered service providers:', serviceProviders);
       
       const mappedProviders = this.mapUsersToProviders(serviceProviders);
-      console.log('Mapped providers:', mappedProviders);
       
       return mappedProviders;
     } catch (error) {
-      console.error('Error searching users:', error);
+      console.error('Error searching users');
       throw error;
     }
   }
@@ -311,13 +307,9 @@ export class ProvidersService {
         params: queryParams
       });
       
-      console.log('Parsed discover services response:', result);
-      
       const servicesData = result.providers || [];
-      console.log('Services data extracted:', servicesData);
       
       const mappedProviders = this.mapServicesToProviders(servicesData);
-      console.log('Mapped service providers:', mappedProviders);
       
       return {
         providers: mappedProviders,
@@ -326,7 +318,7 @@ export class ProvidersService {
         limit: parseInt(params.limit?.toString() || '10', 10)
       };
     } catch (error) {
-      console.error('Error discovering services:', error);
+      console.error('Error discovering services');
       throw error;
     }
   }
@@ -338,14 +330,11 @@ export class ProvidersService {
         params: { limit: limit.toString() } // Assuming API supports a limit parameter
       });
       
-      console.log('Parsed featured providers response:', result);
-      
       const servicesData = result.providers || [];
-      console.log('Featured services data extracted:', servicesData);
       
       return this.mapServicesToProviders(servicesData);
     } catch (error) {
-      console.error('Error getting featured providers:', error);
+      console.error('Error getting featured providers');
       throw error;
     }
   }
@@ -361,15 +350,12 @@ export class ProvidersService {
         }
       });
       
-      console.log('Parsed nearby services response:', result);
-      
       // Updated response handling
       const servicesData = result.data?.services || [];
-      console.log('Nearby services data extracted:', servicesData);
       
       return this.mapServicesToProviders(servicesData);
     } catch (error) {
-      console.error('Error getting nearby services:', error);
+      console.error('Error getting nearby services');
       throw error;
     }
   }
@@ -380,7 +366,6 @@ export class ProvidersService {
       const endpoint = `${ApiConstants.users.getDetails}/${encodeURIComponent(id)}`;
       
       const result = await this.apiService.get<UserResponse>(endpoint);
-      console.log('Parsed provider details response:', result);
       
       const userData = result.data || null;
       if (!userData) {
@@ -402,9 +387,8 @@ export class ProvidersService {
         const reviewsEndpoint = `${ApiConstants.reviews.get}/${encodeURIComponent(id)}`;
         const reviewsResult = await this.apiService.get<ReviewsResponse>(reviewsEndpoint);
         reviews = reviewsResult.data || [];
-        console.log('Provider reviews:', reviews);
       } catch (error) {
-        console.error('Error getting provider reviews:', error);
+        console.error('Error getting provider reviews');
         // Continue execution even if reviews fetch fails
       }
       
@@ -420,16 +404,14 @@ export class ProvidersService {
             caption: null,
             created_at: new Date().toISOString()
           }));
-          console.log('Provider gallery from portfolio_images:', gallery);
         } else {
           // Otherwise fetch from gallery endpoint
           const galleryEndpoint = `${ApiConstants.users.getDetails}/${encodeURIComponent(id)}/gallery`;
           const galleryResult = await this.apiService.get<GalleryResponse>(galleryEndpoint);
           gallery = galleryResult.data || [];
-          console.log('Provider gallery from API:', gallery);
         }
       } catch (error) {
-        console.error('Error getting provider gallery:', error);
+        console.error('Error getting provider gallery');
         // Continue execution even if gallery fetch fails
       }
       
@@ -440,15 +422,13 @@ export class ProvidersService {
         const postsResult = await this.apiService.get<PostsResponse>(postsEndpoint);
         // Extract the nested posts array, defaulting to an empty array if not found
         posts = postsResult.data?.posts || []; 
-        console.log('Provider posts:', postsResult.data); // Log the whole data object for context
       } catch (error) {
-        console.error('Error getting provider posts:', error);
+        console.error('Error getting provider posts');
         // Continue execution even if posts fetch fails
       }
       
       // Map the provider data initially (might be slightly incomplete before adding reviews/posts)
       const mappedProvider = this.mapUsersToProviders([userData])[0];
-      console.log('Mapped provider data before final merge:', mappedProvider);
 
       // Ensure the final object correctly uses data, especially from service_provider
       const finalProvider: Provider = {
@@ -481,10 +461,9 @@ export class ProvidersService {
         bookmarks_count: userData.service_provider?.total_bookmarks || 0,
       };
 
-      console.log('Final provider object being returned:', finalProvider);
       return finalProvider;
     } catch (error) {
-      console.error('Error getting provider details:', error);
+      console.error('Error getting provider details');
       throw error;
     }
   }
@@ -492,7 +471,6 @@ export class ProvidersService {
   private extractCityFromLocation(location: string | null): string {
     if (!location) return 'Location not specified';
     
-  
     const parts = location.split(',').map(part => part.trim()).filter(part => part);
     
     if (parts.length > 0) {
@@ -503,8 +481,6 @@ export class ProvidersService {
   }
 
   private mapUsersToProviders(users: BackendUser[]): Provider[] {
-    console.log('Raw users data for mapping:', users);
-    
     return users.map(user => {
       const sp = user.service_provider; // Alias for easier access
       
@@ -572,21 +548,7 @@ export class ProvidersService {
 
   // Helper method to map backend service data to our Provider interface
   private mapServicesToProviders(services: BackendService[]): Provider[] {
-    console.log('Raw services data for rating debug:', services);
-    
     return services.map(service => {
-      // Debug log for each service's rating
-      console.log('Service rating debug:', {
-        id: service.id || service._id,
-        name: service.name || service.providerName || `${service.firstName || service.first_name || ''} ${service.lastName || service.lastName || ''}`.trim(), 
-        rating: service.rating,
-        average_rating: service.average_rating,
-        ratingType: typeof service.average_rating,
-        hasRating: 'average_rating' in service,
-        headline: service.headline,
-        allKeys: Object.keys(service)
-      });
-      
       // Extract only the city from the location
       const location = this.extractCityFromLocation(service.location || service.location_coordinates || null);
       
