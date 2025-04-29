@@ -473,8 +473,10 @@ export class ProvidersService {
     
     const parts = location.split(',').map(part => part.trim()).filter(part => part);
     
-    if (parts.length > 0) {
-      return parts[parts.length - 1];
+    if (parts.length >= 2) {
+      return `${parts[parts.length - 2]}, ${parts[parts.length - 1]}`;
+    } else if (parts.length === 1) {
+      return parts[0];
     }
     
     return location;

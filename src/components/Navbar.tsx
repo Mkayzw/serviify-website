@@ -73,8 +73,13 @@ const Navbar: React.FC<NavbarProps> = ({
             handleNavLinkClick();
             setShowHelpCentre();
           }}>Help Centre</Link>
-          <Link to="/auth" onClick={handleNavLinkClick} className="mobile-only-link">Sign Up</Link>
-          <Link to="/provider-search" onClick={handleNavLinkClick} className="mobile-only-link">Find Providers</Link>
+          <div className="mobile-only">
+            <Link to="/auth" onClick={() => {
+              handleNavLinkClick();
+              setShowSignup(false);
+            }}>Sign in</Link>
+            <Link to="/provider-search" onClick={handleNavLinkClick}>Find a provider</Link>
+          </div>
         </div>
         
         <div className="navbar-buttons">

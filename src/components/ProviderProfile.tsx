@@ -103,7 +103,7 @@ export default function ProviderProfile() {
     setIsModalOpen(true)
   }
 
-  // New function to handle button clicks
+ 
   const handleButtonClick = (e: React.MouseEvent) => {
     e.preventDefault()
     setIsModalOpen(true)
@@ -635,7 +635,7 @@ export default function ProviderProfile() {
                     {provider.provider_location && (
                       <div className="d-flex align-items-center justify-content-end">
                         <Location size="16" className="me-1" />
-                        <span>{provider.provider_location || "Location not specified"}</span>
+                        <span>{provider.provider_location}</span>
                       </div>
                     )}
                   </div>
@@ -771,6 +771,9 @@ export default function ProviderProfile() {
                                     {provider.provider_location && post.post_type !== 'Service Request' && (
                                       <div className="text-muted small">{provider.provider_location} • {formatDate(post.created_at)}</div>
                                     )}
+                                    {post.post_type === 'Service Request' && (
+                                      <div className="text-muted small">{formatDate(post.created_at)}</div>
+                                    )}
                                   </div>
                                 </div>
                                 <div>
@@ -779,6 +782,9 @@ export default function ProviderProfile() {
                                   </button>
                                 </div>
                               </div>
+                              
+                              <hr style={{ margin: "0.5rem 0 1rem 0" }} />
+                              
                               <p className="card-text mb-3">{post.caption}</p>
                               {post.image_url ? (
                                 <div className="position-relative" style={{ 
@@ -800,7 +806,11 @@ export default function ProviderProfile() {
                                   />
                                 </div>
                               ) : null}
-                      
+                              
+                              {post.post_type === 'Service Request' && (
+                                <hr style={{ margin: "1rem 0 0.5rem 0" }} />
+                              )}
+                              
                               <div className="d-flex justify-content-between align-items-center mb-2" style={{ width: "100%" }}>
                                 {post.post_type === 'Service Request' ? (
       
@@ -837,7 +847,7 @@ export default function ProviderProfile() {
                               </div>
                               
                           
-                              <div className="w-100 border-top pt-2 mt-2">
+                              <div className={`w-100 ${post.post_type !== 'Service Request' ? 'border-top' : ''} pt-2 mt-2`}>
                                 {post.post_type === 'Service Request' ? (
                             
                                   <div className="d-flex justify-content-between w-100">
