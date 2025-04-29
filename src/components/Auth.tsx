@@ -193,8 +193,7 @@ export default function Auth() {
         const errorMessage = apiError.message || apiError.data?.message || "Failed to create account. Please try again later."
         toast.error(errorMessage)
         
-        // Don't show success message if there was an error
-        // This addresses the issue where account creation fails on the backend but success is shown
+    
       }
     } finally {
       setIsLoading(false)

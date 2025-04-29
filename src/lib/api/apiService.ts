@@ -53,9 +53,7 @@ export class ApiService {
       url += `?${queryParams.toString()}`;
     }
     
-    console.log('➡️ API GET CALL START ➡️');
-    console.log(`📍 Endpoint: ${url}`);
-    console.log(`🎯 Headers: ${JSON.stringify(headers)}`);
+   
     
     const { controller, timeoutId } = this.createAbortController();
     

@@ -55,19 +55,14 @@ export default function ProviderProfile() {
         return
       }
 
-      console.log("Fetching provider with ID:", id);
+     
       
       try {
         setIsLoading(true)
         const providerService = ProvidersService.getInstance()
         
         const providerData = await providerService.getProviderById(id)
-        console.log("Provider data received:", providerData);
-        
-        // Log detailed provider data structure to inspect all available fields
-        console.log("DETAILED PROVIDER DATA:");
-        console.log(JSON.stringify(providerData, null, 2));
-        
+      
         if (!providerData) {
           console.error("Provider not found for ID:", id);
           setError("Provider not found")
