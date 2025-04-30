@@ -53,6 +53,8 @@ export class ApiService {
       url += `?${queryParams.toString()}`;
     }
     
+   
+    
     const { controller, timeoutId } = this.createAbortController();
     
     try {
@@ -94,6 +96,8 @@ export class ApiService {
   ): Promise<T> {
     const { body, headers } = options;
     const url = `${ApiConstants.baseUrl}${endpoint}`;
+    
+  
     
     const { controller, timeoutId } = this.createAbortController();
     
@@ -138,6 +142,8 @@ export class ApiService {
     const { body, headers } = options;
     const url = `${ApiConstants.baseUrl}${endpoint}`;
     
+    
+    
     const { controller, timeoutId } = this.createAbortController();
     
     try {
@@ -179,6 +185,8 @@ export class ApiService {
   ): Promise<T> {
     const { headers } = options;
     const url = `${ApiConstants.baseUrl}${endpoint}`;
+    
+  
     
     const { controller, timeoutId } = this.createAbortController();
     
