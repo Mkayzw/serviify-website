@@ -172,7 +172,7 @@ const ServicesPage: React.FC = () => {
 
   // Function to handle help centre
   const setShowHelpCentre = () => {
-    // Implementation can be added later if needed
+    
   };
 
   // API Service Instance
