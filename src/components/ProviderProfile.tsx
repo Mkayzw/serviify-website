@@ -351,7 +351,6 @@ export default function ProviderProfile() {
           {/* Left Sidebar - Vertical Profile Section */}
           <div className="col-md-4 mb-4">
             <div className="card border-0 rounded-3 shadow-sm mb-4" style={{ 
-              overflow: "hidden",
               transition: "transform 0.3s ease, box-shadow 0.3s ease",
             }}>
               <div className="card-body text-center">
@@ -389,16 +388,16 @@ export default function ProviderProfile() {
                 </h4>
                 
                 {/* Stats Row */}
-                <div className="d-flex justify-content-center align-items-center mb-4 border-top border-bottom py-3" style={{ margin: "0 -20px" }}>
-                  <div className="text-center px-4 mx-2">
+                <div className="d-flex justify-content-center align-items-center mb-4 border-top border-bottom py-3">
+                  <div className="text-center px-2 mx-1">
                     <div className="fw-bold fs-5">{provider.posts_count || 0}</div>
                     <div className="text-muted small">Posts</div>
                   </div>
-                  <div className="text-center px-4 mx-2">
+                  <div className="text-center px-2 mx-1">
                     <div className="fw-bold fs-5">{provider.follows_count || 0}</div>
                     <div className="text-muted small">Followers</div>
                   </div>
-                  <div className="text-center px-4 mx-2">
+                  <div className="text-center px-2 mx-1">
                     <div className="fw-bold fs-5">{provider.following_count || 0}</div>
                     <div className="text-muted small">Following</div>
                   </div>
@@ -444,7 +443,6 @@ export default function ProviderProfile() {
 
             {/* Analytics Card */}
             <div className="card border-0 rounded-3 shadow-sm mb-4" style={{ 
-              overflow: "hidden",
               transition: "transform 0.3s ease, box-shadow 0.3s ease",
             }}>
               <div className="card-body">
@@ -483,7 +481,6 @@ export default function ProviderProfile() {
             </div>
 
             <div className="card border-0 rounded-3 shadow-sm mb-4" style={{ 
-              overflow: "hidden",
               transition: "transform 0.3s ease, box-shadow 0.3s ease",
             }}>
               <div className="card-body">
@@ -636,7 +633,7 @@ export default function ProviderProfile() {
             
             {/* Posts/Gallery/Reviews Card */}
             <div className="card border-0 rounded-3 shadow-sm mb-4" style={{ 
-              overflow: "hidden", 
+              overflow: "hidden",
               transition: "transform 0.3s ease, box-shadow 0.3s ease",
             }}>
               <div className="card-header bg-white border-bottom-0 pb-0">
