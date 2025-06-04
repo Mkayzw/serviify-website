@@ -48,6 +48,11 @@ export default function ProviderProfile() {
   const backLink = from === 'services' ? '/services' : '/provider-search';
 
   useEffect(() => {
+    // Log the location search and the parsed 'from' parameter
+    console.log("Current location.search:", location.search);
+    console.log("Parsed 'from' parameter:", from);
+    console.log("Determined backLink:", backLink);
+
     const fetchProviderData = async () => {
       if (!id) {
         setError("Provider ID is missing")
