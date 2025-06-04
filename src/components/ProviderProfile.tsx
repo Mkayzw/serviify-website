@@ -48,11 +48,7 @@ export default function ProviderProfile() {
   const backLink = from === 'services' ? '/services' : '/provider-search';
 
   useEffect(() => {
-    // Log the location search and the parsed 'from' parameter
-    console.log("Current location.search:", location.search);
-    console.log("Parsed 'from' parameter:", from);
-    console.log("Determined backLink:", backLink);
-
+    
     const fetchProviderData = async () => {
       if (!id) {
         setError("Provider ID is missing")
@@ -73,20 +69,15 @@ export default function ProviderProfile() {
           setError("Provider not found")
         } else {
           console.log("Setting provider data:", {
-            name: `${providerData.first_name} ${providerData.last_name}`,
-            headline: providerData.headline,
-            location: providerData.provider_location,
-            rating: providerData.service_rating,
-            gallery: providerData.gallery?.length,
-            posts: providerData.posts?.length,
-            bio: providerData.provider_bio?.substring(0, 50) + "..."
+        
+            
           });
           setProvider(providerData)
           
           setIsFollowing(false)
         }
       } catch (err) {
-        console.error("Error fetching provider data:", err)
+        
         setError("Failed to load provider data. Please try again later.")
       } finally {
         setIsLoading(false)
