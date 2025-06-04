@@ -168,7 +168,6 @@ const ServicesPage: React.FC = () => {
   const [errorSearch, setErrorSearch] = useState<string | null>(null);
   const [searchPerformed, setSearchPerformed] = useState<boolean>(false);
   const [showAllServices, setShowAllServices] = useState<boolean>(false);
-  const [showSignup, setShowSignup] = useState<boolean>(false);
 
   // Function to handle help centre
   const setShowHelpCentre = () => {
@@ -265,7 +264,6 @@ const ServicesPage: React.FC = () => {
     <div className="flex flex-col min-h-screen bg-white">
       <Navbar 
         title="Services"
-        setShowSignup={setShowSignup}
         setShowHelpCentre={setShowHelpCentre}
       />
       <main className="container mx-auto mt-4 px-4 flex-grow">
@@ -382,8 +380,8 @@ const ServicesPage: React.FC = () => {
                           <h5 className="card-title mb-0" style={{ color: "#293040" }}>
                             {provider.first_name} {provider.last_name}
                           </h5>
-                          <div className="d-flex align-items-center">
-                            <div className="me-1" style={{ color: "#293040" }}>
+                          <div className="d-flex align-items-center" style={{ flexShrink: 0 }}>
+                            <div className="me-1" style={{ color: "#293040", whiteSpace: 'nowrap' }}>
                               {Array.from({ length: 5 }, (_, i) => {
                                 const starValue = i + 1;
                                 const rating = provider.service_rating || 0;
@@ -424,18 +422,18 @@ const ServicesPage: React.FC = () => {
                           </span>
                         </div>
 
-                        <div className="d-flex mt-2 justify-content-between align-items-center">
-                          <div>
-                            <button className="start-now-btn">Contact</button>
+                        <div className="d-flex mt-2 justify-content-between align-items-center flex-wrap">
+                          <div className="d-flex align-items-center mb-2 mb-md-0"> 
+                            <button className="start-now-btn btn-sm">Contact</button>
                             <Link
-                              to={`/provider/${provider.id}?from=services`}
-                              className="btn ms-2"
+                              to={`/provider/${provider.id}`}
+                              className="btn btn-sm ms-2"
                               style={{ borderColor: "#293040", color: "#293040" }}
                             >
                               View Profile
                             </Link>
                           </div>
-                          <span>
+                          <span className="text-nowrap ms-2">
                             {provider.provider_location
                               ? (provider.provider_location.split(',').length > 1
                                 ? provider.provider_location.split(',')[provider.provider_location.split(',').length - 1].trim()
