@@ -285,6 +285,11 @@
     display: none;
   }
 
+  /* Ensure no underline pseudo-elements on any active mobile nav links */
+  .navbar-links.active a:after {
+    display: none;
+  }
+
   .mobile-menu-btn {
     display: flex;
     margin-left: 20px;
