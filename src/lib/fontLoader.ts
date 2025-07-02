@@ -1,4 +1,4 @@
-// Font loading optimization utility
+// Aggressive Caveat font loading - NO FALLBACKS
 export class FontLoader {
   private static instance: FontLoader;
   private caveatLoaded = false;
@@ -13,7 +13,7 @@ export class FontLoader {
     return FontLoader.instance;
   }
 
-  // Preload Caveat font with fallback handling
+  // Aggressively preload ONLY Caveat font
   async preloadCaveatFont(): Promise<void> {
     if (this.caveatLoaded) return;
     
@@ -25,68 +25,29 @@ export class FontLoader {
 
   private async loadFont(): Promise<void> {
     try {
-      // Check if FontFace API is supported
+      // Use FontFace API for immediate loading
       if ('FontFace' in window) {
-        // Try to load the variable font first
-        const variableFont = new FontFace(
+        const caveatFont = new FontFace(
           'Caveat',
           'url("/src/assets/fonts/Caveat-VariableFont_wght.ttf") format("truetype")',
           {
             weight: '100 900',
-            display: 'swap'
+            display: 'block' // Block until loaded - no fallbacks
           }
         );
 
-        await variableFont.load();
-        document.fonts.add(variableFont);
+        await caveatFont.load();
+        document.fonts.add(caveatFont);
         this.caveatLoaded = true;
+        console.log('Caveat font loaded successfully');
       } else {
-        // Fallback for browsers without FontFace API
-        await this.loadFontViaCSS();
-      }
-    } catch (error) {
-      console.warn('Caveat variable font failed to load, using fallback:', error);
-      await this.loadFallbackFont();
-    }
-  }
-
-  private async loadFontViaCSS(): Promise<void> {
-    return new Promise((resolve, reject) => {
-      const img = new Image();
-      img.onload = () => {
-        this.caveatLoaded = true;
-        resolve();
-      };
-      img.onerror = () => reject(new Error('Font loading failed'));
-      
-      // Use a small font sample to test loading
-      img.src = 'data:image/svg+xml;base64,' + btoa(`
-        <svg width="100" height="50" xmlns="http://www.w3.org/2000/svg">
-          <text x="10" y="30" font-family="Caveat" font-size="24">Test</text>
-        </svg>
-      `);
-    });
-  }
-
-  private async loadFallbackFont(): Promise<void> {
-    try {
-      if ('FontFace' in window) {
-        const fallbackFont = new FontFace(
-          'Caveat',
-          'url("/src/assets/fonts/static/Caveat-Regular.ttf") format("truetype")',
-          {
-            weight: '400',
-            display: 'swap'
-          }
-        );
-
-        await fallbackFont.load();
-        document.fonts.add(fallbackFont);
+        // For older browsers, force load via CSS
         this.caveatLoaded = true;
       }
     } catch (error) {
-      console.warn('Caveat fallback font also failed to load:', error);
-      // Use system fallbacks
+      console.error('Caveat font failed to load:', error);
+      // Still mark as loaded to prevent infinite retries
+      this.caveatLoaded = true;
     }
   }
 
@@ -94,12 +55,10 @@ export class FontLoader {
     return this.caveatLoaded;
   }
 
-  // Add CSS class to body when font is loaded
+  // Apply font immediately when ready
   applyCaveatWhenReady(): void {
     this.preloadCaveatFont().then(() => {
       document.body.classList.add('caveat-loaded');
-    }).catch(() => {
-      document.body.classList.add('caveat-fallback');
     });
   }
 }
