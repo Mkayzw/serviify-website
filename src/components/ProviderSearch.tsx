@@ -88,31 +88,34 @@ export default function ProviderSearch() {
 
       <header className="py-3 border-bottom bg-white">
         <div className="container">
-          <div className="d-flex align-items-center">
-         
+          <div className="d-flex flex-wrap align-items-center">
+            {/* Logo & Title */}
             <Link
               to="/"
               style={{
                 display: "flex",
                 alignItems: "center",
                 textDecoration: "none",
-                marginRight: "16px"
+                // marginRight: "16px" 
               }}
+              className="mb-2 mb-md-0" 
             >
               <img src={logo} alt="Serviify Logo" style={{ height: "32px" }} />
               <span
+                className="d-none d-sm-inline" 
                 style={{
                   fontSize: "24px",
                   fontWeight: 700,
                   color: "#293040",
-                  marginLeft: "8px"
+                  marginLeft: "8px" 
                 }}
               >
                 Providers
               </span>
             </Link>
-            {/* Search Form */}
-            <form onSubmit={handleSearch} className="d-flex flex-grow-1 align-items-center">
+
+            
+            <form onSubmit={handleSearch} className="w-100 w-md-auto flex-grow-1 order-2 order-md-1 my-2 my-md-0" style={{minWidth: '250px', maxWidth: '600px'}}>
               <div className="input-group">
                 {/* Search input */}
                 <input
@@ -139,8 +142,8 @@ export default function ProviderSearch() {
               </div>
             </form>
 
-            {/* Sign In Button */}
-            <Link to="/auth?mode=login" className="sign-in-btn ms-4">Sign in</Link>
+           
+            <Link to="/auth?mode=login" className="sign-in-btn order-1 order-md-2 ms-auto mb-2 mb-md-0">Sign in</Link> 
           </div>
         </div>
       </header>
@@ -221,8 +224,8 @@ export default function ProviderSearch() {
                           <h5 className="card-title mb-0" style={{ color: "#293040" }}>
                             {provider.first_name} {provider.last_name}
                           </h5>
-                          <div className="d-flex align-items-center">
-                            <div className="me-1" style={{ color: "#293040" }}>
+                          <div className="d-flex align-items-center" style={{ flexShrink: 0 }}>
+                            <div className="me-1" style={{ color: "#293040", whiteSpace: 'nowrap' }}>
                               {Array.from({ length: 5 }, (_, i) => {
                                 const starValue = i + 1;
                                 const rating = provider.service_rating || 0;
@@ -263,18 +266,18 @@ export default function ProviderSearch() {
                           </span>
                         </div>
 
-                        <div className="d-flex mt-2 justify-content-between align-items-center">
-                          <div>
-                            <button className="start-now-btn">Contact</button>
+                        <div className="d-flex mt-2 justify-content-between align-items-center flex-wrap">
+                          <div className="d-flex align-items-center mb-2 mb-md-0"> 
+                            <button className="start-now-btn btn-sm">Contact</button>
                             <Link
                               to={`/provider/${provider.id}`}
-                              className="btn ms-2"
+                              className="btn btn-sm ms-2"
                               style={{ borderColor: "#293040", color: "#293040" }}
                             >
                               View Profile
                             </Link>
                           </div>
-                          <span>
+                          <span className="text-nowrap ms-2">
                             {provider.provider_location
                               ? (provider.provider_location.split(',').length > 1
                                 ? provider.provider_location.split(',')[provider.provider_location.split(',').length - 1].trim()

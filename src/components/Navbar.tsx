@@ -4,13 +4,11 @@ import '../styles/Navbar.css';
 
 interface NavbarProps {
   title?: string;
-  setShowSignup: (show: boolean) => void;
   setShowHelpCentre: () => void;
 }
 
 const Navbar: React.FC<NavbarProps> = ({ 
   title,
-  setShowSignup,
   setShowHelpCentre 
 }) => {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -76,14 +74,13 @@ const Navbar: React.FC<NavbarProps> = ({
           <div className="mobile-only">
             <Link to="/auth" onClick={() => {
               handleNavLinkClick();
-              setShowSignup(false);
             }}>Sign in</Link>
-            <Link to="/provider-search" onClick={handleNavLinkClick}>Find a provider</Link>
+            <Link to="/provider-search" className="text-decoration-none" onClick={handleNavLinkClick}>Find a provider</Link>
           </div>
         </div>
         
         <div className="navbar-buttons">
-          <Link to="/auth?mode=login" className="sign-in-btn" onClick={() => setShowSignup(false)}>
+          <Link to="/auth?mode=login" className="sign-in-btn">
             Sign in
           </Link>
           <Link to="/provider-search" className="try-free-btn text-decoration-none" onClick={() => {
