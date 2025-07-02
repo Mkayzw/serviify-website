@@ -1,44 +1,14 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 
+/* Optimized Caveat font loading - ONLY Caveat, no fallbacks */
 @font-face {
   font-family: 'Caveat';
   src: url('../assets/fonts/Caveat-VariableFont_wght.ttf') format('truetype');
   font-weight: 100 900;
   font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'Caveat';
-  src: url('../assets/fonts/static/Caveat-Regular.ttf') format('truetype');
-  font-weight: 400;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'Caveat';
-  src: url('../assets/fonts/static/Caveat-Medium.ttf') format('truetype');
-  font-weight: 500;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'Caveat';
-  src: url('../assets/fonts/static/Caveat-SemiBold.ttf') format('truetype');
-  font-weight: 600;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'Caveat';
-  src: url('../assets/fonts/static/Caveat-Bold.ttf') format('truetype');
-  font-weight: 700;
-  font-style: normal;
-  font-display: swap;
+  font-display: block; /* Force wait for Caveat font */
+  font-optical-sizing: auto;
 }
 
 @custom-variant dark (&:is(.dark *));
@@ -161,4 +131,76 @@
   body {
     @apply bg-background text-foreground;
   }
-} 
+}
+
+/* Optimized font utility classes */
+.font-caveat {
+  font-family: 'Caveat', 'Caveat-Fallback', 'Brush Script MT', cursive;
+  font-optical-sizing: auto;
+}
+
+.font-caveat-fallback {
+  font-family: 'Brush Script MT', cursive;
+}
+
+/* Preload critical fonts */
+.caveat-preload {
+  font-family: 'Caveat', 'Brush Script MT', cursive;
+  visibility: hidden;
+  position: absolute;
+  left: -9999px;
+  font-weight: 400;
+  font-size: 1px;
+}
+
+/* Font loading - ONLY Caveat (no fallbacks per boss requirement) */
+body {
+  --caveat-font: 'Caveat';
+}
+
+/* Caveat text styling - NO fallbacks */
+.caveat-text {
+  font-family: 'Caveat';
+  font-optical-sizing: auto;
+}
+
+/* Preload optimization - invisible text to trigger font download */
+.font-preload-trigger::before {
+  content: '';
+  font-family: 'Caveat';
+  font-weight: 400 700;
+  visibility: hidden;
+  position: absolute;
+  left: -9999px;
+  top: -9999px;
+  font-size: 1px;
+}
+
+/* ONLY Caveat font - no fallbacks per boss requirement */
+body {
+  --caveat-font: 'Caveat';
+}
+
+.caveat-text {
+  font-family: 'Caveat';
+  font-optical-sizing: auto;
+  font-size: clamp(1rem, 4vw, 2.5rem);
+  line-height: 1.2;
+  letter-spacing: 0.02em;
+}
+
+.font-caveat {
+  font-family: 'Caveat';
+  font-optical-sizing: auto;
+}
+
+/* Force invisible preload to ensure Caveat downloads immediately */
+body::before {
+  content: '';
+  font-family: 'Caveat';
+  font-weight: 100 900;
+  visibility: hidden;
+  position: absolute;
+  left: -9999px;
+  font-size: 1px;
+}

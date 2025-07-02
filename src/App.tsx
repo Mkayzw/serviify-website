@@ -14,6 +14,8 @@ import Support from './components/Support';
 import ProviderSearch from './components/ProviderSearch';
 import ProviderProfile from './components/ProviderProfile';
 import ServicesPage from './components/ServicesPage';
+// Import font loader for optimization
+import './lib/fontLoader';
 
 
 function App() {

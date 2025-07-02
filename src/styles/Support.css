@@ -16,7 +16,7 @@
   line-height: 1;
   margin-bottom: 20px;
   color: #000000;
-  font-family: 'Caveat', 'Brush Script MT', cursive;
+  font-family: var(--caveat-font, 'Brush Script MT', cursive);
   letter-spacing: 0px;
   text-shadow: none;
 }
@@ -133,7 +133,7 @@
   font-weight: 700;
   color: #000000;
   margin-bottom: 20px;
-  font-family: 'Caveat', 'Brush Script MT', cursive;
+  font-family: var(--caveat-font, 'Brush Script MT', cursive);
 }
 
 .contact-card {
@@ -170,7 +170,7 @@
 }
 
 .x_wd [class*="display-"] {
-  font-family: "Caveat";
+  font-family: var(--caveat-font, 'Brush Script MT', cursive);
   color: #000000;
   font-weight: 700;
 }
@@ -204,7 +204,7 @@
   font-size: 2rem;
   font-weight: 700;
   color: #293040;
-  font-family: 'Caveat', 'Brush Script MT', cursive;
+  font-family: var(--caveat-font, 'Brush Script MT', cursive);
 }
 
 .phone-item {
