@@ -20,40 +20,17 @@ const TechShowcaseCurve = () => (
 );
 
 const Support: React.FC = () => {
-  // Dummy functions for navbar props
-  const dummySetShowSignup = () => { };
+
   const dummySetShowHelpCentre = () => { };
 
   return (
     <div className="support-section">
       <Navbar
-        setShowSignup={dummySetShowSignup}
+      
         setShowHelpCentre={dummySetShowHelpCentre}
       />
 
-      <div className="container py-5">
-        <div className="row">
-          <div className="col-md-10">
-            <h1 className="support-heading mb-4 text-start">
-              Need <span className="x_wd_yellow_highlight_03">assitance?</span>
-            </h1>
-
-            <div className="support-search-container wider-search d-flex align-items-center">
-              <div className="search-input-wrapper flex-grow-1 position-relative">
-                <input
-                  type="text"
-                  className="form-control support-search-input"
-                  placeholder="Ask Serviify AI"
-                  aria-label="Ask Serviify AI"
-                />
-                <i className="bi bi-send send-icon"></i>
-              </div>
-              <span className="or-divider mx-3">or</span>
-              <button className="btn btn-primary ask-human-btn">Ask a Human</button>
-            </div>
-          </div>
-        </div>
-      </div>
+    
 
       <div className="tech-showcase-container position-relative mt-5">
         <TechShowcaseCurve />
