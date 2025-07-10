@@ -321,3 +321,263 @@ body {
     grid-row: auto;
   }
 }
+
+/* Custom scrollbar styles for provider profile */
+.posts-container::-webkit-scrollbar,
+.gallery-container::-webkit-scrollbar,
+.reviews-container::-webkit-scrollbar {
+  width: 8px;
+}
+
+.posts-container::-webkit-scrollbar-track,
+.gallery-container::-webkit-scrollbar-track,
+.reviews-container::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 10px;
+}
+
+.posts-container::-webkit-scrollbar-thumb,
+.gallery-container::-webkit-scrollbar-thumb,
+.reviews-container::-webkit-scrollbar-thumb {
+  background: #c1c1c1;
+  border-radius: 10px;
+}
+
+.posts-container::-webkit-scrollbar-thumb:hover,
+.gallery-container::-webkit-scrollbar-thumb:hover,
+.reviews-container::-webkit-scrollbar-thumb:hover {
+  background: #a8a8a8;
+}
+
+/* Fade effect for scrollable content */
+.posts-container::after,
+.gallery-container::after,
+.reviews-container::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  height: 20px;
+  width: 100%;
+  background: linear-gradient(transparent, rgba(255, 255, 255, 0.8));
+  pointer-events: none;
+}
+
+.posts-container {
+  position: relative;
+}
+
+/* Mobile responsive styles for provider profile */
+@media (max-width: 768px) {
+  .container {
+    padding-left: 12px;
+    padding-right: 12px;
+  }
+  
+  .card-body {
+    padding: 1rem;
+  }
+  
+  /* Ensure text doesn't get cut off on mobile */
+  .provider-details-card {
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+  }
+  
+  /* Stack buttons vertically on very small screens */
+  @media (max-width: 480px) {
+    .d-flex.gap-2 {
+      flex-direction: column;
+    }
+  }
+}
+
+/* Custom responsive location display */
+.location-mobile {
+  display: flex;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.location-desktop {
+  display: none;
+  align-items: center;
+  justify-content: flex-end;
+  text-align: right;
+  min-width: fit-content;
+}
+
+/* Show desktop location on medium screens and up */
+@media (min-width: 768px) {
+  .location-mobile {
+    display: none;
+  }
+  
+  .location-desktop {
+    display: flex;
+  }
+}
+
+/* Location text styling */
+.location-text {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: #6c757d;
+  font-size: 0.9rem;
+}
+
+/* Mobile location text restrictions */
+@media (max-width: 768px) {
+  .location-text {
+    max-width: 200px;
+  }
+}
+
+@media (max-width: 576px) {
+  .location-text {
+    max-width: 150px;
+  }
+}
+
+/* Desktop location - no restrictions */
+@media (min-width: 769px) {
+  .location-text {
+    max-width: none;
+    white-space: nowrap;
+  }
+}
+
+/* Header Navigation Styles */
+.header-nav {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.header-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 16px;
+  border-radius: 8px;
+  font-weight: 500;
+  transition: all 0.2s ease;
+  text-decoration: none;
+  min-height: 40px;
+  white-space: nowrap;
+  font-size: 0.9rem;
+}
+
+.header-btn-primary {
+  background-color: #293040;
+  color: white;
+  border: 1px solid #293040;
+  box-shadow: 0 2px 4px rgba(41, 48, 64, 0.1);
+}
+
+.header-btn-primary:hover {
+  background-color: #1e2330;
+  color: white;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(41, 48, 64, 0.2);
+}
+
+.header-btn-secondary {
+  background-color: transparent;
+  color: #293040;
+  border: 1px solid #293040;
+}
+
+.header-btn-secondary:hover {
+  background-color: #293040;
+  color: white;
+  transform: translateY(-1px);
+  box-shadow: 0 2px 4px rgba(41, 48, 64, 0.1);
+}
+
+.header-btn-icon {
+  margin-right: 6px;
+  flex-shrink: 0;
+}
+
+.header-btn-text {
+  display: inline;
+}
+
+/* Mobile responsive header buttons */
+@media (max-width: 768px) {
+  .header-nav {
+    gap: 0.25rem;
+  }
+  
+  .header-btn {
+    padding: 8px 12px;
+    font-size: 0.85rem;
+    min-width: 44px; /* Touch target size */
+  }
+  
+  .header-btn-icon {
+    margin-right: 4px;
+  }
+}
+
+@media (max-width: 576px) {
+  .header-btn {
+    padding: 10px 16px;
+    font-size: 0.85rem;
+    min-height: 44px;
+    min-width: auto;
+    border-radius: 8px;
+    transition: all 0.2s ease;
+  }
+  
+  .header-btn-text {
+    display: inline;
+    font-weight: 600;
+  }
+  
+  .header-btn-icon {
+    display: none;
+  }
+  
+  .header-btn-primary {
+    box-shadow: 0 2px 6px rgba(41, 48, 64, 0.2);
+  }
+  
+  .header-btn-primary:hover,
+  .header-btn-primary:active {
+    transform: translateY(-1px);
+    box-shadow: 0 3px 8px rgba(41, 48, 64, 0.3);
+  }
+  
+  .header-btn-secondary {
+    box-shadow: 0 1px 4px rgba(41, 48, 64, 0.15);
+    border-width: 1.5px;
+  }
+  
+  .header-btn-secondary:hover,
+  .header-btn-secondary:active {
+    transform: translateY(-1px);
+    box-shadow: 0 2px 6px rgba(41, 48, 64, 0.2);
+  }
+  
+  .header-nav {
+    gap: 0.5rem;
+  }
+}
+
+/* Logo responsive styles */
+.logo-text {
+  font-size: 26px;
+  font-weight: 700;
+  color: #293040;
+  letter-spacing: -0.5px;
+  display: inline;
+}
+
+@media (max-width: 576px) {
+  .logo-text {
+    display: none;
+  }
+}
