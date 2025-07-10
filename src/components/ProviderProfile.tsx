@@ -311,37 +311,24 @@ export default function ProviderProfile() {
 
       <header className="py-3 border-bottom bg-white shadow-sm">
         <div className="container">
-          <div className="d-flex align-items-center">
-            <Link to="/" className="d-flex align-items-center text-decoration-none me-auto">
+          <div className="d-flex align-items-center justify-content-between">
+            <Link to="/" className="d-flex align-items-center text-decoration-none">
               <div className="me-2">
                 <img src={logo} alt="Serviify Logo" width="40" height="40" className="rounded" />
               </div>
-              <span style={{ fontSize: "26px", fontWeight: 700, color: "#293040", letterSpacing: "-0.5px" }}>
-                Serviify
-              </span>
+              <span className="logo-text">Serviify</span>
             </Link>
-            <Link to={backLink} className="btn me-3" style={{ 
-              borderColor: "#293040", 
-              color: "#293040", 
-              borderRadius: "8px", 
-              padding: "8px 16px",
-              fontWeight: 500,
-              transition: "all 0.2s ease"
-            }}>
-              <div className="d-flex align-items-center">
-                <ArrowLeft2 size="16" className="me-2" />
-                <span>Search</span>
-              </div>
-            </Link>
-            <Link to="/auth?mode=login" className="start-now-btn" style={{
-              padding: "8px 20px",
-              borderRadius: "8px",
-              fontWeight: 500,
-              transition: "all 0.2s ease",
-              boxShadow: "0 2px 4px rgba(41, 48, 64, 0.1)"
-            }}>
-              Sign in
-            </Link>
+            
+            <div className="header-nav">
+              <Link to={backLink} className="header-btn header-btn-secondary">
+                <ArrowLeft2 size="16" className="header-btn-icon" />
+                <span className="header-btn-text">Search</span>
+              </Link>
+              <Link to="/auth?mode=login" className="header-btn header-btn-primary">
+                <User size="16" className="header-btn-icon" />
+                <span className="header-btn-text">Sign in</span>
+              </Link>
+            </div>
           </div>
         </div>
       </header>
@@ -552,13 +539,13 @@ export default function ProviderProfile() {
           
           {/* Right Content Area */}
           <div className="col-md-8">
-            <div className="card border-0 rounded-3 shadow-sm mb-4" style={{ 
+            <div className="card border-0 rounded-3 shadow-sm mb-4 provider-details-card" style={{ 
               overflow: "hidden",
               transition: "transform 0.3s ease, box-shadow 0.3s ease",
             }}>
               <div className="card-body">
-                <div className="d-flex justify-content-between align-items-start">
-                  <div>
+                <div className="d-flex flex-column flex-md-row justify-content-between align-items-start">
+                  <div className="flex-grow-1 mb-3 mb-md-0">
                     <h4 className="mb-2" style={{ color: "#293040" }}>
                       {provider.first_name} {provider.last_name}
                     </h4>
@@ -569,11 +556,19 @@ export default function ProviderProfile() {
                       <span className="me-2">
                         {provider.service_type || "Service Provider"}
                       </span>
-                    
                     </div>
-                    <div className="d-flex align-items-center">
+                    
+                    {/* Location on mobile - show below service type */}
+                    {provider.provider_location && (
+                      <div className="location-mobile">
+                        <Location size="16" className="me-1 flex-shrink-0" />
+                        <span className="location-text">{provider.provider_location}</span>
+                      </div>
+                    )}
+                    
+                    <div className="d-flex flex-column flex-sm-row align-items-stretch align-items-sm-center gap-2">
                       <button 
-                        className="btn me-2" 
+                        className="btn flex-fill flex-sm-grow-0" 
                         style={{ 
                           minWidth: "130px", 
                           padding: "10px 16px",
@@ -598,7 +593,7 @@ export default function ProviderProfile() {
                         </div>
                       </button>
                       <button 
-                        className="btn" 
+                        className="btn flex-fill flex-sm-grow-0" 
                         style={{ 
                           minWidth: "130px", 
                           padding: "10px 16px",
@@ -619,14 +614,13 @@ export default function ProviderProfile() {
                     </div>
                   </div>
                   
-                  <div className="text-end">
-                    {provider.provider_location && (
-                      <div className="d-flex align-items-center justify-content-end">
-                        <Location size="16" className="me-1" />
-                        <span>{provider.provider_location}</span>
-                      </div>
-                    )}
-                  </div>
+                  {/* Location on desktop - show on the right */}
+                  {provider.provider_location && (
+                    <div className="location-desktop">
+                      <Location size="16" className="me-1 flex-shrink-0" />
+                      <span className="location-text">{provider.provider_location}</span>
+                    </div>
+                  )}
                 </div>
               </div>
             </div>
@@ -728,7 +722,12 @@ export default function ProviderProfile() {
                 {activeTab === 'posts' ? (
                   <div>
                     {provider.posts && provider.posts.length > 0 ? (
-                      <div className="posts-container">
+                      <div className="posts-container" style={{ 
+                        maxHeight: "600px", 
+                        overflowY: "auto",
+                        paddingRight: "8px",
+                        position: "relative" 
+                      }}>
                         {provider.posts.slice(0, 2).map((post: Post) => (
                           <div key={post.id} className="card mb-3 border-0 shadow-sm">
                             <div className="card-body">
@@ -883,7 +882,12 @@ export default function ProviderProfile() {
                 ) : activeTab === 'gallery' ? (
                   <div>
                     {provider.gallery && provider.gallery.length > 0 ? (
-                      <>
+                      <div className="gallery-container" style={{ 
+                        maxHeight: "600px", 
+                        overflowY: "auto",
+                        paddingRight: "8px",
+                        position: "relative" 
+                      }}>
                         <div className="tile-grid">
                           {provider.gallery.slice(0, 6).map((item: GalleryItem) => (
                             <div key={item.id} className="tile-grid-item">
@@ -908,7 +912,7 @@ export default function ProviderProfile() {
                             </button>
                           </div>
                         )}
-                      </>
+                      </div>
                     ) : (
                       <div className="empty-state-container">
                         <img 
@@ -923,7 +927,12 @@ export default function ProviderProfile() {
                 ) : (
                   <div>
                     {provider.reviews && provider.reviews.length > 0 ? (
-                      <div>
+                      <div className="reviews-container" style={{ 
+                        maxHeight: "600px", 
+                        overflowY: "auto",
+                        paddingRight: "8px",
+                        position: "relative" 
+                      }}>
                         {provider.reviews.slice(0, 2).map((review, index) => (
                           <div key={review.id || index} className="card mb-3 shadow-sm border-0">
                             <div className="card-body">

@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import '../styles/About.css';
 import '../styles/Navbar.css';
 import Footer from './Footer';
+import { FontLoader } from '../lib/fontLoader';
 
 const About: React.FC = () => {
   const navigate = useNavigate();
@@ -10,6 +11,10 @@ const About: React.FC = () => {
 
   useEffect(() => {
     window.scrollTo(0, 0);
+    
+    // Load Caveat font
+    const fontLoader = FontLoader.getInstance();
+    fontLoader.preloadCaveatFont();
   }, []);
 
   const goToHelpCentre = () => {
@@ -35,7 +40,7 @@ const About: React.FC = () => {
   return (
     <div className="about-page">
       <div className="navbar navbar-visible">
-        {/* Your existing navbar code */}
+     
         <div className="navbar-container">
           <div className="navbar-logo">
             <Link to="/" className="logo-link">

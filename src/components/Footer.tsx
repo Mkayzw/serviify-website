@@ -49,11 +49,11 @@ const Footer: React.FC = () => {
             <div className="col-lg-3 col-md-6 mb-4 mb-md-0">
               <h3 className="footer-title">Services</h3>
               <ul className="footer-links">
-                <li><a href="/services/electrical">Electrical Services</a></li>
-                <li><a href="/services/automotive">Auto Mechanics</a></li>
-                <li><a href="/services/carpentry">Carpentry Services</a></li>
-                <li><a href="/services/agriculture">Agricultural Services</a></li>
-                <li><a href="/services/view-all">View All Services</a></li>
+                <li><Link to="/services?service=Electrical Services & Repairs">Electrical Services</Link></li>
+                <li><Link to="/services?service=Auto Repair & Maintenance">Auto Mechanics</Link></li>
+                <li><Link to="/services?service=Carpentry & Handyman Services">Carpentry Services</Link></li>
+                <li><Link to="/services?service=Agricultural & Consultation Services">Agricultural Services</Link></li>
+                <li><Link to="/services">View All Services</Link></li>
               </ul>
             </div>
 

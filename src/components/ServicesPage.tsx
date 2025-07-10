@@ -1,9 +1,10 @@
-import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import React, { useState, useEffect, useCallback } from "react";
+import { Link, useSearchParams } from "react-router-dom";
 import { ApiException } from "@/lib/api/apiException";
 import Footer from "./Footer";
 import Navbar from "./Navbar";
 import { Provider as ProviderData, ProvidersService, ServicesApiResponse } from "@/services/providers.service";
+import homeThreeImage from "@/assets/home_3.png";
 
 
 
@@ -161,6 +162,8 @@ const popularServices = [
 ];
 
 const ServicesPage: React.FC = () => {
+  const [searchParams] = useSearchParams();
+  
   // State for selected service
   const [selectedService, setSelectedService] = useState<string>("");
   const [providers, setProviders] = useState<ProviderData[]>([]);
@@ -173,24 +176,11 @@ const ServicesPage: React.FC = () => {
   const setShowHelpCentre = () => {
     
   };
-
   // API Service Instance
   const providersService = ProvidersService.getInstance();
 
-
-  useEffect(() => {
-    const savedSearch = sessionStorage.getItem('servicesPageState');
-    if (savedSearch) {
-      const state = JSON.parse(savedSearch);
-      setSelectedService(state.selectedService || '');
-      setProviders(state.providers || []);
-      setSearchPerformed(state.searchPerformed || false);
-      setErrorSearch(state.errorSearch || null);
-    }
-  }, []);
-
   // Handle Service Selection
-  const handleServiceSelect = async (serviceName: string) => {
+  const handleServiceSelect = useCallback(async (serviceName: string) => {
     if (!serviceName) {
       setErrorSearch("Please select a service type.");
       setProviders([]);
@@ -245,7 +235,27 @@ const ServicesPage: React.FC = () => {
     } finally {
       setLoadingSearch(false);
     }
-  };
+  }, [providersService]);
+
+  useEffect(() => {
+    // Check URL parameters first
+    const serviceParam = searchParams.get('service');
+    
+    if (serviceParam) {
+      // If there's a service parameter, use it and trigger search
+      handleServiceSelect(serviceParam);
+    } else {
+      // Otherwise, check for saved search state
+      const savedSearch = sessionStorage.getItem('servicesPageState');
+      if (savedSearch) {
+        const state = JSON.parse(savedSearch);
+        setSelectedService(state.selectedService || '');
+        setProviders(state.providers || []);
+        setSearchPerformed(state.searchPerformed || false);
+        setErrorSearch(state.errorSearch || null);
+      }
+    }
+  }, [searchParams, handleServiceSelect]);
 
   // Add reset search function
   const handleSearchAgain = () => {
@@ -266,17 +276,22 @@ const ServicesPage: React.FC = () => {
         title="Services"
         setShowHelpCentre={setShowHelpCentre}
       />
-      <main className="container mx-auto mt-4 px-4 flex-grow">
+      <main className="w-full mt-4 px-4 flex-grow">
+        {/* Hero Image */}
+        <div className="text-center mb-8">
+          <img 
+            src={homeThreeImage} 
+            alt="Serviify Services" 
+            className="mx-auto max-w-full h-auto"
+            style={{ maxHeight: '400px' }}
+          />
+        </div>
 
         {!searchPerformed && !loadingSearch && (
           <div className="text-center my-8 md:my-16">
-            <h2 className="text-2xl md:text-3xl font-semibold mb-3 text-gray-800">Find Local Service Providers</h2>
-            <p className="mb-6 text-gray-600 max-w-xl mx-auto">
-              Choose from the popular services below to find providers near you.
-            </p>
-            <div className="mt-8">
-              <h3 className="text-xl font-semibold mb-4 text-gray-700">Popular Services</h3>
-              <div className="flex flex-wrap justify-center gap-4 max-w-5xl mx-auto">
+              <div className="mt-8">
+              <h1 className="text-4xl font-semibold mb-4 text-gray-700" style={{ fontFamily: 'Caveat, cursive' }}>Popular Services</h1>
+              <div className="flex flex-wrap justify-center gap-4 w-full px-4">
                 {(showAllServices ? popularServices : popularServices.slice(0, 24)).map((service, index) => {
                   const bgColor = serviceColors[service] || 'rgba(209, 213, 219, 1)'; // fallback to gray-200
                   

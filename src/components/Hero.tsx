@@ -1,13 +1,9 @@
 import "../styles/Hero.css";
 import { FeaturesShowcase } from "./features-showcase";
-import arrowDoodle from '../assets/arrow_doodle.svg';
 import Footer from "./Footer";
-import CallToAction from "./CallToAction";
 import { Link } from 'react-router-dom';
 
-interface HeroProps {
-  setShowSignup: (show: boolean) => void;
-}
+interface HeroProps {}
 
 const TechShowcaseCurve = () => (
   <div className="custom-shape-divider-top-tech-showcase">
@@ -25,9 +21,7 @@ const TechShowcaseCurve = () => (
   </div>
 );
 
-const Hero: React.FC<HeroProps> = ({ 
-  setShowSignup
-}) => {
+const Hero: React.FC<HeroProps> = () => {
   return (
     <div className="hero-section">
       <div className="hero-container">
@@ -38,14 +32,8 @@ const Hero: React.FC<HeroProps> = ({
               <span className="x_wd_secondary_highlight_bold_05">one platform.</span>
             </h1>
             <h2 className="hero-subheading">
-              Simple, reliable, yet <span className="x_wd_blue_highlight_01">affordable!</span>
-              <em className="x_wd_doodle position-absolute d-none d-lg-inline rotate-350 me-n10">
-                <img src={arrowDoodle} className="d-block o_rtl_flip mb-3" alt="Arrow doodle" loading="lazy" />
-                <span data-oe-type="monetary" data-oe-expression="pricing.get('yearly_standard_discounted', 25)">US$&nbsp;<span className="oe_currency_value">0&nbsp;</span></span>
-                / month
-                <br/>
-                Completely free
-              </em>
+              Simple, reliable, yet <span> affordable!</span>
+            
             </h2>
             <div className="hero-cta">
               <Link to="/auth" className="start-now-btn">
@@ -167,13 +155,13 @@ const Hero: React.FC<HeroProps> = ({
 
             <div className="row mt-4 mb-3">
               <div className="col-12 text-center">
-                <a
-                  href="/services"
+                <Link
+                  to="/services"
                   className="view-all-link mt-4 d-inline-block"
                 >
                   Explore all service options
                   <i className="bi bi-arrow-right ms-2"></i>
-                </a>
+                </Link>
               </div>
             </div>
 
@@ -219,13 +207,11 @@ const Hero: React.FC<HeroProps> = ({
         </div>
       </div>
 
-      {/* Call to Action Section */}
-      <CallToAction setShowSignup={setShowSignup} />
 
       {/* Download Section */}
       <div className="download-section">
         <div className="container text-center py-5">
-          <h2 className="download-heading">Download for Android.</h2>
+          <h2 className="download-heading">Download for Android & iOS.</h2>
           <div className="download-buttons">
             <div className="android-download">
               <img 
@@ -233,9 +219,16 @@ const Hero: React.FC<HeroProps> = ({
                 alt="Get it on Google Play"
                 className="google-play-badge opacity-50"
               />
-              <p className="coming-soon-text">Coming Soon</p>
+            </div>
+            <div className="ios-download">
+              <img 
+                src="https://developer.apple.com/assets/elements/badges/download-on-the-app-store.svg" 
+                alt="Download on the App Store"
+                className="app-store-badge opacity-50"
+              />
             </div>
           </div>
+          <p className="coming-soon-text text-center mt-3">Coming Soon</p>
         </div>
       </div>
 
