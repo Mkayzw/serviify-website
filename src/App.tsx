@@ -26,12 +26,6 @@ function App() {
     navigate('/help-centre');
   };
   
-  // Dummy function for setShowSignup to satisfy prop requirements
-  const dummySetShowSignup = () => {
-    // Instead of showing a modal, navigate to auth page
-    navigate('/auth');
-  };
-  
   return (
     <div className="app">
       <ScrollToTop />
@@ -39,12 +33,9 @@ function App() {
         <Route path="/" element={
           <>
             <Navbar 
-              setShowSignup={dummySetShowSignup}
               setShowHelpCentre={goToHelpCentre}
             />
-            <Hero 
-              setShowSignup={dummySetShowSignup}
-            />
+            <Hero />
           </>
         } />
         

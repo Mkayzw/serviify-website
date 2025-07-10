@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import React, { useState, useEffect, useCallback } from "react";
+import { Link, useSearchParams } from "react-router-dom";
 import { ApiException } from "@/lib/api/apiException";
 import Footer from "./Footer";
 import Navbar from "./Navbar";
@@ -161,6 +161,8 @@ const popularServices = [
 ];
 
 const ServicesPage: React.FC = () => {
+  const [searchParams] = useSearchParams();
+  
   // State for selected service
   const [selectedService, setSelectedService] = useState<string>("");
   const [providers, setProviders] = useState<ProviderData[]>([]);
@@ -173,24 +175,11 @@ const ServicesPage: React.FC = () => {
   const setShowHelpCentre = () => {
     
   };
-
   // API Service Instance
   const providersService = ProvidersService.getInstance();
 
-
-  useEffect(() => {
-    const savedSearch = sessionStorage.getItem('servicesPageState');
-    if (savedSearch) {
-      const state = JSON.parse(savedSearch);
-      setSelectedService(state.selectedService || '');
-      setProviders(state.providers || []);
-      setSearchPerformed(state.searchPerformed || false);
-      setErrorSearch(state.errorSearch || null);
-    }
-  }, []);
-
   // Handle Service Selection
-  const handleServiceSelect = async (serviceName: string) => {
+  const handleServiceSelect = useCallback(async (serviceName: string) => {
     if (!serviceName) {
       setErrorSearch("Please select a service type.");
       setProviders([]);
@@ -245,7 +234,27 @@ const ServicesPage: React.FC = () => {
     } finally {
       setLoadingSearch(false);
     }
-  };
+  }, [providersService]);
+
+  useEffect(() => {
+    // Check URL parameters first
+    const serviceParam = searchParams.get('service');
+    
+    if (serviceParam) {
+      // If there's a service parameter, use it and trigger search
+      handleServiceSelect(serviceParam);
+    } else {
+      // Otherwise, check for saved search state
+      const savedSearch = sessionStorage.getItem('servicesPageState');
+      if (savedSearch) {
+        const state = JSON.parse(savedSearch);
+        setSelectedService(state.selectedService || '');
+        setProviders(state.providers || []);
+        setSearchPerformed(state.searchPerformed || false);
+        setErrorSearch(state.errorSearch || null);
+      }
+    }
+  }, [searchParams, handleServiceSelect]);
 
   // Add reset search function
   const handleSearchAgain = () => {
