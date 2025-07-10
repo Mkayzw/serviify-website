@@ -112,18 +112,7 @@
   position: relative;
   display: block;
   text-align: center;
-}
-
-.about-section h2::after {
-  content: '';
-  position: absolute;
-  width: 70px;
-  height: 4px;
-  background: linear-gradient(to right, #293040, #8f6449);
-  bottom: -10px;
-  left: 50%;
-  transform: translateX(-50%);
-  border-radius: 2px;
+  font-family: 'Caveat', cursive;
 }
 
 .about-intro {
@@ -272,18 +261,7 @@
   margin-bottom: 3rem;
   font-weight: 700;
   position: relative;
-}
-
-.more-info-title::after {
-  content: '';
-  position: absolute;
-  width: 100px;
-  height: 4px;
-  background: linear-gradient(to right, #293040, #8f6449);
-  bottom: -15px;
-  left: 50%;
-  transform: translateX(-50%);
-  border-radius: 2px;
+  font-family: 'Caveat', cursive;
 }
 
 .info-links {
