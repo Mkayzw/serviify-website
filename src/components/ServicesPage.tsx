@@ -290,7 +290,14 @@ const ServicesPage: React.FC = () => {
         {!searchPerformed && !loadingSearch && (
           <div className="text-center my-8 md:my-16">
               <div className="mt-8">
-              <h1 className="text-4xl font-semibold mb-4 text-gray-700" style={{ fontFamily: 'Caveat, cursive' }}>Popular Services</h1>
+              <h1 className="text-6xl md:text-7xl font-semibold mb-4 text-gray-700" style={{ 
+                fontFamily: 'Caveat, cursive',
+                fontSize: '5rem',
+                lineHeight: '1.1'
+              }}>Popular Services</h1>
+              <p className="text-lg text-gray-600 mb-8 max-w-2xl mx-auto" style={{ fontFamily: 'Poppins, sans-serif' }}>
+                Discover trusted professionals offering a wide range of services to meet your needs. 
+              </p>
               <div className="flex flex-wrap justify-center gap-4 w-full px-4">
                 {(showAllServices ? popularServices : popularServices.slice(0, 24)).map((service, index) => {
                   const bgColor = serviceColors[service] || 'rgba(209, 213, 219, 1)'; // fallback to gray-200
@@ -316,6 +323,11 @@ const ServicesPage: React.FC = () => {
                   <button 
                      onClick={() => setShowAllServices(true)}
                      className="mt-4 text-sm text-[#293040] hover:underline"
+                     style={{ 
+                       marginTop: '2rem',
+                       paddingTop: '0.5rem',
+                       paddingBottom: '1.5rem'
+                     }}
                   >
                      View all services...
                   </button>
@@ -331,7 +343,7 @@ const ServicesPage: React.FC = () => {
                    <div className="spinner-border text-[#293040]" role="status" style={{width: '3rem', height: '3rem'}}>
                      <span className="visually-hidden">Loading...</span>
                    </div>
-                   <p className="mt-3 text-gray-600">Searching for providers...</p>
+                   <p className="mt-3 text-gray-600" style={{ fontFamily: 'Poppins, sans-serif' }}>Searching for providers...</p>
                 </div>
               )}
 
@@ -428,7 +440,7 @@ const ServicesPage: React.FC = () => {
                         </div>
 
                         {provider.headline && (
-                          <p className="card-text text-muted mb-1">{provider.headline}</p>
+                          <p className="card-text text-muted mb-1" style={{ fontFamily: 'Poppins, sans-serif' }}>{provider.headline}</p>
                         )}
 
                         <div className="mb-3">
@@ -471,7 +483,7 @@ const ServicesPage: React.FC = () => {
                        <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                     </svg>
                     <h3 className="mt-2 text-lg font-medium text-gray-900">No providers found</h3>
-                    <p className="mt-1 text-sm text-gray-500">
+                    <p className="mt-1 text-sm text-gray-500" style={{ fontFamily: 'Poppins, sans-serif' }}>
                        We couldn't find any providers offering "{selectedService}". Try searching for a different service type.
                     </p>
                     <button

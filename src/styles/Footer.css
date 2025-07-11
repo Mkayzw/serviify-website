@@ -223,11 +223,19 @@
     margin-top: 15px;
     justify-content: flex-start;
   }
+  
+  /* Ensure footer doesn't overlap on mobile */
+  .site-footer {
+    position: relative;
+    z-index: 10;
+  }
 }
 
 @media (max-width: 576px) {
   .site-footer {
     margin-top: 15px;
+    position: relative;
+    z-index: 10;
   }
   
   .footer-main {

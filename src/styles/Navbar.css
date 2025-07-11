@@ -33,29 +33,39 @@
   max-width: 1400px;
   margin: 0 auto;
   width: 100%;
+  overflow: visible; /* Ensure content isn't clipped */
 }
 
 .navbar-logo {
   display: flex;
   align-items: center;
   flex: 1;
+  min-width: 0; /* Prevent flex shrinking issues */
 }
 
 .navbar-logo img {
-  height: 40px;
-  margin-right: 10px;
+  height: 50px;
+  width: auto;
+  margin-right: 12px;
+  flex-shrink: 0; /* Prevent image from shrinking */
 }
 
 .navbar-logo a {
   text-decoration: none;
   display: flex;
   align-items: center;
+  min-width: 0; /* Allow text to wrap/truncate if needed */
 }
 
 .logo-text {
-  font-size: 24px;
+  font-size: 26px;
   font-weight: 700;
   color: #293040;
+  white-space: nowrap;
+  flex-shrink: 0; /* Prevent text from shrinking */
+  display: inline-block !important; /* Force text to always display */
+  visibility: visible !important; /* Ensure text is always visible */
+  opacity: 1 !important; /* Make sure text is fully opaque */
 }
 
 .navbar-links {
@@ -202,19 +212,6 @@
 
   .mobile-only a:last-child {
     border-bottom: none;
-    background-color: #293040;
-    color: white !important;
-    margin: 5px 20px;
-    border-radius: 8px;
-    width: calc(100% - 40px);
-  }
-
-  .mobile-only a:last-child:hover {
-    background-color: #1e2430;
-  }
-
-  .mobile-only a:last-child:after {
-    display: none;
   }
 
   .navbar-links {
@@ -269,21 +266,7 @@
     text-align: center;
   }
 
-  .navbar-links.active a[href="/provider-search"] {
-    background-color: #293040;
-    color: white !important;
-    margin: 5px 20px;
-    border-radius: 8px;
-    width: calc(100% - 40px);
-  }
-
-  .navbar-links.active a[href="/provider-search"]:hover {
-    background-color: #1e2430;
-  }
-
-  .navbar-links.active a[href="/provider-search"]:after {
-    display: none;
-  }
+  /* Removed button styling from Find a provider link in mobile menu */
 
   /* Ensure no underline pseudo-elements on any active mobile nav links */
   .navbar-links.active a:after {
@@ -297,6 +280,19 @@
   
   .navbar-logo {
     flex: 0;
+    min-width: fit-content; /* Ensure logo container takes required space */
+  }
+  
+  /* Improve logo appearance on tablets */
+  .navbar-logo img {
+    height: 45px;
+    margin-right: 10px;
+  }
+  
+  .logo-text {
+    font-size: 24px;
+    display: inline-block !important; /* Force text to always display */
+    visibility: visible !important; /* Ensure text is always visible */
   }
 }
 
@@ -321,11 +317,14 @@
   }
   
   .logo-text {
-    font-size: 20px;
+    font-size: 22px;
+    display: inline-block !important; /* Force text to always display */
+    visibility: visible !important; /* Ensure text is always visible */
   }
   
   .navbar-logo img {
-    height: 32px;
+    height: 42px;
+    margin-right: 10px;
   }
 
   .navbar-links.active a {
@@ -363,21 +362,57 @@
   .navbar-logo {
     display: flex;
     align-items: center;
+    flex: 1;
+    min-width: fit-content; /* Ensure logo takes required space */
+    max-width: none; /* Remove any width restrictions */
+    overflow: visible; /* Make sure content isn't clipped */
   }
   
   .navbar-logo a {
     display: flex;
     align-items: center;
     flex-direction: row;
+    overflow: visible;
+  }
+  
+  .logo-text {
+    font-size: 20px;
+    white-space: nowrap;
+    display: inline-block !important; /* Force text to always display */
+    visibility: visible !important; /* Ensure text is always visible */
+    opacity: 1 !important; /* Make sure text is fully opaque */
+  }
+  
+  .navbar-logo img {
+    height: 38px;
+    margin-right: 8px;
+    flex-shrink: 0;
+  }
+}
+
+/* Ensure logo text is visible on very small screens */
+@media (max-width: 360px) {
+  .navbar-container {
+    padding: 0 1%;
+  }
+  
+  .navbar-logo {
+    min-width: 140px; /* Ensure minimum space for logo + text */
   }
   
   .logo-text {
     font-size: 18px;
-    white-space: nowrap;
+    display: inline-block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
   }
   
   .navbar-logo img {
-    height: 28px;
+    height: 32px;
     margin-right: 6px;
   }
-} 
+  
+  .mobile-menu-btn {
+    margin-left: 10px;
+  }
+}
