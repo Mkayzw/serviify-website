@@ -150,7 +150,7 @@ const PrivacyPolicy: React.FC = () => {
             <p>
               If you have any questions about this Privacy Policy, please contact us at:
               <br />
-              <strong>Email:</strong> privacy@serviify.com
+              <strong>Email:</strong> privacy@serviify.co.zw
             </p>
           </section>
           
