@@ -5,7 +5,6 @@ import Navbar from './Navbar';
 
 const TermsOfService: React.FC = () => {
   const [activeSection, setActiveSection] = useState<string>('agreement');
-  const [showSignup, setShowSignup] = useState<boolean>(false);
   
   const handleNavClick = (sectionId: string) => {
     setActiveSection(sectionId);
@@ -35,7 +34,7 @@ const TermsOfService: React.FC = () => {
   };
 
   const setShowHelpCentre = () => {
-    
+    // This function can be implemented if needed
   };
 
   useEffect(() => {
@@ -46,18 +45,10 @@ const TermsOfService: React.FC = () => {
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
-  
-  
-  useEffect(() => {
-    if (showSignup) {
-      console.log('Signup dialog should be shown');
-      // In a real implementation, this could trigger some UI change
-    }
-  }, [showSignup]);
 
   return (
     <div className="terms-of-service-page">
-      <Navbar title="Terms of Service" setShowSignup={setShowSignup} setShowHelpCentre={setShowHelpCentre} />
+      <Navbar title="Terms of Service" setShowHelpCentre={setShowHelpCentre} />
       
       <div className="terms-of-service-container">
         <div className="terms-content-wrapper">
@@ -493,7 +484,7 @@ const TermsOfService: React.FC = () => {
               
               <h3>14.1 General Inquiries</h3>
               <p>
-                <strong>Email:</strong> support@serviify.com<br />
+                <strong>Email:</strong> support@serviify.co.zw<br />
                 <strong>Phone:</strong> +263 78 011 6891<br />
                 <strong>Address:</strong> 258 Smuts Rd, Waterfalls, Harare, Zimbabwe
               </p>
