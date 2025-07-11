@@ -318,7 +318,12 @@ const ServicesPage: React.FC = () => {
                {!showAllServices && popularServices.length > 24 && (
                   <button 
                      onClick={() => setShowAllServices(true)}
-                     className="mt-6 text-sm text-[#293040] hover:underline"
+                     className="mt-4 text-sm text-[#293040] hover:underline"
+                     style={{ 
+                       marginTop: '2rem',
+                       paddingTop: '0.5rem',
+                       paddingBottom: '0.5rem'
+                     }}
                   >
                      View all services...
                   </button>
