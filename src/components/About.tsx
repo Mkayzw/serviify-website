@@ -123,10 +123,9 @@ const About: React.FC = () => {
         <div className="bg-icon bg-icon-28"><i className="bi bi-award"></i></div>
 
         <div className="about-content">
-          {/* Your existing content sections */}
           <section className="about-section">
-            <h2>Who are we?</h2>
-            <p className="about-intro">
+            <h1>Who are we?</h1>
+            <p className="about-intro" style={{ fontFamily: 'Poppins, sans-serif' }}>
               Serviify began as a vision to simplify how people find and access professional services.
               We're building a platform that will connect service providers with clients,
               making professional services accessible to everyone.
@@ -134,16 +133,16 @@ const About: React.FC = () => {
           </section>
 
           <section className="about-section">
-            <h2>Vision</h2>
-            <p>
+            <h1>Vision</h1>
+            <p style={{ fontFamily: 'Poppins, sans-serif' }}>
               Create economic opportunity for every service provider and client by making professional
               services as simple as a single click, empowering both providers and clients to achieve their goals.
             </p>
           </section>
 
           <section className="about-section">
-            <h2>Mission</h2>
-            <p>
+            <h1>Mission</h1>
+            <p style={{ fontFamily: 'Poppins, sans-serif' }}>
               The mission of Serviify is simple: connect people with the right service providers
               through a reliable and affordable platform to make them more productive and successful.
             </p>
@@ -152,7 +151,6 @@ const About: React.FC = () => {
       </div>
 
       <div className="more-info-section">
-        {/* Your existing info section */}
         <div className="more-info-content">
           <h2 className="more-info-title">For more information about Serviify</h2>
 
@@ -160,28 +158,28 @@ const About: React.FC = () => {
             <div className="info-link-item">
               <i className="bi bi-people-fill" style={{ fontSize: "2.2rem", color: "#293040" }}></i>
               <h3>Company Page</h3>
-              <p>Connect with our network of service professionals.</p>
+              <p style={{ fontFamily: 'Poppins, sans-serif' }}>Connect with our network of service professionals.</p>
               <Link to="/about" className="learn-more-link">Learn more</Link>
             </div>
 
             <div className="info-link-item">
               <i className="bi bi-newspaper" style={{ fontSize: "2.2rem", color: "#293040" }}></i>
               <h3>Pressroom</h3>
-              <p>Explore the latest Serviify news, updates, and reports.</p>
+              <p style={{ fontFamily: 'Poppins, sans-serif' }}>Explore the latest Serviify news, updates, and reports.</p>
               <Link to="/help-centre" className="learn-more-link">Learn more</Link>
             </div>
 
             <div className="info-link-item">
               <i className="bi bi-brush-fill" style={{ fontSize: "2.2rem", color: "#293040" }}></i>
               <h3>Branding policies</h3>
-              <p>Find up-to-date guidelines on Serviify brand usage.</p>
+              <p style={{ fontFamily: 'Poppins, sans-serif' }}>Find up-to-date guidelines on Serviify brand usage.</p>
               <Link to="/terms-of-service" className="learn-more-link">Learn more</Link>
             </div>
 
             <div className="info-link-item">
               <i className="bi bi-phone-fill" style={{ fontSize: "2.2rem", color: "#293040" }}></i>
               <h3>App Services</h3>
-              <p>Access our services on the go with mobile applications.</p>
+              <p style={{ fontFamily: 'Poppins, sans-serif' }}>Access our services on the go with mobile applications.</p>
               <Link to="/app-services" className="learn-more-link">Learn more</Link>
             </div>
           </div>

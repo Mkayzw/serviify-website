@@ -75,7 +75,7 @@ const Navbar: React.FC<NavbarProps> = ({
             <Link to="/auth" onClick={() => {
               handleNavLinkClick();
             }}>Sign in</Link>
-            <Link to="/provider-search" className="text-decoration-none" onClick={handleNavLinkClick}>Find a provider</Link>
+            <Link to="/provider-search" onClick={handleNavLinkClick}>Find a provider</Link>
           </div>
         </div>
         
