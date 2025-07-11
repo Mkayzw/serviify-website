@@ -5,6 +5,13 @@
   background-color: white;
 }
 
+/* Add proper mobile viewport handling */
+@media (max-width: 768px) {
+  .privacy-policy-page {
+    min-height: calc(100vh - 60px); /* Account for mobile browser chrome */
+  }
+}
+
 /* Simple Header Styles */
 .simple-header {
   background-color: white;
@@ -188,6 +195,28 @@
   border-radius: 0;
 }
 
+/* Mobile-specific fix for footer overlap */
+@media (max-width: 768px) {
+  .privacy-policy-container {
+    padding: 30px 0;
+    padding-bottom: 120px !important; /* Force bottom padding to prevent footer overlap */
+  }
+}
+
+@media (max-width: 480px) {
+  .privacy-policy-container {
+    padding: 20px 0;
+    padding-bottom: 150px !important; /* Even more bottom padding for smaller screens */
+  }
+}
+
+@media (max-width: 360px) {
+  .privacy-policy-container {
+    padding: 15px 0;
+    padding-bottom: 180px !important; /* Maximum bottom padding for very small screens */
+  }
+}
+
 .privacy-policy-title {
   color: #293040;
   font-size: 2.8rem;
@@ -344,10 +373,6 @@
     margin-top: 10px;
   }
   
-  .privacy-policy-container {
-    padding: 30px 0;
-  }
-  
   .privacy-policy-title {
     font-size: 2rem;
   }
@@ -360,17 +385,13 @@
   .privacy-policy-section ul {
     font-size: 1rem;
   }
-}
-
-@media (max-width: 600px) {
-  .privacy-policy-container {
-    padding: 30px 0;
-  }
   
   .privacy-policy-content {
     padding: 0 15px;
   }
-  
+}
+
+@media (max-width: 600px) {
   .privacy-policy-title {
     font-size: 2.2rem;
   }
@@ -378,6 +399,10 @@
   .privacy-policy-section p,
   .privacy-policy-section ul {
     font-size: 1.1rem;
+  }
+  
+  .privacy-policy-content {
+    padding: 0 15px;
   }
 }
 
@@ -402,6 +427,10 @@
   .simple-header-content .try-free-btn {
     width: 100%;
     text-align: center;
+  }
+  
+  .privacy-policy-content {
+    padding: 0 10px;
   }
 }
 
@@ -490,12 +519,13 @@
   margin-top: 30px;
 }
 
+/* Modal-specific styles for backward compatibility */
 @media (max-width: 768px) {
-  .privacy-policy-content {
+  .privacy-policy-modal .privacy-policy-content {
     max-height: 85vh;
   }
   
-  .privacy-policy-header h2 {
+  .privacy-policy-modal .privacy-policy-header h2 {
     font-size: 1.5rem;
   }
   
@@ -514,7 +544,7 @@
     padding: 10px;
   }
   
-  .privacy-policy-content {
+  .privacy-policy-modal .privacy-policy-content {
     margin-top: 10px;
   }
   
@@ -526,7 +556,33 @@
     padding: 15px;
   }
   
-  .privacy-policy-header h2 {
+  .privacy-policy-modal .privacy-policy-header h2 {
     font-size: 1.3rem;
+  }
+} 
+
+/* Additional mobile fix for very small screens */
+@media (max-width: 360px) {
+  .privacy-policy-content {
+    padding: 0 10px;
+  }
+  
+  .privacy-policy-section {
+    margin-bottom: 2.5rem;
+  }
+  
+  .privacy-policy-title {
+    font-size: 1.8rem;
+    margin-bottom: 2rem;
+  }
+  
+  .privacy-policy-section h2 {
+    font-size: 1.3rem;
+  }
+  
+  .privacy-policy-section p,
+  .privacy-policy-section ul {
+    font-size: 1rem;
+    line-height: 1.6;
   }
 } 
