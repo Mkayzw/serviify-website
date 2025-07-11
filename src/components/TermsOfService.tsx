@@ -34,7 +34,7 @@ const TermsOfService: React.FC = () => {
   };
 
   const setShowHelpCentre = () => {
-    // This function can be implemented if needed
+  
   };
 
   useEffect(() => {

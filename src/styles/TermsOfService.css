@@ -478,6 +478,7 @@
     padding-top: 20px;
     margin-left: 0;
     max-width: 100%;
+    padding-bottom: 60px; /* Add bottom padding to prevent footer overlap */
   }
   
   /* Improve readability on mobile */
@@ -502,7 +503,7 @@
   }
   
   .terms-content {
-    padding: 20px 15px 40px;
+    padding: 20px 15px 80px; /* Increased bottom padding for mobile */
   }
   
   .terms-section {
@@ -556,9 +557,37 @@
   .terms-section p {
     font-size: 1rem;
   }
+  
+  .terms-content {
+    padding-bottom: 100px; /* Extra bottom padding for small screens */
+  }
 }
 
 /* Ensure footer displays correctly */
 .terms-of-service-page .site-footer {
   position: relative;
+} 
+
+/* Additional mobile fixes for very small screens */
+@media (max-width: 360px) {
+  .terms-content {
+    padding: 15px 10px 120px; /* Maximum bottom padding for very small screens */
+  }
+  
+  .terms-section {
+    margin-bottom: 2rem;
+  }
+  
+  .terms-section h2 {
+    font-size: 1.3rem;
+  }
+  
+  .terms-section h3 {
+    font-size: 1.1rem;
+  }
+  
+  .terms-section p {
+    font-size: 0.95rem;
+    line-height: 1.5;
+  }
 } 
