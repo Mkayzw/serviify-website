@@ -290,7 +290,11 @@ const ServicesPage: React.FC = () => {
         {!searchPerformed && !loadingSearch && (
           <div className="text-center my-8 md:my-16">
               <div className="mt-8">
-              <h1 className="text-5xl md:text-6xl font-semibold mb-4 text-gray-700" style={{ fontFamily: 'Caveat, cursive' }}>Popular Services</h1>
+              <h1 className="text-6xl md:text-7xl font-semibold mb-4 text-gray-700" style={{ 
+                fontFamily: 'Caveat, cursive',
+                fontSize: '5rem',
+                lineHeight: '1.1'
+              }}>Popular Services</h1>
               <p className="text-lg text-gray-600 mb-8 max-w-2xl mx-auto" style={{ fontFamily: 'Poppins, sans-serif' }}>
                 Discover trusted professionals offering a wide range of services to meet your needs. 
               </p>
@@ -322,7 +326,7 @@ const ServicesPage: React.FC = () => {
                      style={{ 
                        marginTop: '2rem',
                        paddingTop: '0.5rem',
-                       paddingBottom: '0.5rem'
+                       paddingBottom: '1.5rem'
                      }}
                   >
                      View all services...
