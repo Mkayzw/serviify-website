@@ -219,7 +219,7 @@ export default function Auth() {
   return (
     <div className="min-vh-100 d-flex align-items-center justify-content-center bg-light p-4 position-relative">
       <div className="position-absolute top-0 end-0 p-4">
-        <Link to="/" className="text-decoration-none" style={{ color: "#293040" }} target="_blank" rel="noopener noreferrer">Home</Link>
+        <Link to="/" className="text-decoration-none" style={{ color: "#293040" }}>Home</Link>
       </div>
       <div className="card shadow border-0 mx-auto" style={{ maxWidth: "450px" }}>
         <div className="card-header bg-white border-0 text-center position-relative">
