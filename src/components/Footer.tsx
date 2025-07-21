@@ -19,16 +19,16 @@ const Footer: React.FC = () => {
                 Connecting users with service providers through a simple, reliable, and affordable platform.
               </p>
               <div className="footer-social">
-                <a href="#" className="social-icon" aria-label="Facebook">
-                  <i className="bi bi-facebook"></i>
+                <a href="http://www.youtube.com/@Serviify-services" className="social-icon" aria-label="YouTube" target="_blank" rel="noopener noreferrer">
+                  <i className="bi bi-youtube"></i>
                 </a>
-                <a href="#" className="social-icon" aria-label="Twitter">
+                <a href="https://x.com/serviify" className="social-icon" aria-label="Twitter" target="_blank" rel="noopener noreferrer">
                   <i className="bi bi-twitter"></i>
                 </a>
-                <a href="#" className="social-icon" aria-label="Instagram">
+                <a href="#" className="social-icon" aria-label="Instagram" target="_blank" rel="noopener noreferrer">
                   <i className="bi bi-instagram"></i>
                 </a>
-                <a href="#" className="social-icon" aria-label="LinkedIn">
+                <a href="https://www.linkedin.com/company/serviify-inc" className="social-icon" aria-label="LinkedIn" target="_blank" rel="noopener noreferrer">
                   <i className="bi bi-linkedin"></i>
                 </a>
               </div>

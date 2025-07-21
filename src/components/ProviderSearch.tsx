@@ -87,63 +87,81 @@ export default function ProviderSearch() {
     }}>
 
       <header className="py-3 border-bottom bg-white">
-        <div className="container">
-          <div className="d-flex flex-wrap align-items-center">
+        <div className="container-fluid px-3 px-md-4">
+          <div className="row align-items-center g-2 g-md-3">
             {/* Logo & Title */}
-            <Link
-              to="/"
-              style={{
-                display: "flex",
-                alignItems: "center",
-                textDecoration: "none",
-                // marginRight: "16px" 
-              }}
-              className="mb-2 mb-md-0" 
-            >
-              <img src={logo} alt="Serviify Logo" style={{ height: "32px" }} />
-              <span
-                className="d-none d-sm-inline" 
+            <div className="col-auto">
+              <Link
+                to="/"
                 style={{
-                  fontSize: "24px",
-                  fontWeight: 700,
-                  color: "#293040",
-                  marginLeft: "8px" 
+                  display: "flex",
+                  alignItems: "center",
+                  textDecoration: "none",
                 }}
               >
-                Providers
-              </span>
-            </Link>
-
-            
-            <form onSubmit={handleSearch} className="w-100 w-md-auto flex-grow-1 order-2 order-md-1 my-2 my-md-0" style={{minWidth: '250px', maxWidth: '600px'}}>
-              <div className="input-group">
-                {/* Search input */}
-                <input
-                  type="text"
-                  className="form-control"
-                  placeholder="Full name"
-                  value={fullName}
-                  onChange={(e) => setFullName(e.target.value)}
-                />
-
-                <button
-                  type="submit"
-                  className="start-now-btn ms-2"
-                  disabled={isLoading}
+                <img src={logo} alt="Serviify Logo" style={{ height: "32px" }} />
+                <span
+                  className="d-none d-sm-inline" 
+                  style={{
+                    fontSize: "24px",
+                    fontWeight: 700,
+                    color: "#293040",
+                    marginLeft: "8px" 
+                  }}
                 >
-                  {isLoading ? (
-                    <span className="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-                  ) : (
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-search" viewBox="0 0 16 16">
-                      <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z" />
-                    </svg>
-                  )}
-                </button>
-              </div>
-            </form>
+                  Providers
+                </span>
+              </Link>
+            </div>
 
-           
-            <Link to="/auth?mode=login" className="sign-in-btn order-1 order-md-2 ms-auto mb-2 mb-md-0">Sign in</Link> 
+            {/* Search Form */}
+            <div className="col">
+              <form onSubmit={handleSearch} className="mx-auto" style={{maxWidth: '500px'}}>
+                <div className="input-group">
+                  <input
+                    type="text"
+                    className="form-control"
+                    placeholder="Full name"
+                    value={fullName}
+                    onChange={(e) => setFullName(e.target.value)}
+                    style={{ minHeight: '38px' }}
+                  />
+                  <button
+                    type="submit"
+                    className="btn btn-primary px-3"
+                    disabled={isLoading}
+                    style={{ 
+                      backgroundColor: "#293040",
+                      borderColor: "#293040",
+                      minWidth: '50px'
+                    }}
+                  >
+                    {isLoading ? (
+                      <span className="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                    ) : (
+                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-search" viewBox="0 0 16 16">
+                        <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z" />
+                      </svg>
+                    )}
+                  </button>
+                </div>
+              </form>
+            </div>
+
+            {/* Sign In Button */}
+            <div className="col-auto">
+              <Link 
+                to="/auth?mode=login" 
+                className="btn btn-outline-dark px-3 py-2"
+                style={{
+                  borderColor: "#293040",
+                  color: "#293040",
+                  whiteSpace: "nowrap"
+                }}
+              >
+                Sign in
+              </Link>
+            </div>
           </div>
         </div>
       </header>
