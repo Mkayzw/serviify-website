@@ -160,7 +160,7 @@ const HelpCentre: React.FC = () => {
           <div className="help-centre-contact">
             <h2>Need more help?</h2>
             <p>Our support team is here to assist you with any questions or issues you may have.</p>
-            <a href="mailto:support@serviify.com" className="contact-button">Contact Support</a>
+            <a href="mailto:support@serviify.co.zw" className="contact-button">Contact Support</a>
           </div>
         </div>
       </div>
@@ -170,4 +170,4 @@ const HelpCentre: React.FC = () => {
   );
 };
 
-export default HelpCentre; 
+export default HelpCentre;

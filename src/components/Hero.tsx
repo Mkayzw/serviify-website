@@ -1,7 +1,7 @@
 import "../styles/Hero.css";
 import { FeaturesShowcase } from "./features-showcase";
 import Footer from "./Footer";
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 interface HeroProps {}
 
@@ -22,6 +22,12 @@ const TechShowcaseCurve = () => (
 );
 
 const Hero: React.FC<HeroProps> = () => {
+  const navigate = useNavigate();
+
+  const handlePlatformClick = (service: string) => {
+    navigate(`/services?service=${encodeURIComponent(service)}`);
+  };
+
   return (
     <div className="hero-section">
       <div className="hero-container">
@@ -31,10 +37,9 @@ const Hero: React.FC<HeroProps> = () => {
               All your services in{" "}
               <span className="x_wd_secondary_highlight_bold_05">one platform.</span>
             </h1>
-            <h2 className="hero-subheading">
+            <p className="hero-subheading">
               Simple, reliable, yet <span> affordable!</span>
-            
-            </h2>
+            </p>
             <div className="hero-cta">
               <Link to="/auth" className="start-now-btn">
                 Get Started <i className="bi bi-arrow-right"></i>
@@ -44,7 +49,7 @@ const Hero: React.FC<HeroProps> = () => {
               </Link>
             </div>
           </div>
-        </div>
+      </div>
 
         <div className="tech-showcase-container position-relative">
           <TechShowcaseCurve />
@@ -59,7 +64,7 @@ const Hero: React.FC<HeroProps> = () => {
 
             <div className="row justify-content-center g-4">
               <div className="col-6 col-md-4 col-lg-3 text-center">
-                <div className="platform-item">
+                <div className="platform-item" onClick={() => handlePlatformClick('Electrical Services & Repairs')} style={{cursor: 'pointer'}}>
                   <div className="platform-image-container">
                     <div className="platform-image service-platform-electrician"></div>
                     <div className="platform-overlay">
@@ -73,7 +78,7 @@ const Hero: React.FC<HeroProps> = () => {
               </div>
 
               <div className="col-6 col-md-4 col-lg-3 text-center">
-                <div className="platform-item">
+                <div className="platform-item" onClick={() => handlePlatformClick('Auto Repair & Maintenance')} style={{cursor: 'pointer'}}>
                   <div className="platform-image-container">
                     <div className="platform-image service-platform-mechanic"></div>
                     <div className="platform-overlay">
@@ -87,7 +92,7 @@ const Hero: React.FC<HeroProps> = () => {
               </div>
 
               <div className="col-6 col-md-4 col-lg-3 text-center">
-                <div className="platform-item">
+                <div className="platform-item" onClick={() => handlePlatformClick('Carpentry & Handyman Services')} style={{cursor: 'pointer'}}>
                   <div className="platform-image-container">
                     <div className="platform-image service-platform-carpentry"></div>
                     <div className="platform-overlay">
@@ -99,7 +104,7 @@ const Hero: React.FC<HeroProps> = () => {
               </div>
 
               <div className="col-6 col-md-4 col-lg-3 text-center">
-                <div className="platform-item">
+                <div className="platform-item" onClick={() => handlePlatformClick('Agricultural & Consultation Services')} style={{cursor: 'pointer'}}>
                   <div className="platform-image-container">
                     <div className="platform-image service-platform-agriculture"></div>
                     <div className="platform-overlay">
@@ -111,7 +116,7 @@ const Hero: React.FC<HeroProps> = () => {
               </div>
 
               <div className="col-6 col-md-4 col-lg-3 text-center">
-                <div className="platform-item">
+                <div className="platform-item" onClick={() => handlePlatformClick('Cleaning Services')} style={{cursor: 'pointer'}}>
                   <div className="platform-image-container">
                     <div className="platform-image service-platform-cleaning"></div>
                     <div className="platform-overlay">
@@ -125,7 +130,7 @@ const Hero: React.FC<HeroProps> = () => {
               </div>
 
               <div className="col-6 col-md-4 col-lg-3 text-center">
-                <div className="platform-item">
+                <div className="platform-item" onClick={() => handlePlatformClick('Real Estate Services & Property Management')} style={{cursor: 'pointer'}}>
                   <div className="platform-image-container">
                     <div className="platform-image service-platform-realestate"></div>
                     <div className="platform-overlay">
@@ -139,7 +144,7 @@ const Hero: React.FC<HeroProps> = () => {
               </div>
 
               <div className="col-6 col-md-4 col-lg-3 text-center">
-                <div className="platform-item">
+                <div className="platform-item" onClick={() => handlePlatformClick('Event Planning & Management')} style={{cursor: 'pointer'}}>
                   <div className="platform-image-container">
                     <div className="platform-image service-platform-eventplanner"></div>
                     <div className="platform-overlay">

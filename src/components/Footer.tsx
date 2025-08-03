@@ -49,10 +49,10 @@ const Footer: React.FC = () => {
             <div className="col-lg-3 col-md-6 mb-4 mb-md-0">
               <h3 className="footer-title">Services</h3>
               <ul className="footer-links">
-                <li><Link to="/services?service=Electrical Services & Repairs">Electrical Services</Link></li>
-                <li><Link to="/services?service=Auto Repair & Maintenance">Auto Mechanics</Link></li>
-                <li><Link to="/services?service=Carpentry & Handyman Services">Carpentry Services</Link></li>
-                <li><Link to="/services?service=Agricultural & Consultation Services">Agricultural Services</Link></li>
+                <li><Link to={`/services?service=${encodeURIComponent('Electrical Services & Repairs')}`}>Electrical Services</Link></li>
+                <li><Link to={`/services?service=${encodeURIComponent('Auto Repair & Maintenance')}`}>Auto Mechanics</Link></li>
+                <li><Link to={`/services?service=${encodeURIComponent('Carpentry & Handyman Services')}`}>Carpentry Services</Link></li>
+                <li><Link to={`/services?service=${encodeURIComponent('Agricultural & Consultation Services')}`}>Agricultural Services</Link></li>
                 <li><Link to="/services">View All Services</Link></li>
               </ul>
             </div>
@@ -113,4 +113,4 @@ const Footer: React.FC = () => {
   );
 };
 
-export default Footer; 
+export default Footer;

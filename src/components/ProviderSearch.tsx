@@ -286,11 +286,22 @@ export default function ProviderSearch() {
 
                         <div className="d-flex mt-2 justify-content-between align-items-center flex-wrap">
                           <div className="d-flex align-items-center mb-2 mb-md-0"> 
-                            <button className="start-now-btn btn-sm">Contact</button>
+                            <button className="start-now-btn">Contact</button>
                             <Link
                               to={`/provider/${provider.id}`}
-                              className="btn btn-sm ms-2"
-                              style={{ borderColor: "#293040", color: "#293040" }}
+                              className="btn ms-2"
+                              style={{ 
+                                borderColor: "#293040", 
+                                color: "#293040",
+                                padding: "8px 16px",
+                                fontSize: "14px",
+                                fontWeight: "500",
+                                borderRadius: "5px",
+                                textDecoration: "none",
+                                border: "1px solid #293040",
+                                backgroundColor: "transparent",
+                                transition: "all 0.3s ease"
+                              }}
                             >
                               View Profile
                             </Link>
@@ -347,4 +358,4 @@ export default function ProviderSearch() {
       </footer>
     </div>
   )
-} 
+}
