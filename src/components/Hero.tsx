@@ -38,7 +38,7 @@ const Hero: React.FC<HeroProps> = () => {
               <span className="x_wd_secondary_highlight_bold_05">one platform.</span>
             </h1>
             <p className="hero-subheading">
-              Simple, reliable, yet <span> affordable!</span>
+              Simple, reliable use, yet <span> affordable!</span>
             </p>
             <div className="hero-cta">
               <Link to="/auth" className="start-now-btn">
