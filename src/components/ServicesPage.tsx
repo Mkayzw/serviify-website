@@ -242,8 +242,9 @@ const ServicesPage: React.FC = () => {
     const serviceParam = searchParams.get('service');
     
     if (serviceParam) {
-      // If there's a service parameter, use it and trigger search
-      handleServiceSelect(serviceParam);
+      // If there's a service parameter, decode it and trigger search
+      const decodedService = decodeURIComponent(serviceParam);
+      handleServiceSelect(decodedService);
     } else {
       // Otherwise, check for saved search state
       const savedSearch = sessionStorage.getItem('servicesPageState');
@@ -451,11 +452,22 @@ const ServicesPage: React.FC = () => {
 
                         <div className="d-flex mt-2 justify-content-between align-items-center flex-wrap">
                           <div className="d-flex align-items-center mb-2 mb-md-0"> 
-                            <button className="start-now-btn btn-sm">Contact</button>
+                            <button className="start-now-btn">Contact</button>
                             <Link
                               to={`/provider/${provider.id}?from=services`}
-                              className="btn btn-sm ms-2"
-                              style={{ borderColor: "#293040", color: "#293040" }}
+                              className="btn ms-2"
+                              style={{ 
+                                borderColor: "#293040", 
+                                color: "#293040",
+                                padding: "8px 16px",
+                                fontSize: "14px",
+                                fontWeight: "500",
+                                borderRadius: "5px",
+                                textDecoration: "none",
+                                border: "1px solid #293040",
+                                backgroundColor: "transparent",
+                                transition: "all 0.3s ease"
+                              }}
                             >
                               View Profile
                             </Link>
@@ -505,4 +517,4 @@ const ServicesPage: React.FC = () => {
   );
 };
 
-export default ServicesPage; 
+export default ServicesPage;

@@ -103,7 +103,7 @@ const Support: React.FC = () => {
                   </div>
                   <div className="office-email">
                     <p className="mb-0">
-                      <a href="mailto:support@serviify.com" className="email-link">support@serviify.co.zw</a>
+                      <a href="mailto:support@serviify.co.zw" className="email-link">support@serviify.co.zw</a>
                     </p>
                   </div>
                 </div>
