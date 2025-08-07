@@ -2,6 +2,7 @@ import "../styles/Hero.css";
 import { FeaturesShowcase } from "./features-showcase";
 import Footer from "./Footer";
 import { Link, useNavigate } from 'react-router-dom';
+import SEOHead, { generateWebsiteStructuredData } from './SEOHead';
 
 interface HeroProps {}
 
@@ -29,7 +30,15 @@ const Hero: React.FC<HeroProps> = () => {
   };
 
   return (
-    <div className="hero-section">
+    <>
+      <SEOHead
+        title="Serviify - All Your Services in One Platform"
+        description="Find and book trusted service providers in Zimbabwe. Connect with professionals for electrical, plumbing, cleaning, carpentry, and more services. Simple, reliable, and affordable."
+        canonical="/"
+        keywords="service providers Zimbabwe, electricians, plumbers, cleaners, carpenters, home services, professional services, Serviify"
+        structuredData={generateWebsiteStructuredData()}
+      />
+      <div className="hero-section">
       <div className="hero-container">
         <div className="hero-content">
           <div className="hero-text">
@@ -240,6 +249,7 @@ const Hero: React.FC<HeroProps> = () => {
       {/* Footer */}
       <Footer />
     </div>
+    </>
   );
 };
 

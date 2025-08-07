@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react"
 import { useParams, Link, useLocation } from "react-router-dom"
+import SEOHead, { generateProviderStructuredData } from './SEOHead';
 import { 
   ArrowLeft2, 
   Star1, 
@@ -198,6 +199,16 @@ export default function ProviderProfile() {
   }
 
   return (
+    <>
+      <SEOHead
+        title={`${provider.name} - Service Provider`}
+        description={`Find and book ${provider.name}, a trusted service provider on Serviify. View their profile, services, and reviews in ${provider.location || 'Zimbabwe'}.`}
+        canonical={`/provider/${provider.id}`}
+        ogType="profile"
+        ogImage={provider.profile_image_url || provider.avatar}
+        keywords={`${provider.name}, ${provider.serviceType || provider.service_type || 'service provider'}, ${provider.location || provider.provider_location || 'Zimbabwe'}, Serviify`}
+        structuredData={generateProviderStructuredData(provider)}
+      />
     <div style={{
       minHeight: "100vh",
       display: "flex",
@@ -1027,5 +1038,6 @@ export default function ProviderProfile() {
         </div>
       </footer>
     </div>
+    </>
   )
 }
