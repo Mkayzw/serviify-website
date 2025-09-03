@@ -499,6 +499,10 @@ body, html {
   background-color: var(--brand-brown-dark);
 }
 
+.start-exploring-btn:hover {
+  background-color: var(--brand-brown-dark);
+}
+
 
 
 .tech-showcase-container {
