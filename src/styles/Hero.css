@@ -4,6 +4,8 @@
   --arrow-green: drop-shadow(2px 2px 2px rgba(0, 0, 0, 0.2)) hue-rotate(80deg) saturate(1.5) brightness(0.9);
   --arrow-purple: drop-shadow(2px 2px 2px rgba(0, 0, 0, 0.2)) hue-rotate(240deg) saturate(1.5) brightness(0.8);
   --arrow-orange: drop-shadow(2px 2px 2px rgba(0, 0, 0, 0.2)) hue-rotate(30deg) saturate(2) brightness(1);
+  --brand-brown: #764c35;
+  --brand-brown-dark: #5f3d2a;
 }
 
 body, html {
@@ -192,7 +194,7 @@ body, html {
 }
 
 .start-now-btn:hover {
-  background-color: #1a2542;
+  background-color: var(--brand-brown-dark);
 }
 
 .contact-us-btn {
@@ -213,6 +215,7 @@ body, html {
 
 .contact-us-btn:hover {
   background-color: #f0f0f0;
+  color: var(--brand-brown-dark);
 }
 
 .find-provider-btn {
@@ -231,10 +234,11 @@ body, html {
 }
 
 .find-provider-btn:hover {
-  background-color: #4a6bf5;
+  background-color: var(--brand-brown);
+  border-color: var(--brand-brown);
   color: #fff;
   transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(74, 107, 245, 0.2);
+  box-shadow: 0 4px 12px rgba(118, 76, 53, 0.2);
 }
 
 .find-provider-btn i {
@@ -491,6 +495,10 @@ body, html {
   overflow: hidden;
 }
 
+.start-exploring-btn:hover {
+  background-color: var(--brand-brown-dark);
+}
+
 
 
 .tech-showcase-container {
@@ -706,7 +714,7 @@ body, html {
 }
 
 .platform-item:hover h3 {
-  color: #007bff;
+  color: var(--brand-brown);
 }
 
 @media (max-width: 992px) {
@@ -778,7 +786,7 @@ body, html {
 }
 
 .view-all-link:hover {
-  color: #1a2542;
+  color: var(--brand-brown-dark);
   text-decoration: underline;
 }
 
@@ -935,8 +943,7 @@ body {
 
 /* Download Section Styles */
 .download-section {
-  background-color: #ffffff;
-  padding: 2rem 0;
+  /* Add any download section styles here */
 }
 
 .download-heading {
