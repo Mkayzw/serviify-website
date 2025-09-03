@@ -17,9 +17,38 @@ import ServicesPage from './components/ServicesPage';
 // Import font loader for optimization
 import './lib/fontLoader';
 
+// GA4/GTM page view tracking for SPA route changes
+import { useEffect, useRef } from 'react';
+import { useLocation } from 'react-router-dom';
+
+// Typed declarations for analytics globals
+declare global {
+  interface Window {
+    gtag?: (command: 'config' | 'event', idOrName: string, params?: { page_path?: string; page_location?: string; page_title?: string }) => void;
+    dataLayer?: Array<Record<string, unknown>>;
+  }
+}
 
 function App() {
   const navigate = useNavigate();
+  const location = useLocation();
+  const didMountRef = useRef(false);
+
+  // Send page_view on route change (supports GA4 via gtag or GTM via dataLayer)
+  useEffect(() => {
+    if (!didMountRef.current) {
+      didMountRef.current = true; // Skip initial load (GTM GA4 config will send it)
+      return;
+    }
+    const page_path = location.pathname + location.search + location.hash;
+    const page_location = window.location.href;
+    const page_title = document.title;
+    if (window.gtag) {
+      window.gtag('event', 'page_view', { page_path, page_location, page_title });
+    } else if (window.dataLayer) {
+      window.dataLayer.push({ event: 'page_view', page_path, page_location, page_title });
+    }
+  }, [location]);
 
   // Functions to navigate to pages
   const goToHelpCentre = () => {
