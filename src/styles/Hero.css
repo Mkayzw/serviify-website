@@ -109,10 +109,15 @@ body, html {
   font-weight: 640;
   color: #000000;
   margin-bottom: 40px;
-  font-family: 'Caveat';
+  font-family: 'Caveat' !important;
+  font-optical-sizing: auto;
   letter-spacing: -1px;
   text-shadow: none;
   transform: none;
+}
+
+.hero-subheading span {
+  font-family: inherit !important;
 }
 
 .highlight {
