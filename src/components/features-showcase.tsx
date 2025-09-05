@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import "../styles/FeaturesShowcase.css";
+import { LazyImage } from './LazyImage';
 
 // Import all feature images from assets
 const featuresContext = import.meta.glob("../assets/features/*.{jpeg,jpg,png,webp}", { eager: true });
@@ -71,11 +72,12 @@ export const FeaturesShowcase: React.FC = () => {
       <div className="features-grid">
         {features.map((feature, index) => (
           <div key={feature.id} className="feature-item" style={{ animationDelay: `${index * 0.1}s` }}>
-            <img
+            <LazyImage
               src={feature.path}
               alt={feature.name}
               className="feature-image"
               onClick={(e) => handleImageClick(feature.path, e)}
+              placeholder={true}
             />
             <div className="feature-name">{feature.name}</div>
           </div>
@@ -83,10 +85,11 @@ export const FeaturesShowcase: React.FC = () => {
       </div>
 
       {bottomImage && (
-        <img
+        <LazyImage
           src={bottomImage.path}
           alt={bottomImage.name}
           className="standalone-bottom-image"
+          placeholder={true}
         />
       )}
 

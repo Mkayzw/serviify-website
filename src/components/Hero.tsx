@@ -3,6 +3,7 @@ import { FeaturesShowcase } from "./features-showcase";
 import Footer from "./Footer";
 import { Link, useNavigate } from 'react-router-dom';
 import SEOHead, { generateWebsiteStructuredData } from './SEOHead';
+import { LazyImage } from './LazyImage';
 
 interface HeroProps {}
 
@@ -75,7 +76,11 @@ const Hero: React.FC<HeroProps> = () => {
               <div className="col-6 col-md-4 col-lg-3 text-center">
                 <div className="platform-item" onClick={() => handlePlatformClick('Electrical Services & Repairs')} style={{cursor: 'pointer'}}>
                   <div className="platform-image-container">
-                    <div className="platform-image service-platform-electrician"></div>
+                    <LazyImage 
+                      src="/src/assets/electrician.webp"
+                      alt="Professional Electricians"
+                      className="platform-image"
+                    />
                     <div className="platform-overlay">
                       <div className="platform-label">
                         Professional Electricians
@@ -89,7 +94,11 @@ const Hero: React.FC<HeroProps> = () => {
               <div className="col-6 col-md-4 col-lg-3 text-center">
                 <div className="platform-item" onClick={() => handlePlatformClick('Auto Repair & Maintenance')} style={{cursor: 'pointer'}}>
                   <div className="platform-image-container">
-                    <div className="platform-image service-platform-mechanic"></div>
+                    <LazyImage 
+                      src="/src/assets/auto-mech.webp"
+                      alt="Automotive Specialists"
+                      className="platform-image"
+                    />
                     <div className="platform-overlay">
                       <div className="platform-label">
                         Automotive Specialists
@@ -103,7 +112,11 @@ const Hero: React.FC<HeroProps> = () => {
               <div className="col-6 col-md-4 col-lg-3 text-center">
                 <div className="platform-item" onClick={() => handlePlatformClick('Carpentry & Handyman Services')} style={{cursor: 'pointer'}}>
                   <div className="platform-image-container">
-                    <div className="platform-image service-platform-carpentry"></div>
+                    <LazyImage 
+                      src="/src/assets/carpentry.webp"
+                      alt="Expert Carpenters"
+                      className="platform-image"
+                    />
                     <div className="platform-overlay">
                       <div className="platform-label">Expert Carpenters</div>
                     </div>
@@ -115,7 +128,11 @@ const Hero: React.FC<HeroProps> = () => {
               <div className="col-6 col-md-4 col-lg-3 text-center">
                 <div className="platform-item" onClick={() => handlePlatformClick('Agricultural & Consultation Services')} style={{cursor: 'pointer'}}>
                   <div className="platform-image-container">
-                    <div className="platform-image service-platform-agriculture"></div>
+                    <LazyImage 
+                      src="/src/assets/agriculture.webp"
+                      alt="Agricultural Experts"
+                      className="platform-image"
+                    />
                     <div className="platform-overlay">
                       <div className="platform-label">Agricultural Experts</div>
                     </div>
@@ -127,7 +144,11 @@ const Hero: React.FC<HeroProps> = () => {
               <div className="col-6 col-md-4 col-lg-3 text-center">
                 <div className="platform-item" onClick={() => handlePlatformClick('Cleaning Services')} style={{cursor: 'pointer'}}>
                   <div className="platform-image-container">
-                    <div className="platform-image service-platform-cleaning"></div>
+                    <LazyImage 
+                      src="/src/assets/cleaning.webp"
+                      alt="Professional Cleaners"
+                      className="platform-image"
+                    />
                     <div className="platform-overlay">
                       <div className="platform-label">
                         Professional Cleaners
@@ -141,7 +162,11 @@ const Hero: React.FC<HeroProps> = () => {
               <div className="col-6 col-md-4 col-lg-3 text-center">
                 <div className="platform-item" onClick={() => handlePlatformClick('Real Estate Services & Property Management')} style={{cursor: 'pointer'}}>
                   <div className="platform-image-container">
-                    <div className="platform-image service-platform-realestate"></div>
+                    <LazyImage 
+                      src="/src/assets/real estate.webp"
+                      alt="Real Estate Professionals"
+                      className="platform-image"
+                    />
                     <div className="platform-overlay">
                       <div className="platform-label">
                         Real Estate Professionals
@@ -155,7 +180,11 @@ const Hero: React.FC<HeroProps> = () => {
               <div className="col-6 col-md-4 col-lg-3 text-center">
                 <div className="platform-item" onClick={() => handlePlatformClick('Event Planning & Management')} style={{cursor: 'pointer'}}>
                   <div className="platform-image-container">
-                    <div className="platform-image service-platform-eventplanner"></div>
+                    <LazyImage 
+                      src="/src/assets/eventplanner.webp"
+                      alt="Event Planning Specialists"
+                      className="platform-image"
+                    />
                     <div className="platform-overlay">
                       <div className="platform-label">
                         Event Planning Specialists
@@ -228,15 +257,15 @@ const Hero: React.FC<HeroProps> = () => {
           <h2 className="download-heading">Download for Android & iOS.</h2>
           <div className="download-buttons">
             <div className="android-download">
-              <img 
-                src="https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png" 
+              <LazyImage 
+                src="https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png"
                 alt="Get it on Google Play"
                 className="google-play-badge opacity-50"
               />
             </div>
             <div className="ios-download">
-              <img 
-                src="https://developer.apple.com/assets/elements/badges/download-on-the-app-store.svg" 
+              <LazyImage 
+                src="https://developer.apple.com/assets/elements/badges/download-on-the-app-store.svg"
                 alt="Download on the App Store"
                 className="app-store-badge opacity-50"
               />
