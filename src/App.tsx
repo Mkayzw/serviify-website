@@ -100,7 +100,7 @@ function App() {
           <ProviderSearch />
         } />
         
-        <Route path="/provider/:id" element={
+        <Route path="/provider/:slug" element={
           <ProviderProfile />
         } />
         

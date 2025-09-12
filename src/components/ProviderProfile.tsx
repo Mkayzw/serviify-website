@@ -20,7 +20,6 @@ import {
   CloseCircle,
   Star,
   TagUser,
-  Heart,
 
   Messages2,
   Like1,
@@ -33,7 +32,7 @@ import placeholderGallery from "../assets/gallery/gallary.png"
 import placeholderReview from "../assets/providers/provider_4.png"
 
 export default function ProviderProfile() {
-  const { id } = useParams<{ id: string }>()
+  const { slug } = useParams<{ slug: string }>()
   const [provider, setProvider] = useState<Provider | null>(null)
   const [isLoading, setIsLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
@@ -51,13 +50,19 @@ export default function ProviderProfile() {
   useEffect(() => {
     
     const fetchProviderData = async () => {
-      if (!id) {
-        setError("Provider ID is missing")
+      if (!slug) {
+        setError("Provider slug is missing")
         setIsLoading(false)
         return
       }
 
-     
+      const id = slug.split('-').pop()
+
+      if (!id) {
+        setError("Could not extract provider ID from slug")
+        setIsLoading(false)
+        return
+      }
       
       try {
         setIsLoading(true)
@@ -69,10 +74,6 @@ export default function ProviderProfile() {
           console.error("Provider not found for ID:", id);
           setError("Provider not found")
         } else {
-          console.log("Setting provider data:", {
-        
-            
-          });
           setProvider(providerData)
           
           setIsFollowing(false)
@@ -86,10 +87,10 @@ export default function ProviderProfile() {
     }
 
     fetchProviderData()
-  }, [id])
+  }, [slug])
 
   const handleFollowToggle = async () => {
-    if (!id || !provider) return
+    if (!slug || !provider) return
     
     // Open modal instead of redirecting
     setIsModalOpen(true)
@@ -201,12 +202,12 @@ export default function ProviderProfile() {
   return (
     <>
       <SEOHead
-        title={`${provider.name} - Service Provider`}
-        description={`Find and book ${provider.name}, a trusted service provider on Serviify. View their profile, services, and reviews in ${provider.location || 'Zimbabwe'}.`}
-        canonical={`/provider/${provider.id}`}
+        title={`${provider.name || `${provider.first_name} ${provider.last_name}`} - Service Provider`}
+        description={`Find and book ${provider.name || `${provider.first_name} ${provider.last_name}`}, a trusted service provider on Serviify. View their profile, services, and reviews in ${provider.location || 'Zimbabwe'}.`}
+        canonical={`/provider/${slug}`}
         ogType="profile"
         ogImage={provider.profile_image_url || provider.avatar}
-        keywords={`${provider.name}, ${provider.serviceType || provider.service_type || 'service provider'}, ${provider.location || provider.provider_location || 'Zimbabwe'}, Serviify`}
+        keywords={`${provider.name || `${provider.first_name} ${provider.last_name}`}, ${provider.serviceType || provider.service_type || 'service provider'}, ${provider.location || provider.provider_location || 'Zimbabwe'}, Serviify`}
         structuredData={generateProviderStructuredData(provider)}
       />
     <div style={{
@@ -501,7 +502,6 @@ export default function ProviderProfile() {
                       <TickCircle size="16" color="#293040" variant="Bold" />
                     )}
                   </div>
-                  
                   <div 
                     className={`d-flex align-items-center mb-3 p-2 rounded cursor-pointer ${viewMode === 'introduction' ? 'bg-light' : ''}`}
                     onClick={() => setViewMode('introduction')}
@@ -509,17 +509,16 @@ export default function ProviderProfile() {
                   >
                     <div className="rounded-circle bg-light d-flex align-items-center justify-content-center me-2"
                       style={{ width: "32px", height: "32px", flexShrink: 0 }}>
-                      <Profile2User size="16" color="#293040" />
+                      <DocumentText size="16" color="#293040" />
                     </div>
                     <div className="w-100">
-                      <div className="fw-medium">Get introduction</div>
-                      <small className="text-muted">Connect through mutual contacts</small>
+                      <div className="fw-medium">Introduction</div>
+                      <small className="text-muted">About, skills, and more</small>
                     </div>
                     {viewMode === 'introduction' && (
                       <TickCircle size="16" color="#293040" variant="Bold" />
                     )}
                   </div>
-                  
                   <div 
                     className={`d-flex align-items-center p-2 rounded cursor-pointer ${viewMode === 'contact' ? 'bg-light' : ''}`}
                     onClick={() => setViewMode('contact')}
@@ -530,513 +529,293 @@ export default function ProviderProfile() {
                       <Call size="16" color="#293040" />
                     </div>
                     <div className="w-100">
-                      <div className="fw-medium">Contact details</div>
-                      <small className="text-muted">Get direct contact information</small>
+                      <div className="fw-medium">Contact Info</div>
+                      <small className="text-muted">Get in touch with {provider.first_name}</small>
                     </div>
                     {viewMode === 'contact' && (
                       <TickCircle size="16" color="#293040" variant="Bold" />
                     )}
                   </div>
                 </div>
-                
-                <div className="text-center">
-                  <Link to="/auth?mode=signup" className="start-now-btn w-100">
-                    Join the Network
-                  </Link>
-                </div>
               </div>
             </div>
           </div>
-          
-          {/* Right Content Area */}
+
+          {/* Right Content - Tabs and Content */}
           <div className="col-md-8">
-            <div className="card border-0 rounded-3 shadow-sm mb-4 provider-details-card" style={{ 
-              overflow: "hidden",
-              transition: "transform 0.3s ease, box-shadow 0.3s ease",
-            }}>
+            {/* Profile Header Card */}
+            <div className="card border-0 rounded-3 shadow-sm mb-4">
               <div className="card-body">
-                <div className="d-flex flex-column flex-md-row justify-content-between align-items-start">
-                  <div className="flex-grow-1 mb-3 mb-md-0">
-                    <h4 className="mb-2" style={{ color: "#293040" }}>
+                <div className="d-flex flex-column flex-sm-row justify-content-between align-items-start">
+                  <div>
+                    <h3 className="mb-1" style={{ color: "#293040" }}>
                       {provider.first_name} {provider.last_name}
-                    </h4>
-                    {provider.headline && (
-                      <p className="mb-2">{provider.headline}</p>
-                    )}
-                    <div className="mb-3">
-                      <span className="me-2">
-                        {provider.service_type || "Service Provider"}
+                    </h3>
+                    <p className="text-muted mb-2">{provider.headline}</p>
+                    <div className="d-flex align-items-center text-muted small mb-3">
+                      <span className="me-3">
+                        <Location size="16" className="me-1" />
+                        {provider.provider_location || 'Location not specified'}
+                      </span>
+                      <span>
+                        <Profile2User size="16" className="me-1" />
+                        {provider.total_clients || 0} clients
                       </span>
                     </div>
-                    
-                    {/* Location on mobile - show below service type */}
-                    {provider.provider_location && (
-                      <div className="location-mobile">
-                        <Location size="16" className="me-1 flex-shrink-0" />
-                        <span className="location-text">{provider.provider_location}</span>
+                  </div>
+                  <div className="d-flex mt-2 mt-sm-0">
+                    <button 
+                      className={`btn d-flex align-items-center me-2 ${isFollowing ? 'btn-outline-secondary' : 'start-now-btn'}`}
+                      onClick={handleFollowToggle}
+                      disabled={isFollowLoading}
+                    >
+                      {isFollowLoading ? (
+                        <div className="spinner-border spinner-border-sm" role="status">
+                          <span className="visually-hidden">Loading...</span>
+                        </div>
+                      ) : (
+                        <>
+                          {isFollowing ? 'Following' : 'Follow'}
+                        </>
+                      )}
+                    </button>
+                    <button className="btn btn-outline-secondary d-flex align-items-center" onClick={handleButtonClick}>
+                      <Messages2 size="16" className="me-1" /> Message
+                    </button>
+                  </div>
+                </div>
+                
+                <div className="mt-3 border-top pt-3">
+                  {renderRating(provider.service_rating || 0)}
+                </div>
+              </div>
+            </div>
+
+            {/* View Mode Content */}
+            {viewMode === 'activity' && (
+              <>
+                {/* Tabs for Posts, Gallery, Reviews */}
+                <div className="card border-0 rounded-3 shadow-sm mb-4">
+                  <div className="card-header bg-white border-0 pt-3">
+                    <ul className="nav nav-tabs card-header-tabs">
+                      <li className="nav-item">
+                        <a 
+                          className={`nav-link ${activeTab === 'posts' ? 'active' : ''}`} 
+                          href="#posts"
+                          onClick={(e) => { e.preventDefault(); setActiveTab('posts'); }}
+                        >
+                          <DocumentText size="16" className="me-1" /> Posts
+                        </a>
+                      </li>
+                      <li className="nav-item">
+                        <a 
+                          className={`nav-link ${activeTab === 'gallery' ? 'active' : ''}`} 
+                          href="#gallery"
+                          onClick={(e) => { e.preventDefault(); setActiveTab('gallery'); }}
+                        >
+                          <Gallery size="16" className="me-1" /> Gallery
+                        </a>
+                      </li>
+                      <li className="nav-item">
+                        <a 
+                          className={`nav-link ${activeTab === 'reviews' ? 'active' : ''}`} 
+                          href="#reviews"
+                          onClick={(e) => { e.preventDefault(); setActiveTab('reviews'); }}
+                        >
+                          <Star1 size="16" className="me-1" /> Reviews
+                        </a>
+                      </li>
+                    </ul>
+                  </div>
+                  <div className="card-body">
+                    {/* Posts Tab */}
+                    {activeTab === 'posts' && (
+                      <div>
+                        {provider.posts && provider.posts.length > 0 ? (
+                          provider.posts.map((post: Post) => (
+                            <div key={post.id} className="card mb-3 shadow-sm">
+                              <div className="card-body">
+                                <div className="d-flex align-items-center mb-3">
+                                  <img 
+                                    src={provider.profile_image_url || logo} 
+                                    alt="provider" 
+                                    className="rounded-circle me-3" 
+                                    width="40" 
+                                    height="40"
+                                    style={{ objectFit: 'cover' }}
+                                  />
+                                  <div>
+                                    <h6 className="mb-0">{provider.first_name} {provider.last_name}</h6>
+                                    <small className="text-muted">{formatDate(post.created_at)}</small>
+                                  </div>
+                                </div>
+                                <p>{post.caption}</p>
+                                {post.image_url && (
+                                  <img 
+                                    src={post.image_url || placeholderPost} 
+                                    alt="Post" 
+                                    className="img-fluid rounded mb-3"
+                                    onError={(e) => {
+                                      const target = e.target as HTMLImageElement;
+                                      target.src = placeholderPost;
+                                    }}
+                                  />
+                                )}
+                                {post.post_type === 'Service Request' && (
+                                  <div className="alert alert-info small">
+                                    <strong>Service Request:</strong> {post.service_type} in {post.location}
+                                  </div>
+                                )}
+                                <div className="d-flex justify-content-between align-items-center">
+                                  <div className="d-flex">
+                                    <button className="btn btn-sm btn-light me-2 d-flex align-items-center" onClick={handleButtonClick}>
+                                      <Like1 size="16" className="me-1" /> {post.likes_count}
+                                    </button>
+                                    <button className="btn btn-sm btn-light d-flex align-items-center" onClick={handleButtonClick}>
+                                      <Messages2 size="16" className="me-1" /> {post.comments_count}
+                                    </button>
+                                  </div>
+                                  {post.post_type === 'Service Request' && (
+                                    <button className="btn btn-sm start-now-btn" onClick={() => handleReferClick(post)}>
+                                      Refer
+                                    </button>
+                                  )}
+                                </div>
+                              </div>
+                            </div>
+                          ))
+                        ) : (
+                          <div className="text-center text-muted p-4">
+                            <DocumentText size="48" className="mb-3" />
+                            <h5>No Posts Yet</h5>
+                            <p>{provider.first_name} hasn't shared any posts.</p>
+                          </div>
+                        )}
                       </div>
                     )}
-                    
-                    <div className="d-flex flex-column flex-sm-row align-items-stretch align-items-sm-center gap-2">
-                      <button 
-                        className="btn flex-fill flex-sm-grow-0" 
-                        style={{ 
-                          minWidth: "130px", 
-                          padding: "10px 16px",
-                          backgroundColor: "#293040",
-                          color: "white",
-                          fontWeight: "500",
-                          borderRadius: "8px",
-                          border: "none",
-                          boxShadow: "0 2px 5px rgba(41, 48, 64, 0.2)",
-                          transition: "all 0.2s ease"
-                        }} 
-                        onClick={handleFollowToggle}
-                        disabled={isFollowLoading}
-                      >
-                        <div className="d-flex align-items-center justify-content-center">
-                          {isFollowLoading ? (
-                            <span className="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
-                          ) : (
-                            <User size="16" className="me-2" />
-                          )}
-                          <span>{isFollowing ? "Unfollow" : "Follow"}</span>
-                        </div>
-                      </button>
-                      <button 
-                        className="btn flex-fill flex-sm-grow-0" 
-                        style={{ 
-                          minWidth: "130px", 
-                          padding: "10px 16px",
-                          borderColor: "#293040",
-                          color: "#293040",
-                          fontWeight: "500",
-                          borderRadius: "8px",
-                          transition: "all 0.2s ease",
-                          boxShadow: "0 2px 5px rgba(41, 48, 64, 0.1)" 
-                        }}
-                        onClick={handleButtonClick}
-                      >
-                        <div className="d-flex align-items-center justify-content-center">
-                          <Whatsapp size="16" className="me-2" />
-                          <span>Contact</span>
-                        </div>
-                      </button>
-                    </div>
+
+                    {/* Gallery Tab */}
+                    {activeTab === 'gallery' && (
+                      <div className="row">
+                        {provider.gallery && provider.gallery.length > 0 ? (
+                          provider.gallery.map((item: GalleryItem) => (
+                            <div key={item.id} className="col-md-6 col-lg-4 mb-4">
+                              <div className="card h-100 shadow-sm">
+                                <img 
+                                  src={item.image_url || placeholderGallery} 
+                                  alt={item.caption || 'Gallery image'} 
+                                  className="card-img-top" 
+                                  style={{ height: '200px', objectFit: 'cover' }}
+                                  onError={(e) => {
+                                    const target = e.target as HTMLImageElement;
+                                    target.src = placeholderGallery;
+                                  }}
+                                />
+                                {item.caption && <div className="card-body small">{item.caption}</div>}
+                              </div>
+                            </div>
+                          ))
+                        ) : (
+                          <div className="col-12 text-center text-muted p-4">
+                            <Gallery size="48" className="mb-3" />
+                            <h5>Gallery is Empty</h5>
+                            <p>This provider hasn't added any images to their gallery yet.</p>
+                          </div>
+                        )}
+                      </div>
+                    )}
+
+                    {/* Reviews Tab */}
+                    {activeTab === 'reviews' && (
+                      <div>
+                        {provider.reviews && provider.reviews.length > 0 ? (
+                          provider.reviews.map(review => (
+                            <div key={review.id} className="card mb-3 shadow-sm">
+                              <div className="card-body">
+                                <div className="d-flex align-items-start mb-2">
+                                  <img 
+                                    src={review.client?.profile_image_url || placeholderReview} 
+                                    alt={review.reviewer_name} 
+                                    className="rounded-circle me-3" 
+                                    width="40" 
+                                    height="40"
+                                    style={{ objectFit: 'cover' }}
+                                    onError={(e) => {
+                                      const target = e.target as HTMLImageElement;
+                                      target.src = placeholderReview;
+                                    }}
+                                  />
+                                  <div className="w-100">
+                                    <div className="d-flex justify-content-between">
+                                      <h6 className="mb-0">{review.reviewer_name}</h6>
+                                      <small className="text-muted">{formatDate(review.created_at)}</small>
+                                    </div>
+                                    {renderRating(review.rating)}
+                                  </div>
+                                </div>
+                                <p className="mb-0">{review.comment}</p>
+                              </div>
+                            </div>
+                          ))
+                        ) : (
+                          <div className="text-center text-muted p-4">
+                            <Star1 size="48" className="mb-3" />
+                            <h5>No Reviews Yet</h5>
+                            <p>Be the first to leave a review for {provider.first_name}.</p>
+                          </div>
+                        )}
+                      </div>
+                    )}
                   </div>
-                  
-                  {/* Location on desktop - show on the right */}
-                  {provider.provider_location && (
-                    <div className="location-desktop">
-                      <Location size="16" className="me-1 flex-shrink-0" />
-                      <span className="location-text">{provider.provider_location}</span>
+                </div>
+              </>
+            )}
+
+            {/* Introduction View */}
+            {viewMode === 'introduction' && (
+              <div className="card border-0 rounded-3 shadow-sm">
+                <div className="card-body">
+                  <h4 className="card-title border-bottom pb-2 mb-3">Introduction</h4>
+                  {provider.provider_bio ? (
+                    <p>{provider.provider_bio}</p>
+                  ) : (
+                    <p className="text-muted">No introduction provided.</p>
+                  )}
+
+                  {provider.provider_skills && provider.provider_skills.length > 0 && (
+                    <div className="mt-4">
+                      <h5 className="card-title border-bottom pb-2 mb-3">Skills</h5>
+                      <div>
+                        {provider.provider_skills.map(skill => (
+                          <span key={skill} className="skill-tag me-1 mb-1">{skill}</span>
+                        ))}
+                      </div>
                     </div>
                   )}
                 </div>
               </div>
-            </div>
-            
-            {/* Posts/Gallery/Reviews Card */}
-            <div className="card border-0 rounded-3 shadow-sm mb-4" style={{ 
-              overflow: "hidden",
-              transition: "transform 0.3s ease, box-shadow 0.3s ease",
-            }}>
-              <div className="card-header bg-white border-bottom-0 pb-0">
-                <ul className="nav nav-tabs card-header-tabs">
-                  <li className="nav-item">
-                    <button 
-                      className={`nav-link ${activeTab === 'posts' ? 'active' : ''}`}
-                      onClick={() => setActiveTab('posts')}
-                      style={{
-                        cursor: 'pointer',
-                        fontWeight: 500,
-                        padding: '12px 20px',
-                        borderRadius: activeTab === 'posts' ? '0' : '8px 8px 0 0',
-                        ...(activeTab !== 'posts' && { 
-                          backgroundColor: 'transparent', 
-                          borderColor: 'transparent', 
-                          color: '#6c757d'
-                        }),
-                        ...(activeTab === 'posts' && {
-                          borderBottom: '3px solid #293040',
-                          borderTop: 'none',
-                          borderLeft: 'none',
-                          borderRight: 'none',
-                        })
-                      }} 
-                    >
-                      <div className="d-flex align-items-center">
-                        <DocumentText size="16" className="me-2" />
-                        Posts
-                      </div>
-                    </button>
-                  </li>
-                  <li className="nav-item">
-                    <button 
-                      className={`nav-link ${activeTab === 'gallery' ? 'active' : ''}`}
-                      onClick={() => setActiveTab('gallery')}
-                      style={{
-                        cursor: 'pointer',
-                        fontWeight: 500,
-                        padding: '12px 20px',
-                        borderRadius: activeTab === 'gallery' ? '0' : '8px 8px 0 0',
-                        ...(activeTab !== 'gallery' && { 
-                          backgroundColor: 'transparent', 
-                          borderColor: 'transparent', 
-                          color: '#6c757d'
-                        }),
-                        ...(activeTab === 'gallery' && {
-                          borderBottom: '3px solid #293040',
-                          borderTop: 'none',
-                          borderLeft: 'none',
-                          borderRight: 'none',
-                        })
-                      }} 
-                    >
-                      <div className="d-flex align-items-center">
-                        <Gallery size="16" className="me-2" />
-                        Gallery
-                      </div>
-                    </button>
-                  </li>
-                  <li className="nav-item">
-                    <button 
-                      className={`nav-link ${activeTab === 'reviews' ? 'active' : ''}`}
-                      onClick={() => setActiveTab('reviews')}
-                      style={{
-                        cursor: 'pointer',
-                        fontWeight: 500,
-                        padding: '12px 20px',
-                        borderRadius: activeTab === 'reviews' ? '0' : '8px 8px 0 0',
-                        ...(activeTab !== 'reviews' && { 
-                          backgroundColor: 'transparent', 
-                          borderColor: 'transparent', 
-                          color: '#6c757d'
-                        }),
-                        ...(activeTab === 'reviews' && {
-                          borderBottom: '3px solid #293040',
-                          borderTop: 'none',
-                          borderLeft: 'none',
-                          borderRight: 'none',
-                        })
-                      }} 
-                    >
-                      <div className="d-flex align-items-center">
-                        <Star1 size="16" className="me-2" />
-                        Reviews
-                      </div>
-                    </button>
-                  </li>
-                </ul>
-              </div>
-              <div className="card-body">
-                {activeTab === 'posts' ? (
-                  <div>
-                    {provider.posts && provider.posts.length > 0 ? (
-                      <div className="posts-container" style={{ 
-                        maxHeight: "600px", 
-                        overflowY: "auto",
-                        paddingRight: "8px",
-                        position: "relative" 
-                      }}>
-                        {provider.posts.slice(0, 2).map((post: Post) => (
-                          <div key={post.id} className="card mb-3 border-0 shadow-sm">
-                            <div className="card-body">
-                              <div className="d-flex justify-content-between align-items-center mb-3">
-                                <div className="d-flex align-items-center">
-                                  <img 
-                                    src={provider.profile_image_url || logo} 
-                                    alt={`${provider.first_name} ${provider.last_name}`}
-                                    className="rounded-circle me-2"
-                                    style={{ 
-                                      width: "40px", 
-                                      height: "40px", 
-                                      objectFit: "cover",
-                                      backgroundColor: !provider.profile_image_url ? '#eee' : 'transparent'
-                                    }}
-                                    onError={(e) => {
-                                      const target = e.target as HTMLImageElement;
-                                      target.src = logo;
-                                      target.style.objectFit = 'contain';
-                                      target.alt = 'Placeholder image';
-                                    }}
-                                  />
-                                  <div>
-                                    <div className="d-flex align-items-center">
-                                      <span className="fw-bold me-2">{provider.first_name} {provider.last_name} | SP</span>
-                                    
-                                    </div>
-                                    {provider.provider_location && post.post_type !== 'Service Request' && (
-                                      <div className="text-muted small">{provider.provider_location} • {formatDate(post.created_at)}</div>
-                                    )}
-                                    {post.post_type === 'Service Request' && (
-                                      <div className="text-muted small">{formatDate(post.created_at)}</div>
-                                    )}
-                                  </div>
-                                </div>
-                                <div>
-                                  <button className="btn btn-link text-dark p-0" onClick={handleButtonClick}>
-                                    <i className="bi bi-three-dots-vertical"></i>
-                                  </button>
-                                </div>
-                              </div>
-                              
-                              <hr style={{ margin: "0.5rem 0 1rem 0" }} />
-                              
-                              <p className="card-text mb-3">{post.caption}</p>
-                              {post.image_url ? (
-                                <div className="position-relative" style={{ 
-                                  width: "100%",
-                                  height: "400px",
-                                  overflow: "hidden",
-                                  borderRadius: "16px",
-                                  marginBottom: "1rem",
-                                  backgroundColor: "#f8f9fa"
-                                }}>
-                                  <img 
-                                    src={post.image_url}
-                                    alt="Post image"
-                                    style={{ 
-                                      width: "100%",
-                                      height: "100%",
-                                      objectFit: "cover"
-                                    }}
-                                  />
-                                </div>
-                              ) : null}
-                              
-                              {post.post_type === 'Service Request' && (
-                                <hr style={{ margin: "1rem 0 0.5rem 0" }} />
-                              )}
-                              
-                              <div className="d-flex justify-content-between align-items-center mb-2" style={{ width: "100%" }}>
-                                {post.post_type === 'Service Request' ? (
-      
-                                  <div className="d-flex justify-content-between w-100">
-                                    <button className="btn p-0" onClick={handleButtonClick}>
-                                      <Heart size="20" color="#293040" />
-                                    </button>
-                                    <button className="btn p-0" onClick={handleButtonClick}>
-                                      <Messages2 size="20" color="#293040" />
-                                    </button>
+            )}
 
-
-                                    <button className="btn p-0" onClick={() => handleReferClick(post)}>
-                                      <TagUser size="20" color="#293040" />
-                                    </button>
-                                        
-                                    <button className="btn p-0" onClick={handleButtonClick}>
-                                      <Like1 size="20" color="#293040" />
-                                    </button>
-                        
-                                  </div>
-                                ) : (
-                                
-                                  <div className="d-flex justify-content-between w-100">
-                                    <button className="btn p-0" onClick={handleButtonClick}>
-                                      <Heart size="20" color="#293040" />
-                                    </button>
-                                    <button className="btn p-100 ml-auto" onClick={handleButtonClick}>
-                                      <Messages2 size="20" color="#293040" />
-                                    </button>
-                                    <div></div>
-                                  </div>
-                                )}
-                              </div>
-                              
-                          
-                              <div className={`w-100 ${post.post_type !== 'Service Request' ? 'border-top' : ''} pt-2 mt-2`}>
-                                {post.post_type === 'Service Request' ? (
-                            
-                                  <div className="d-flex justify-content-between w-100">
-                                    <div className="text-start" style={{width: '70%'}}>
-                                      <span className="text-muted small">
-                                        {post.likes_count || 0} Likes • {post.comments_count || 0} Comments
-                                      </span>
-                                    </div>
-                                    <span className="text-muted small">
-                                      Request: {post.status || 'Open'}
-                                    </span>
-                                  </div>
-                                ) : (
-                            
-                                  <div className="text-center">
-                                    <span className="text-muted small">
-                                      {post.likes_count || 0} Likes • {post.comments_count || 0} Comments
-                                    </span>
-                                  </div>
-                                )}
-                              </div>
-                            </div>
-                          </div>
-                        ))}
-                        
-                        {provider.posts.length > 2 && (
-                          <div className="text-center mt-3 mb-2">
-                            <button className="start-now-btn" onClick={handleButtonClick}>
-                              View More Posts ({provider.posts.length - 2} more)
-                            </button>
-                          </div>
-                        )}
-                      </div>
-                    ) : (
-                      <div className="empty-state-container">
-                        <img 
-                          src={placeholderPost} 
-                          alt="No posts available" 
-                          className="empty-state-image"
-                        />
-                        <p className="empty-state-text">No posts available yet</p>
-                      </div>
-                    )}
+            {/* Contact Info View */}
+            {viewMode === 'contact' && (
+              <div className="card border-0 rounded-3 shadow-sm">
+                <div className="card-body">
+                  <h4 className="card-title border-bottom pb-2 mb-3">Contact Information</h4>
+                  <p>To view contact details, please sign in or create an account.</p>
+                  <div className="d-flex gap-2">
+                    <button className="btn start-now-btn" onClick={handleButtonClick}>
+                      <User size="16" className="me-1" /> Sign In
+                    </button>
+                    <button className="btn btn-outline-secondary" onClick={handleButtonClick}>
+                      <Whatsapp size="16" className="me-1" /> WhatsApp
+                    </button>
                   </div>
-                ) : activeTab === 'gallery' ? (
-                  <div>
-                    {provider.gallery && provider.gallery.length > 0 ? (
-                      <div className="gallery-container" style={{ 
-                        maxHeight: "600px", 
-                        overflowY: "auto",
-                        paddingRight: "8px",
-                        position: "relative" 
-                      }}>
-                        <div className="tile-grid">
-                          {provider.gallery.slice(0, 6).map((item: GalleryItem) => (
-                            <div key={item.id} className="tile-grid-item">
-                              <img 
-                                src={item.image_url || logo} 
-                                alt={item.caption || "Gallery image"}
-                                onError={(e) => {
-                                  const target = e.target as HTMLImageElement;
-                                  target.src = logo;
-                                  target.style.objectFit = 'contain';
-                                  target.alt = 'Placeholder image';
-                                }}
-                              />
-                            </div>
-                          ))}
-                        </div>
-                        
-                        {provider.gallery.length > 6 && (
-                          <div className="text-center mt-4">
-                            <button className="start-now-btn" onClick={handleButtonClick}>
-                              View More Photos ({provider.gallery.length - 6} more)
-                            </button>
-                          </div>
-                        )}
-                      </div>
-                    ) : (
-                      <div className="empty-state-container">
-                        <img 
-                          src={placeholderGallery} 
-                          alt="No gallery items available" 
-                          className="empty-state-image"
-                        />
-                        <p className="empty-state-text">No gallery items available yet</p>
-                      </div>
-                    )}
-                  </div>
-                ) : (
-                  <div>
-                    {provider.reviews && provider.reviews.length > 0 ? (
-                      <div className="reviews-container" style={{ 
-                        maxHeight: "600px", 
-                        overflowY: "auto",
-                        paddingRight: "8px",
-                        position: "relative" 
-                      }}>
-                        {provider.reviews.slice(0, 2).map((review, index) => (
-                          <div key={review.id || index} className="card mb-3 shadow-sm border-0">
-                            <div className="card-body">
-                              <div className="d-flex justify-content-between mb-2">
-                                <div className="fw-bold">
-                                  {review.client?.first_name} {review.client?.last_name || review.reviewer_name}
-                                </div>
-                                <div>{renderRating(review.rating || 0)}</div>
-                              </div>
-                              <div className="text-muted small mb-2">
-                                {review.created_at ? formatDate(review.created_at) : 'Date not available'}
-                              </div>
-                              <p className="card-text">{review.comment}</p>
-                            </div>
-                          </div>
-                        ))}
-                        
-                        {provider.reviews.length > 2 && (
-                          <div className="text-center mt-4">
-                            <button className="start-now-btn" onClick={handleButtonClick}>
-                              View More Reviews ({provider.reviews.length - 2} more)
-                            </button>
-                            <div className="text-muted small mt-2">Sign up to read all reviews</div>
-                          </div>
-                        )}
-                      </div>
-                    ) : (
-                      <div className="empty-state-container">
-                        <img 
-                          src={placeholderReview} 
-                          alt="No reviews available" 
-                          className="empty-state-image"
-                        />
-                        <p className="empty-state-text">No Reviews Available</p>
-                        <p className="empty-state-text" style={{ fontSize: "0.9rem", marginTop: "0.5rem" }}>Be the first to leave a review for this provider</p>
-                      </div>
-                    )}
-                  </div>
-                )}
+                </div>
               </div>
-            </div>
+            )}
           </div>
         </div>
       </div>
-
-      <footer style={{
-        backgroundColor: "white",
-        borderTop: "1px solid #dee2e6",
-        padding: "1.5rem 0",
-        flex: "0 0 auto",
-        boxShadow: "0 -2px 10px rgba(0,0,0,0.03)"
-      }}>
-        <div className="container">
-          <div className="row">
-            <div className="col-lg-4 mb-3 mb-lg-0">
-              <div className="d-flex align-items-center mb-3">
-                <img src={logo} alt="Serviify Logo" width="32" height="32" className="me-2" />
-                <span style={{ fontSize: "20px", fontWeight: 700, color: "#293040" }}>Serviify</span>
-              </div>
-              <p className="text-muted small mb-0">Connecting professionals with those who need their services.</p>
-              <p className="text-muted small"> {new Date().getFullYear()} Serviify. All rights reserved.</p>
-            </div>
-            <div className="col-lg-8">
-              <div className="row">
-                <div className="col-sm-4 mb-3 mb-sm-0">
-                  <h6 className="mb-3 text-dark">Company</h6>
-                  <ul className="list-unstyled mb-0">
-                    <li className="mb-2"><a href="/about" className="text-decoration-none small" style={{ color: "#566074" }}>About Us</a></li>
-                    <li className="mb-2"><a href="/careers" className="text-decoration-none small" style={{ color: "#566074" }}>Careers</a></li>
-                    <li><a href="/press" className="text-decoration-none small" style={{ color: "#566074" }}>Press</a></li>
-                  </ul>
-                </div>
-                <div className="col-sm-4 mb-3 mb-sm-0">
-                  <h6 className="mb-3 text-dark">Legal</h6>
-                  <ul className="list-unstyled mb-0">
-                    <li className="mb-2"><a href="/privacy-policy" className="text-decoration-none small" style={{ color: "#566074" }}>Privacy Policy</a></li>
-                    <li className="mb-2"><a href="/terms-of-service" className="text-decoration-none small" style={{ color: "#566074" }}>Terms of Service</a></li>
-                    <li><a href="/cookie-policy" className="text-decoration-none small" style={{ color: "#566074" }}>Cookie Policy</a></li>
-                  </ul>
-                </div>
-                <div className="col-sm-4">
-                  <h6 className="mb-3 text-dark">Support</h6>
-                  <ul className="list-unstyled mb-0">
-                    <li className="mb-2"><a href="/help-centre" className="text-decoration-none small" style={{ color: "#566074" }}>Help Centre</a></li>
-                    <li className="mb-2"><a href="/support" className="text-decoration-none small" style={{ color: "#566074" }}>Contact Support</a></li>
-                    <li><a href="/faq" className="text-decoration-none small" style={{ color: "#566074" }}>FAQ</a></li>
-                  </ul>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </footer>
     </div>
     </>
   )

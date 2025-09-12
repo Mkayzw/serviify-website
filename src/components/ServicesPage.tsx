@@ -5,6 +5,7 @@ import Footer from "./Footer";
 import Navbar from "./Navbar";
 import { Provider as ProviderData, ProvidersService, ServicesApiResponse } from "@/services/providers.service";
 import homeThreeImage from "@/assets/home_3.png";
+import slugify from "slugify";
 
 
 
@@ -380,111 +381,114 @@ const ServicesPage: React.FC = () => {
                     </button>
                   </div>
                   <div className="space-y-4">
-                    {providers.map(provider => (
-                <div key={provider.id} className="card mb-3 shadow-sm">
-                  <div className="card-body">
-                    <div className="d-flex">
-                      <div className="flex-shrink-0">
-                        {provider.profile_image_url ? (
-                          <img
-                            src={provider.profile_image_url}
-                            alt={`${provider.first_name} ${provider.last_name}`}
-                            className="rounded-circle"
-                            style={{ width: "70px", height: "70px", objectFit: "cover" }}
-                          />
-                        ) : (
-                          <div className="rounded-circle d-flex align-items-center justify-content-center"
-                            style={{
-                              width: "70px",
-                              height: "70px",
-                              backgroundColor: "rgba(41, 48, 64, 0.1)"
-                            }}>
-                            <span style={{ color: "#293040" }} className="fw-bold fs-4">{provider.first_name ? provider.first_name.charAt(0) : ''}</span>
-                          </div>
-                        )}
-                      </div>
-                      <div className="ms-3 flex-grow-1">
-                        <div className="d-flex justify-content-between align-items-center mb-1">
-                          <h5 className="card-title mb-0" style={{ color: "#293040" }}>
-                            {provider.first_name} {provider.last_name}
-                          </h5>
-                          <div className="d-flex align-items-center" style={{ flexShrink: 0 }}>
-                            <div className="me-1" style={{ color: "#293040", whiteSpace: 'nowrap' }}>
-                              {Array.from({ length: 5 }, (_, i) => {
-                                const starValue = i + 1;
-                                const rating = provider.service_rating || 0;
-                                const decimal = rating % 1;
-                                
-                                if (starValue <= Math.floor(rating)) {
-                                  return <span key={i}>★</span>; 
-                                } else if (starValue === Math.floor(rating) + 1 && decimal > 0) {
-                                  return (
-                                    <span key={i} style={{ position: 'relative', display: 'inline-block' }}>
-                                      <span style={{ color: "#293040" }}>☆</span>
-                                      <span style={{ 
-                                        position: 'absolute', 
-                                        left: 0, 
-                                        top: 0, 
-                                        width: `${decimal * 100}%`, 
-                                        overflow: 'hidden', 
-                                        color: "#293040" 
-                                      }}>★</span>
-                                    </span>
-                                  ); 
-                                } else {
-                                  return <span key={i}>☆</span>;
-                                }
-                              })}
+                    {providers.map(provider => {
+                      const slug = slugify(`${provider.first_name} ${provider.last_name}`, { lower: true, strict: true });
+                      return (
+                        <div key={provider.id} className="card mb-3 shadow-sm">
+                          <div className="card-body">
+                            <div className="d-flex">
+                              <div className="flex-shrink-0">
+                                {provider.profile_image_url ? (
+                                  <img
+                                    src={provider.profile_image_url}
+                                    alt={`${provider.first_name} ${provider.last_name}`}
+                                    className="rounded-circle"
+                                    style={{ width: "70px", height: "70px", objectFit: "cover" }}
+                                  />
+                                ) : (
+                                  <div className="rounded-circle d-flex align-items-center justify-content-center"
+                                    style={{
+                                      width: "70px",
+                                      height: "70px",
+                                      backgroundColor: "rgba(41, 48, 64, 0.1)"
+                                    }}>
+                                    <span style={{ color: "#293040" }} className="fw-bold fs-4">{provider.first_name ? provider.first_name.charAt(0) : ''}</span>
+                                  </div>
+                                )}
+                              </div>
+                              <div className="ms-3 flex-grow-1">
+                                <div className="d-flex justify-content-between align-items-center mb-1">
+                                  <h5 className="card-title mb-0" style={{ color: "#293040" }}>
+                                    {provider.first_name} {provider.last_name}
+                                  </h5>
+                                  <div className="d-flex align-items-center" style={{ flexShrink: 0 }}>
+                                    <div className="me-1" style={{ color: "#293040", whiteSpace: 'nowrap' }}>
+                                      {Array.from({ length: 5 }, (_, i) => {
+                                        const starValue = i + 1;
+                                        const rating = provider.service_rating || 0;
+                                        const decimal = rating % 1;
+                                        
+                                        if (starValue <= Math.floor(rating)) {
+                                          return <span key={i}>★</span>; 
+                                        } else if (starValue === Math.floor(rating) + 1 && decimal > 0) {
+                                          return (
+                                            <span key={i} style={{ position: 'relative', display: 'inline-block' }}>
+                                              <span style={{ color: "#293040" }}>☆</span>
+                                              <span style={{ 
+                                                position: 'absolute', 
+                                                left: 0, 
+                                                top: 0, 
+                                                width: `${decimal * 100}%`, 
+                                                overflow: 'hidden', 
+                                                color: "#293040" 
+                                              }}>★</span>
+                                            </span>
+                                          ); 
+                                        } else {
+                                          return <span key={i}>☆</span>;
+                                        }
+                                      })}
+                                    </div>
+                                    <span className="small text-muted">{(provider.service_rating || 0).toFixed(1)}</span>
+                                  </div>
+                                </div>
+
+                                {provider.headline && (
+                                  <p className="card-text text-muted mb-1" style={{ fontFamily: 'Poppins, sans-serif' }}>{provider.headline}</p>
+                                )}
+
+                                <div className="mb-3">
+                                  <span>
+                                    {provider.service_type}
+                                  </span>
+                                </div>
+
+                                <div className="d-flex mt-2 justify-content-between align-items-center flex-wrap">
+                                  <div className="d-flex align-items-center mb-2 mb-md-0"> 
+                                    <button className="start-now-btn">Contact</button>
+                                    <Link
+                                      to={`/provider/${slug}-${provider.id}`}
+                                      className="btn ms-2"
+                                      style={{ 
+                                        borderColor: "#293040", 
+                                        color: "#293040",
+                                        padding: "8px 16px",
+                                        fontSize: "14px",
+                                        fontWeight: "500",
+                                        borderRadius: "5px",
+                                        textDecoration: "none",
+                                        border: "1px solid #293040",
+                                        backgroundColor: "transparent",
+                                        transition: "all 0.3s ease"
+                                      }}
+                                    >
+                                      View Profile
+                                    </Link>
+                                  </div>
+                                  <span className="text-nowrap ms-2">
+                                    {provider.provider_location
+                                      ? (provider.provider_location.split(',').length > 1
+                                        ? provider.provider_location.split(',')[provider.provider_location.split(',').length - 1].trim()
+                                        : provider.provider_location)
+                                      : 'Location unknown'}
+                                  </span>
+                                </div>
+                              </div>
                             </div>
-                            <span className="small text-muted">{(provider.service_rating || 0).toFixed(1)}</span>
                           </div>
                         </div>
-
-                        {provider.headline && (
-                          <p className="card-text text-muted mb-1" style={{ fontFamily: 'Poppins, sans-serif' }}>{provider.headline}</p>
-                        )}
-
-                        <div className="mb-3">
-                          <span>
-                            {provider.service_type}
-                          </span>
-                        </div>
-
-                        <div className="d-flex mt-2 justify-content-between align-items-center flex-wrap">
-                          <div className="d-flex align-items-center mb-2 mb-md-0"> 
-                            <button className="start-now-btn">Contact</button>
-                            <Link
-                              to={`/provider/${provider.id}?from=services`}
-                              className="btn ms-2"
-                              style={{ 
-                                borderColor: "#293040", 
-                                color: "#293040",
-                                padding: "8px 16px",
-                                fontSize: "14px",
-                                fontWeight: "500",
-                                borderRadius: "5px",
-                                textDecoration: "none",
-                                border: "1px solid #293040",
-                                backgroundColor: "transparent",
-                                transition: "all 0.3s ease"
-                              }}
-                            >
-                              View Profile
-                            </Link>
-                          </div>
-                          <span className="text-nowrap ms-2">
-                            {provider.provider_location
-                              ? (provider.provider_location.split(',').length > 1
-                                ? provider.provider_location.split(',')[provider.provider_location.split(',').length - 1].trim()
-                                : provider.provider_location)
-                              : 'Location unknown'}
-                          </span>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                    ))}
+                      )
+                    })}
                   </div>
                 </div>
               )}

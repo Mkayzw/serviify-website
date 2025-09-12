@@ -1,5 +1,5 @@
 export const ApiConstants = {
-  baseUrl: 'https://serviify-container.calmriver-5338a541.southafricanorth.azurecontainerapps.io',
+  baseUrl: import.meta.env.DEV ? '/api' : 'https://serviify-container.calmriver-5338a541.southafricanorth.azurecontainerapps.io',
 
   
   // Websocket endpoints
@@ -115,4 +115,4 @@ export const ApiConstants = {
   
   // Default timeout
   timeout: 30000 // 30 seconds timeout
-}; 
+};

@@ -44,7 +44,13 @@ export default defineConfig({
   server: {
     // This configuration allows for the development server to properly 
     // handle page reloads when using React Router
-    proxy: {},
+    proxy: {
+      '/api': {
+        target: 'https://serviify-container.calmriver-5338a541.southafricanorth.azurecontainerapps.io',
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/api/, ''),
+      },
+    },
   },
   build: {
     // Makes sure the build outputs a single-page application that works with React Router

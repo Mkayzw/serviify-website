@@ -1,4 +1,7 @@
 import { ProvidersService } from '../services/providers.service';
+import fs from 'fs';
+import path from 'path';
+import slugify from 'slugify';
 
 export interface SitemapUrl {
   loc: string;
@@ -78,18 +81,36 @@ export class SitemapGenerator {
    */
   private static async getProviderUrls(): Promise<SitemapUrl[]> {
     try {
-      // Get all providers with a large limit to capture all
-      const response = await this.providersService.discoverServices({
-        limit: 1000, // Adjust based on your provider count
-        page: 1
-      });
+      const allProviders = [];
+      let page = 1;
+      const limit = 100; // Fetch in batches
+      let hasMore = true;
 
-      return response.providers.map(provider => ({
-        loc: `${this.BASE_URL}/provider/${provider.id}`,
-        lastmod: new Date().toISOString().split('T')[0],
-        changefreq: 'weekly' as const,
-        priority: 0.7
-      }));
+      while (hasMore) {
+        const response = await this.providersService.discoverServices({
+          limit,
+          page,
+        });
+
+        if (response.providers && response.providers.length > 0) {
+          allProviders.push(...response.providers);
+          page++;
+          hasMore = allProviders.length < (response.total || 0);
+        } else {
+          hasMore = false;
+        }
+      }
+
+      return allProviders.map(provider => {
+        const providerName = provider.name || `${provider.first_name} ${provider.last_name}`;
+        const slug = slugify(providerName, { lower: true, strict: true });
+        return {
+          loc: `${this.BASE_URL}/provider/${slug}-${provider.id}`,
+          lastmod: new Date().toISOString().split('T')[0],
+          changefreq: 'weekly' as const,
+          priority: 0.7
+        };
+      });
     } catch (error) {
       console.error('Error fetching providers for sitemap:', error);
       return [];
@@ -126,12 +147,10 @@ export class SitemapGenerator {
     try {
       const sitemapXml = await this.generateSitemap();
       
-      // In a real application, you would write this to the public directory
-      // For now, we'll log it or return it for manual update
-      console.log('Generated sitemap:', sitemapXml);
+      const sitemapPath = path.join(process.cwd(), 'public', 'sitemap.xml');
+      fs.writeFileSync(sitemapPath, sitemapXml);
       
-      // You can implement file writing logic here if needed
-      // fs.writeFileSync(path.join(process.cwd(), 'public', 'sitemap.xml'), sitemapXml);
+      console.log(`Sitemap successfully generated and saved to ${sitemapPath}`);
       
     } catch (error) {
       console.error('Error generating sitemap:', error);
