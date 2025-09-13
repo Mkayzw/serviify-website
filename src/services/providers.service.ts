@@ -31,6 +31,7 @@ export interface Provider {
   total_clients?: number;
   total_bookmarks?: number;
   total_referrals?: number;
+  slug?: string; // SEO-friendly slug
 }
 
 // Analytics data interface
@@ -270,6 +271,34 @@ export class ProvidersService {
     return ProvidersService.instance;
   }
 
+  private generateSlug(first?: string, last?: string, id?: string): string | undefined {
+    if (!first && !last) return undefined;
+    const base = `${first || ''}-${last || ''}`
+      .toLowerCase()
+      .replace(/[^a-z0-9]+/g, '-')
+      .replace(/^-+|-+$/g, '');
+    if (!base) return undefined;
+    if (id) {
+      const short = id.replace(/-/g, '').slice(0, 8);
+      return `${base}-${short}`;
+    }
+    return base;
+  }
+
+  private extractIdFromHybridSlug(possible: string): string {
+    // If looks like UUID already, return as-is
+    if (/^[0-9a-fA-F-]{32,}$/.test(possible) || /[0-9a-fA-F]{8}-[0-9a-fA-F-]{4}/.test(possible)) return possible;
+    // Expect pattern name-name-xxxxxxxx (last segment 6-10 hex from id slice)
+    const parts = possible.split('-');
+    const tail = parts[parts.length - 1];
+    if (/^[0-9a-fA-F]{6,10}$/.test(tail)) {
+      // Cannot fully reconstruct UUID; require backend support later.
+      // For now return original so backend fails predictably.
+      return possible;
+    }
+    return possible;
+  }
+
   // Search for users by name
   public async searchUsers(query: string): Promise<Provider[]> {
     try {
@@ -361,9 +390,11 @@ export class ProvidersService {
   }
 
   // Get provider by ID
-  public async getProviderById(id: string): Promise<Provider | null> {
+  public async getProviderById(idOrSlug: string): Promise<Provider | null> {
+    // Resolve hybrid slug to id if necessary (future: call a slug-lookup endpoint)
+    const candidate = this.extractIdFromHybridSlug(idOrSlug);
     try {
-      const endpoint = `${ApiConstants.users.getDetails}/${encodeURIComponent(id)}`;
+      const endpoint = `${ApiConstants.users.getDetails}/${encodeURIComponent(candidate)}`;
       
       const result = await this.apiService.get<UserResponse>(endpoint);
       
@@ -384,7 +415,7 @@ export class ProvidersService {
       // Fetch additional data - reviews
       let reviews: Review[] = [];
       try {
-        const reviewsEndpoint = `${ApiConstants.reviews.get}/${encodeURIComponent(id)}`;
+        const reviewsEndpoint = `${ApiConstants.reviews.get}/${encodeURIComponent(candidate)}`;
         const reviewsResult = await this.apiService.get<ReviewsResponse>(reviewsEndpoint);
         reviews = reviewsResult.data || [];
       } catch (error) {
@@ -399,14 +430,14 @@ export class ProvidersService {
         if (userData.service_provider && userData.service_provider.portfolio_images) {
           gallery = userData.service_provider.portfolio_images.map((url: string, index: number) => ({
             id: index.toString(),
-            user_id: id,
+            user_id: candidate,
             image_url: url,
             caption: null,
             created_at: new Date().toISOString()
           }));
         } else {
           // Otherwise fetch from gallery endpoint
-          const galleryEndpoint = `${ApiConstants.users.getDetails}/${encodeURIComponent(id)}/gallery`;
+          const galleryEndpoint = `${ApiConstants.users.getDetails}/${encodeURIComponent(candidate)}/gallery`;
           const galleryResult = await this.apiService.get<GalleryResponse>(galleryEndpoint);
           gallery = galleryResult.data || [];
         }
@@ -418,7 +449,7 @@ export class ProvidersService {
       // Fetch posts
       let posts: Post[] = [];
       try {
-        const postsEndpoint = `${ApiConstants.posts.getUserPosts}/${encodeURIComponent(id)}`;
+        const postsEndpoint = `${ApiConstants.posts.getUserPosts}/${encodeURIComponent(candidate)}`;
         const postsResult = await this.apiService.get<PostsResponse>(postsEndpoint);
         // Extract the nested posts array, defaulting to an empty array if not found
         posts = postsResult.data?.posts || []; 
@@ -459,6 +490,7 @@ export class ProvidersService {
         total_referrals: userData.service_provider?.total_referrals || 0,
         refers_count: userData.service_provider?.total_referrals || 0, 
         bookmarks_count: userData.service_provider?.total_bookmarks || 0,
+        slug: this.generateSlug(userData.first_name, userData.last_name, userData.id)
       };
 
       return finalProvider;
@@ -543,7 +575,8 @@ export class ProvidersService {
             image_url: url,
             caption: null,
             created_at: new Date().toISOString()
-          })) : []
+          })) : [],
+        slug: this.generateSlug(user.first_name, user.last_name, user.id)
       };
     });
   }
@@ -592,8 +625,13 @@ export class ProvidersService {
         provider_availability: serviceProviderDetails.availability,
         is_service_provider: true,
         follows_count: service.followers_count || 0,
-        following_count: service.following_count || 0
+        following_count: service.following_count || 0,
+        slug: this.generateSlug(
+          service.first_name || service.firstName,
+          service.last_name || service.lastName,
+          service.id || service._id || service.userId
+        )
       };
     });
   }
-} 
+}

@@ -454,7 +454,7 @@ const ServicesPage: React.FC = () => {
                           <div className="d-flex align-items-center mb-2 mb-md-0"> 
                             <button className="start-now-btn">Contact</button>
                             <Link
-                              to={`/provider/${provider.id}?from=services`}
+                              to={`/provider/${provider.slug || provider.id}?from=services`}
                               className="btn ms-2"
                               style={{ 
                                 borderColor: "#293040", 

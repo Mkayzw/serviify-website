@@ -33,7 +33,11 @@ import placeholderGallery from "../assets/gallery/gallary.png"
 import placeholderReview from "../assets/providers/provider_4.png"
 
 export default function ProviderProfile() {
-  const { id } = useParams<{ id: string }>()
+  const { id, slugOrId } = useParams<{ id?: string; slugOrId?: string }>()
+  const resolvedId = id || slugOrId;
+  const rawParam = resolvedId as string | undefined;
+  // rawParam may be hybrid slug name-lastname-<shortid> or plain id
+  // For now ProvidersService handles extraction; keep rawParam as is.
   const [provider, setProvider] = useState<Provider | null>(null)
   const [isLoading, setIsLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
@@ -51,7 +55,7 @@ export default function ProviderProfile() {
   useEffect(() => {
     
     const fetchProviderData = async () => {
-      if (!id) {
+      if (!rawParam) {
         setError("Provider ID is missing")
         setIsLoading(false)
         return
@@ -63,10 +67,10 @@ export default function ProviderProfile() {
         setIsLoading(true)
         const providerService = ProvidersService.getInstance()
         
-        const providerData = await providerService.getProviderById(id)
+        const providerData = await providerService.getProviderById(rawParam as string)
       
         if (!providerData) {
-          console.error("Provider not found for ID:", id);
+          console.error("Provider not found for ID:", resolvedId);
           setError("Provider not found")
         } else {
           console.log("Setting provider data:", {
@@ -86,10 +90,10 @@ export default function ProviderProfile() {
     }
 
     fetchProviderData()
-  }, [id])
+  }, [rawParam, resolvedId])
 
   const handleFollowToggle = async () => {
-    if (!id || !provider) return
+    if (!rawParam || !provider) return
     
     // Open modal instead of redirecting
     setIsModalOpen(true)
@@ -203,7 +207,7 @@ export default function ProviderProfile() {
       <SEOHead
         title={`${provider.name} - Service Provider`}
         description={`Find and book ${provider.name}, a trusted service provider on Serviify. View their profile, services, and reviews in ${provider.location || 'Zimbabwe'}.`}
-        canonical={`/provider/${provider.id}`}
+        canonical={`/provider/${provider.slug || provider.id}`}
         ogType="profile"
         ogImage={provider.profile_image_url || provider.avatar}
         keywords={`${provider.name}, ${provider.serviceType || provider.service_type || 'service provider'}, ${provider.location || provider.provider_location || 'Zimbabwe'}, Serviify`}

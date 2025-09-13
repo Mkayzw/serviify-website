@@ -288,7 +288,7 @@ export default function ProviderSearch() {
                           <div className="d-flex align-items-center mb-2 mb-md-0"> 
                             <button className="start-now-btn">Contact</button>
                             <Link
-                              to={`/provider/${provider.id}`}
+                              to={`/provider/${provider.slug || provider.id}`}
                               className="btn ms-2"
                               style={{ 
                                 borderColor: "#293040", 

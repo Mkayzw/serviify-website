@@ -86,6 +86,7 @@ export const generateProviderStructuredData = (provider: {
   profile_image_url?: string;
   avatar?: string;
   provider_bio?: string | null;
+  slug?: string;
 }) => {
   const name = provider.name || `${provider.first_name || ''} ${provider.last_name || ''}`.trim();
   const serviceType = provider.serviceType || provider.service_type;
@@ -97,7 +98,7 @@ export const generateProviderStructuredData = (provider: {
     "@context": "https://schema.org",
     "@type": "Person",
     "name": name,
-    "url": `https://serviify.co.zw/provider/${provider.id}`,
+    "url": `https://serviify.co.zw/provider/${provider.slug || provider.id}`,
     "image": image,
     "description": provider.provider_bio || `${name} is a professional ${serviceType} service provider on Serviify.`,
     "jobTitle": serviceType,
