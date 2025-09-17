@@ -1,1 +1,4 @@
-/* /index.html 200 
+# Proxy all /app traffic to the Azure web app
+/app/*  https://serviify-app.azurewebsites.net/:splat  200
+
+/* /index.html 200
