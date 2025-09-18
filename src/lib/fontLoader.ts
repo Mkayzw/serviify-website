@@ -1,4 +1,6 @@
 // Aggressive Caveat font loading - NO FALLBACKS
+import caveatFontUrl from '/assets/fonts/Caveat-VariableFont_wght.ttf';
+
 export class FontLoader {
   private static instance: FontLoader;
   private caveatLoaded = false;
@@ -29,7 +31,7 @@ export class FontLoader {
       if ('FontFace' in window) {
         const caveatFont = new FontFace(
           'Caveat',
-          'url("/src/assets/fonts/Caveat-VariableFont_wght.ttf") format("truetype")',
+          `url(${caveatFontUrl}) format("truetype")`,
           {
             weight: '100 900',
             display: 'block' // Block until loaded - no fallbacks

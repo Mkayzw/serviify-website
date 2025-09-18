@@ -4,7 +4,7 @@ const FONT_CACHE_NAME = 'serviify-fonts-cache-v1';
 
 // Only cache the optimized variable font
 const FONT_FILES = [
-  '/src/assets/fonts/Caveat-VariableFont_wght.ttf'
+  '/assets/fonts/Caveat-VariableFont_wght.ttf'
 ];
 
 // Install event - cache font files

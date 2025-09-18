@@ -5,6 +5,15 @@ import { Link, useNavigate } from 'react-router-dom';
 import SEOHead, { generateWebsiteStructuredData } from './SEOHead';
 import { LazyImage } from './LazyImage';
 
+// Import images
+import electricianImg from '../assets/electrician.webp';
+import autoMechImg from '../assets/auto-mech.webp';
+import carpentryImg from '../assets/carpentry.webp';
+import agricultureImg from '../assets/agriculture.webp';
+import cleaningImg from '../assets/cleaning.webp';
+import realEstateImg from '../assets/real estate.webp';
+import eventPlannerImg from '../assets/eventplanner.webp';
+
 interface HeroProps {}
 
 const TechShowcaseCurve = () => (
@@ -77,7 +86,7 @@ const Hero: React.FC<HeroProps> = () => {
                 <div className="platform-item" onClick={() => handlePlatformClick('Electrical Services & Repairs')} style={{cursor: 'pointer'}}>
                   <div className="platform-image-container">
                     <LazyImage 
-                      src="/src/assets/electrician.webp"
+                      src={electricianImg}
                       alt="Professional Electricians"
                       className="platform-image"
                     />
@@ -95,7 +104,7 @@ const Hero: React.FC<HeroProps> = () => {
                 <div className="platform-item" onClick={() => handlePlatformClick('Auto Repair & Maintenance')} style={{cursor: 'pointer'}}>
                   <div className="platform-image-container">
                     <LazyImage 
-                      src="/src/assets/auto-mech.webp"
+                      src={autoMechImg}
                       alt="Automotive Specialists"
                       className="platform-image"
                     />
@@ -113,7 +122,7 @@ const Hero: React.FC<HeroProps> = () => {
                 <div className="platform-item" onClick={() => handlePlatformClick('Carpentry & Handyman Services')} style={{cursor: 'pointer'}}>
                   <div className="platform-image-container">
                     <LazyImage 
-                      src="/src/assets/carpentry.webp"
+                      src={carpentryImg}
                       alt="Expert Carpenters"
                       className="platform-image"
                     />
@@ -129,7 +138,7 @@ const Hero: React.FC<HeroProps> = () => {
                 <div className="platform-item" onClick={() => handlePlatformClick('Agricultural & Consultation Services')} style={{cursor: 'pointer'}}>
                   <div className="platform-image-container">
                     <LazyImage 
-                      src="/src/assets/agriculture.webp"
+                      src={agricultureImg}
                       alt="Agricultural Experts"
                       className="platform-image"
                     />
@@ -145,7 +154,7 @@ const Hero: React.FC<HeroProps> = () => {
                 <div className="platform-item" onClick={() => handlePlatformClick('Cleaning Services')} style={{cursor: 'pointer'}}>
                   <div className="platform-image-container">
                     <LazyImage 
-                      src="/src/assets/cleaning.webp"
+                      src={cleaningImg}
                       alt="Professional Cleaners"
                       className="platform-image"
                     />
@@ -163,7 +172,7 @@ const Hero: React.FC<HeroProps> = () => {
                 <div className="platform-item" onClick={() => handlePlatformClick('Real Estate Services & Property Management')} style={{cursor: 'pointer'}}>
                   <div className="platform-image-container">
                     <LazyImage 
-                      src="/src/assets/real estate.webp"
+                      src={realEstateImg}
                       alt="Real Estate Professionals"
                       className="platform-image"
                     />
@@ -181,7 +190,7 @@ const Hero: React.FC<HeroProps> = () => {
                 <div className="platform-item" onClick={() => handlePlatformClick('Event Planning & Management')} style={{cursor: 'pointer'}}>
                   <div className="platform-image-container">
                     <LazyImage 
-                      src="/src/assets/eventplanner.webp"
+                      src={eventPlannerImg}
                       alt="Event Planning Specialists"
                       className="platform-image"
                     />
